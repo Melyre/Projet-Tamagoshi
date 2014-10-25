@@ -3,20 +3,24 @@
 
 using namespace std;
 
-class Disease 
+class Disease
 {
-public:
-	int getProgression ();
-	void setProgression (int progression);
-	bool getVet ();
-	void setVet (bool vet);
-	int getInterval ();
-	void setInterval (int interval);
-	int getLastHeal ();
-	void setLastHeal (int lastHeal);
-private:
-	int progression;
-	bool vet;
-	int interval;
+    //Membres
+    int progression; //à 0 la maladie est vaincue, à 100 le Tamagotchi meurt
+	bool vet; //faux à l'apparition de la maladie, vrai après visite chez le véto, le passer sur true permet de définir aléatoirement un intervalle
+	int interval; //définit à quel rhytme doit être traitée la maladie
 	int lastHeal;
+
+    //Fonctions
+    public:
+        Disease();
+        int getProgression ();
+        void setProgression (int progression);
+        bool getVet ();
+        void setVet (bool vet);
+        int getInterval ();
+        void setInterval (int interval);
+        int getLastHeal ();
+        void setLastHeal (int lastHeal);
+
 };
