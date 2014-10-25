@@ -1,0 +1,67 @@
+# depslib dependency file v1.0
+1414251931 source:c:\users\user\documents\ceri\l3\uml\tamagotchi\includes\tinyxml\tinystr.cpp
+	"tinystr.h"
+
+1414251931 c:\users\user\documents\ceri\l3\uml\tamagotchi\includes\tinyxml\tinystr.h
+	<assert.h>
+	<string.h>
+
+1414251931 source:c:\users\user\documents\ceri\l3\uml\tamagotchi\includes\tinyxml\tinyxml.cpp
+	<ctype.h>
+	<sstream>
+	<iostream>
+	"tinyxml.h"
+
+1414251931 c:\users\user\documents\ceri\l3\uml\tamagotchi\includes\tinyxml\tinyxml.h
+	<ctype.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<string>
+	<iostream>
+	<sstream>
+	"tinystr.h"
+
+1414251931 source:c:\users\user\documents\ceri\l3\uml\tamagotchi\includes\tinyxml\tinyxmlerror.cpp
+	"tinyxml.h"
+
+1414251931 source:c:\users\user\documents\ceri\l3\uml\tamagotchi\includes\tinyxml\tinyxmlparser.cpp
+	<ctype.h>
+	<stddef.h>
+	"tinyxml.h"
+	<windows.h>
+
+1414254358 source:c:\users\user\documents\ceri\l3\uml\tamagotchi\sources\disease.cpp
+	"../headers/Disease.h"
+
+1414254428 source:c:\users\user\documents\ceri\l3\uml\tamagotchi\sources\gui.cpp
+	"../headers/GUI.h"
+
+1414255875 c:\users\user\documents\ceri\l3\uml\tamagotchi\headers\disease.h
+	<iostream>
+	<string>
+
+1414255893 c:\users\user\documents\ceri\l3\uml\tamagotchi\headers\gui.h
+	<iostream>
+	<string>
+
+1414254395 source:c:\users\user\documents\ceri\l3\uml\tamagotchi\sources\tamagotchi.cpp
+	"../headers/Tamagotchi.h"
+
+1414256020 c:\users\user\documents\ceri\l3\uml\tamagotchi\headers\tamagotchi.h
+	<iostream>
+	<string>
+	"Disease.h"
+
+1414269042 source:c:\users\user\documents\ceri\l3\uml\tamagotchi\sources\system.cpp
+	"../headers/System.h"
+
+1414268366 c:\users\user\documents\ceri\l3\uml\tamagotchi\headers\system.h
+	<iostream>
+	<string>
+	"Tamagotchi.h"
+	"GUI.h"
+	"../includes/tinyxml/tinystr.h"
+	"../includes/tinyxml/tinyxml.h"
+

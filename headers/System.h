@@ -21,7 +21,8 @@ class System
 
     //Fonctions
     public:
-        System(string saveFile);
+        System();
+        System(string configFile);
         void mainMenu ();
         void optionMenu ();
         void backToMenu ();
@@ -40,6 +41,7 @@ class System
         void doBusiness (int n);
     private:
         void loadGame ();
+        bool loadGame(string saveFile);
         void runGame ();
         void update (string lastTime);
         void saveGame ();
