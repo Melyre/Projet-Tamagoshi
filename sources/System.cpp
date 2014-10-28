@@ -4,11 +4,13 @@ using namespace std;
 
 System::System()
 {
-    //pet=new Tamagotchi();
+    //pet=new Tamagotchi(); l'intanciation se fait au chargement de partie
     pet=NULL;
     //interface=new GUI();
     interface=NULL;
-
+    timeSpeed=1.0;
+    endGame=false;
+    endProgram=false;
 }
 
 bool System::update(const time_t &lastTime)
@@ -53,11 +55,25 @@ bool System::loadGame(string saveFile)
     time_t lastSave=dateConverter;
 
 
+    //Récupération des informations système
+    TiXmlElement *systemSave = hdl.FirstChildElement("system");
+    if(!systemSave)
+    {
+        cerr<<"Erreur lors de la recuperation des donnees du systeme (noeud introuvable)."<<endl;
+        return false;
+    }
+    location=systemSave->Attribute("location");
+    weather=systemSave->Attribute("weather");
+    float floatAttribute;//pour pouvoir récupérer directement un float au lieu d'une string
+    systemSave->QueryFloatAttribute("timeSpeed",&floatAttribute);//convertit l'attribut en float et le stocke dans floatAttribute
+    timeSpeed=floatAttribute;
+
+
     //Récupération de l'élément tamagotchi
     TiXmlElement *petSave = hdl.FirstChildElement("system").FirstChildElement("tamagotchi").ToElement();
     if(!petSave)
     {
-        cerr<<"Erreur lors de la recupértion des donnees du Tamagotchi."<<endl;
+        cerr<<"Erreur lors de la recuperation des donnees du Tamagotchi (noeud introuvable)."<<endl;
         return false;
     }
 
@@ -67,7 +83,8 @@ bool System::loadGame(string saveFile)
     pet->setRace(petSave->Attribute("race"));
     pet->setName(petSave->Attribute("name"));
 
-    int intAttribute;//pour récupérer directement un int
+    int intAttribute;//pour pouvoir récupérer directement un int au lieu d'une string
+
     petSave->QueryIntAttribute("thirst",&intAttribute);
     pet->setThirst(intAttribute);
     petSave->QueryintAttribute("hunger",&intAttribute);
@@ -88,6 +105,33 @@ bool System::loadGame(string saveFile)
     bool boolAttribute;
     petSave->QueryBoolAttribute("sleep",&boolAttribute);
     pet->setSleep(boolAttribute);
+
+    petSave->FirstChildElement("disease");
+    if(!petSave)
+    {
+        cerr<<"Erreur lors de la recuperation des donnees du Tamagotchi (disease non trouvé)."<<endl;
+        return false;
+    }
+    petSave->QueryIntAttribute("progression", &intAttribute);
+    if(intAttribut<0) //pet non malade
+    {
+        pet->setDisease(NULL);
+    }
+    else
+    {
+        Disease *petDisease=new petDisease(intAttribute);
+        petSave->QueryBoolAttribute("vet",&boolAttribute);
+        petDisease->setVet(boolAttribute);
+        if(boolAttribute)//si le veto a été consulté on récupère les informations supplémentaires sur la maladie
+        {
+            petSave->QueryIntAttribute("interval",&intAttribute);
+            petDisease->setInterval(intAttribute);
+            petSave->QueryIntAttribute("lastHeal",&intAttribute);
+            petDisease->setLastHeal(intAttribute);
+        }
+
+        pet->setDisease(petDisease);
+    }
 
 
     if(!update(lastSave))//on met à jour les données selon le temps écoulé depuis la dernière sauvegarde

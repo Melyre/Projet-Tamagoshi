@@ -24,7 +24,7 @@ class System
 	GUI *interface;
 	string location;
 	string saveName;
-	int timeSpeed;
+	float timeSpeed;
 	string weather;
 	bool endGame;
 	bool endProgram;
