@@ -56,7 +56,7 @@ bool System::loadGame(string saveFile)
 
 
     //Récupération des informations système
-    TiXmlElement *systemSave = hdl.FirstChildElement("system");
+    TiXmlElement *systemSave = hdl.FirstChildElement("system").ToElement();
     if(!systemSave)
     {
         cerr<<"Erreur lors de la recuperation des donnees du systeme (noeud introuvable)."<<endl;
@@ -87,13 +87,13 @@ bool System::loadGame(string saveFile)
 
     petSave->QueryIntAttribute("thirst",&intAttribute);
     pet->setThirst(intAttribute);
-    petSave->QueryintAttribute("hunger",&intAttribute);
+    petSave->QueryIntAttribute("hunger",&intAttribute);
     pet->setHunger(intAttribute);
-    petSave->QueryintAttribute("tiredness",&intAttribute);
+    petSave->QueryIntAttribute("tiredness",&intAttribute);
     pet->setTiredness(intAttribute);
-    petSave->QueryintAttribute("social",&intAttribute);
+    petSave->QueryIntAttribute("social",&intAttribute);
     pet->setSocial(intAttribute);
-    petSave->QueryintAttribute("hygiene",&intAttribute);
+    petSave->QueryIntAttribute("hygiene",&intAttribute);
     pet->setHygiene(intAttribute);
     petSave->QueryIntAttribute("business",&intAttribute);
     pet->setBusiness(intAttribute);
@@ -113,13 +113,13 @@ bool System::loadGame(string saveFile)
         return false;
     }
     petSave->QueryIntAttribute("progression", &intAttribute);
-    if(intAttribut<0) //pet non malade
+    if(intAttribute<0) //pet non malade
     {
         pet->setDisease(NULL);
     }
     else
     {
-        Disease *petDisease=new petDisease(intAttribute);
+        Disease *petDisease=new Disease(intAttribute);
         petSave->QueryBoolAttribute("vet",&boolAttribute);
         petDisease->setVet(boolAttribute);
         if(boolAttribute)//si le veto a été consulté on récupère les informations supplémentaires sur la maladie
@@ -142,13 +142,104 @@ bool System::loadGame(string saveFile)
     return true;
 }
 
+bool System::saveGame()
+{
+    TiXmlDocument saveDoc(saveName);//récupération du fichier (copie les données en mémoire)
+    if(!saveDoc.LoadFile())
+    {
+        cerr<<"Erreur lors du chargement du fichier de sauvegarde "<<saveName<<endl;
+        cerr<<"error #"<<saveDoc.ErrorId()<<" : "<<saveDoc.ErrorDesc()<<endl;
+        return false;
+    }
+
+    TiXmlHandle hdl(&saveDoc);//permet de sécuriser la  récupération des données, le handle teste la présence de noeud à chaque changement, on peut alors faire hdl.child.child sans risque de bug de pointeur null
+
+    //On modifie la date de sauvegarde
+    TiXmlElement *saveInfo = hdl.FirstChildElement("save").ToElement();
+    if(!saveInfo)
+    {
+        cerr<<"Erreur lors de l'enregistrement des informations sur la sauvegarde (noeud introuvable)."<<endl;
+        return false;
+    }
+    time_t saveDate;
+    time(&saveDate);
+    saveInfo->SetAttribute("lastSave",int(saveDate));
+    cout<<"Date de sauvegarde modifiee : "<<saveInfo->Attribute("lastSave")<<endl;
+
+
+    //Modification des informations système
+    TiXmlElement *systemSave = hdl.FirstChildElement("system").ToElement();
+    if(!systemSave)
+    {
+        cerr<<"Erreur lors de la recuperation des donnees du systeme (noeud introuvable)."<<endl;
+        return false;
+    }
+
+    systemSave->SetAttribute("location",location);
+    systemSave->SetAttribute("weather",weather);
+    systemSave->SetAttribute("timeSpeed",timeSpeed);
+
+
+    //Récupération de l'élément tamagotchi
+    TiXmlElement *petSave = hdl.FirstChildElement("system").FirstChildElement("tamagotchi").ToElement();
+    if(!petSave)
+    {
+        cerr<<"Erreur lors de la recuperation des donnees du Tamagotchi (noeud introuvable)."<<endl;
+        return false;
+    }
+
+    //Modification des attributs du Tamagotchi
+    petSave->SetAttribute("thirst",pet->getThirst());
+    petSave->SetAttribute("hunger",pet->getHunger());
+    petSave->SetAttribute("tiredness",pet->getTiredness());
+    petSave->SetAttribute("social",pet->getSocial());
+    petSave->SetAttribute("hygiene",pet->getHygiene());
+    petSave->SetAttribute("business",pet->getBusiness());
+    petSave->SetAttribute("mood",pet->getMood());
+    petSave->SetAttribute("affection",pet->getAffection());
+    petSave->SetAttribute("sleep",pet->getSleep());
+
+    petSave->FirstChildElement("disease");
+    if(!petSave)
+    {
+        cerr<<"Erreur lors de la recuperation des donnees du Tamagotchi (disease non trouvé)."<<endl;
+        return false;
+    }
+
+    if(pet->getDisease()==NULL) //pet non malade
+    {
+        petSave->SetAttribute("progression","-1");
+    }
+    else
+    {
+        petSave->SetAttribute( "progression", pet->getDisease()->getProgression() );
+        petSave->SetAttribute( "vet", pet->getDisease()->getVet() );
+        if(boolAttribute)//si le veto a été consulté on récupère les informations supplémentaires sur la maladie
+        {
+            petSave->SetAttribute( "interval", pet->getDisease()->getInterval() );
+            petSave->SetAttribute( "lastHeal", pet->getDisease()->getLastHeal() );
+        }
+    }
+
+
+    if(!saveDoc.SaveFile(saveName)) //on sauvegarde les modifications sur le fichier
+    {
+        cerr<<"Erreur lors de la sauvegarde du fichier "<<saveName<<endl;
+        cerr<<"error #"<<saveDoc.ErrorId()<<" : "<<saveDoc.ErrorDesc()<<endl;
+        return false;
+    }
+
+    return true;
+}
+
 void System::mainMenu()
 {
     int choix;
     cout<<"Tamagotchi !"<<endl;
     cout<<"1 - Nouvelle partie"<<endl;
     cout<<"2 - Charger partie"<<endl;
-    cout<<"3 - Quitter"<<endl;
+    cout<<"3 - Test sauvegarde"<<endl;
+    cout<<"4 - Quitter"<<endl;
     cin>>choix;
     if(choix==2)
     {
@@ -156,6 +247,14 @@ void System::mainMenu()
         cout<<"Quelle partie voulez vous charger ?"<<endl;
         cin>>saveFile;
         loadGame(saveFile);
+    }
+    else if(choix==3)
+    {
+        string saveFile;
+        cout<<"Quelle sauvegarde voulez vous modifier ?"<<endl;
+        cin>>saveFile;
+        saveName=saveFile;
+        saveGame();
     }
 }
 
