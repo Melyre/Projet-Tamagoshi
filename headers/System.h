@@ -55,7 +55,7 @@ class System
         void runGame ();
         bool update (const time_t &lastTime);
         bool saveGame ();
-        void newGame ();
-        void deleteSave ();
+        bool newGame ();
+        bool deleteSave ();
         void update ();
     };

@@ -8,6 +8,8 @@ System::System()
     pet=NULL;
     //interface=new GUI();
     interface=NULL;
+    location="undefined";
+    weather="undefined";
     timeSpeed=1.0;
     endGame=false;
     endProgram=false;
@@ -31,6 +33,77 @@ bool System::update(const time_t &lastTime)
         //pet->setThirst( pet->getThirst() + thirstDecay*elapsedTime );
         cout<<"La soif du Tamagotchi a augmente de "<<thirstDecay*elapsedTime<<endl;
     }
+    return true;
+}
+
+bool System::newGame()
+{
+    TiXmlDocument saveDoc();
+
+    TiXmlDeclaration *declaration=new TiXmlDeclaration("1.0","UTF-8","yes");
+    saveDoc.LinkEndChild(declaration);//on ajoute la déclaration à la fin de saveDoc (cette fonction détruit declaration, on aurait pu utiliser InsertEndChild qui en aurait fait une copie)
+
+    //Création de l'élément save
+    TiXmlElement *saveInfo = new TiXmlElement("save");
+    time_t saveDate;
+    time(&saveDate);
+    saveInfo->SetAttribute("firstSave",int(saveDate));
+    saveInfo->SetAttribute("lastSave",int(saveDate));
+
+
+    //Création de l'élément XML système et paramètrage
+    TiXmlElement *systemSave = new TiXmlElement("system");
+
+    location="home";
+    systemSave->SetAttribute("location",location);
+
+    weather="sunny";
+    systemSave->SetAttribute("weather",weather);
+
+    systemSave->SetAttribute("timeSpeed",timeSpeed);
+
+
+    //Création du tamagotchi
+    string raceChoice, nameChoice;
+    cout<<"Comment voulez-vous appeler votre Tamagotchi ?";
+    cin>>nameChoice;
+    pet=new Tamagotchi("chat",nameChoice);
+    TiXmlElement *petSave = new TiXmlElement("tamagotchi");
+
+    //Modification des attributs du Tamagotchi
+    pet->setThirst(60);
+    pet->setHunger(30);
+    pet->setTiredness(0);
+    pet->setSocial(80);
+    pet->setHygiene(20);
+    pet->setBusiness(0);
+    pet->setMood(50);
+    pet->setAffection(0);
+    pet->setSleep(false);
+
+    petSave->SetAttribute("thirst",pet->getThirst());
+    petSave->SetAttribute("hunger",pet->getHunger());
+    petSave->SetAttribute("tiredness",pet->getTiredness());
+    petSave->SetAttribute("social",pet->getSocial());
+    petSave->SetAttribute("hygiene",pet->getHygiene());
+    petSave->SetAttribute("business",pet->getBusiness());
+    petSave->SetAttribute("mood",pet->getMood());
+    petSave->SetAttribute("affection",pet->getAffection());
+    petSave->SetAttribute("sleep",pet->getSleep());
+
+    TiXmlElement *diseaseSave=new TiXmlElement("disease");
+    diseaseSave->SetAttribute("progression","-1");
+    petSave->LinkEndChild(diseaseSave);
+
+    string saveName;
+    saveName=pet->getName()+"_"+saveDate+".xml";
+    if(!saveDoc.SaveFile(saveName)) //on sauvegarde les modifications sur le fichier
+    {
+        cerr<<"Erreur lors de la creation du fichier de sauvegarde "<<saveName<<endl;
+        cerr<<"error #"<<saveDoc.ErrorId()<<" : "<<saveDoc.ErrorDesc()<<endl;
+        return false;
+    }
+
     return true;
 }
 
@@ -241,20 +314,31 @@ void System::mainMenu()
     cout<<"3 - Test sauvegarde"<<endl;
     cout<<"4 - Quitter"<<endl;
     cin>>choix;
-    if(choix==2)
+    switch(choix)
     {
-        string saveFile;
-        cout<<"Quelle partie voulez vous charger ?"<<endl;
-        cin>>saveFile;
-        loadGame(saveFile);
-    }
-    else if(choix==3)
-    {
-        string saveFile;
-        cout<<"Quelle sauvegarde voulez vous modifier ?"<<endl;
-        cin>>saveFile;
-        saveName=saveFile;
-        saveGame();
+        case 1:
+        {
+            newGame();
+            break;
+        }
+
+        case 2:
+        {
+            string saveFile;
+            cout<<"Quelle partie voulez vous charger ?"<<endl;
+            cin>>saveFile;
+            loadGame(saveFile);
+            break;
+        }
+
+        case 3:
+        {
+            string saveFile;
+            cout<<"Quelle sauvegarde voulez vous modifier ?"<<endl;
+            cin>>saveFile;
+            saveName=saveFile;
+            saveGame();
+        }
     }
 }
 

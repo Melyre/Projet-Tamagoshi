@@ -23,6 +23,8 @@ class Tamagotchi
     //Fonctions
     public:
         Tamagotchi();
+        Tamagotchi(string race);
+        Tamagotchi(string race, string name);
         string getRace ();
         void setRace (string race);
         string getName ();

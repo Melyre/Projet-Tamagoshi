@@ -1,10 +1,11 @@
-ï»¿Changements classe SystÃ¨me :
+Changements classe Système :
 	-timeSpeed devient un float (timeSpeed *1.5...)
-	-ajout de membres static pour la vitesse de dÃ©plÃ©tion des jauges (temporaire faudra surement le mettre avec Tamagotchi selon la race)
-	- void update(int lastTime) devient bool update(const time_t &lastTime)
+	-ajout de membres static pour la vitesse de déplétion des jauges (temporaire faudra surement le mettre avec Tamagotchi selon la race)
+	-void update(int lastTime) devient bool update(const time_t &lastTime)
+	-saveGame(), newGame() et deleteSave() renvoie désormais bool
 
 Changements classe Disease :
-	-lastHeal devient un time_t (date) plutÃ´t qu'un int
+	-lastHeal devient un time_t (date) plutôt qu'un int
 		=> l'accesseur change donc en time_t getLastHeal()
 		=> ajout d'un modificateur setLastHeal(time_t lastHeal)
-	-ajout d'une fonction "defineDiseaseRandomly" qui dÃ©finit l'intervalle alÃ©atoirement aprÃ¨s Ãªtre aller voir le vÃ©to
+	-ajout d'une fonction "defineDiseaseRandomly" qui définit l'intervalle aléatoirement après être aller voir le véto
