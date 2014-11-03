@@ -2,16 +2,18 @@
 
 Tamagotchi::Tamagotchi()
 {
-	
+	disease=NULL;
 }
 
 Tamagotchi::Tamagotchi(string race)
 {
+	disease=NULL;
 	setRace(race);
 }
 
 Tamagotchi::Tamagotchi(string race, string name)
 {
+	disease=NULL;
 	setRace(race);
 	setName(name);
 }
