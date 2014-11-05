@@ -37,8 +37,8 @@ void Disease::setVet (bool v)
 void Disease::defineDiseaseRandomly ()
 {
 	if(!vet)return;
-	
-	i = rand() % 24 + 6;
+
+	int i = (rand()+6)%24 ;
 	interval = i * 3600;
 }
 
@@ -50,7 +50,7 @@ int Disease::getInterval ()
 void Disease::setInterval(int i)
 {
 	interval = i;
-}	
+}
 
 time_t Disease::getLastHeal ()
 {

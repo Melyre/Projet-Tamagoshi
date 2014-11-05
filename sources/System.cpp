@@ -38,7 +38,7 @@ bool System::update(const time_t &lastTime)
 
 bool System::newGame()
 {
-    TiXmlDocument saveDoc();
+    TiXmlDocument saveDoc;
 
     TiXmlDeclaration *declaration=new TiXmlDeclaration("1.0","UTF-8","yes");
     saveDoc.LinkEndChild(declaration);//on ajoute la déclaration à la fin de saveDoc (cette fonction détruit declaration, on aurait pu utiliser InsertEndChild qui en aurait fait une copie)
@@ -50,6 +50,7 @@ bool System::newGame()
     saveInfo->SetAttribute("firstSave",int(saveDate));
     saveInfo->SetAttribute("lastSave",int(saveDate));
 
+    saveDoc.LinkEndChild(saveInfo);
 
     //Création de l'élément XML système et paramètrage
     TiXmlElement *systemSave = new TiXmlElement("system");
@@ -61,6 +62,8 @@ bool System::newGame()
     systemSave->SetAttribute("weather",weather);
 
     systemSave->SetAttribute("timeSpeed",timeSpeed);
+
+    saveDoc.LinkEndChild(systemSave);
 
 
     //Création du tamagotchi
@@ -95,8 +98,14 @@ bool System::newGame()
     diseaseSave->SetAttribute("progression","-1");
     petSave->LinkEndChild(diseaseSave);
 
-    string saveName;
-    saveName=pet->getName()+"_"+saveDate+".xml";
+    systemSave->LinkEndChild(petSave);
+
+    string saveName="";
+    ostringstream convert;
+    convert<<saveDate;
+    //int saveDateInt=saveDate;
+    //string saveDateString(saveDateInt);
+    saveName=pet->getName()+"_"+convert.str()+".xml";
     if(!saveDoc.SaveFile(saveName)) //on sauvegarde les modifications sur le fichier
     {
         cerr<<"Erreur lors de la creation du fichier de sauvegarde "<<saveName<<endl;
@@ -287,7 +296,7 @@ bool System::saveGame()
     {
         petSave->SetAttribute( "progression", pet->getDisease()->getProgression() );
         petSave->SetAttribute( "vet", pet->getDisease()->getVet() );
-        if(boolAttribute)//si le veto a été consulté on récupère les informations supplémentaires sur la maladie
+        if( pet->getDisease()->getVet() )//si le veto a été consulté on récupère les informations supplémentaires sur la maladie
         {
             petSave->SetAttribute( "interval", pet->getDisease()->getInterval() );
             petSave->SetAttribute( "lastHeal", pet->getDisease()->getLastHeal() );
