@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <sstream>
 #include "Tamagotchi.h"
 #include "GUI.h"
 #include "../includes/tinyxml/tinystr.h"
