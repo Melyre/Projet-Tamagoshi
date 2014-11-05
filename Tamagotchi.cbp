@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Tamagotchi" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Tamagotchi" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Tamagotchi" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="headers/Disease.h" />
+		<Unit filename="headers/GUI.h" />
+		<Unit filename="headers/System.h" />
+		<Unit filename="headers/Tamagotchi.h" />
+		<Unit filename="includes/tinyxml/tinystr.cpp" />
+		<Unit filename="includes/tinyxml/tinystr.h" />
+		<Unit filename="includes/tinyxml/tinyxml.cpp" />
+		<Unit filename="includes/tinyxml/tinyxml.h" />
+		<Unit filename="includes/tinyxml/tinyxmlerror.cpp" />
+		<Unit filename="includes/tinyxml/tinyxmlparser.cpp" />
+		<Unit filename="sources/Disease.cpp" />
+		<Unit filename="sources/GUI.cpp" />
+		<Unit filename="sources/System.cpp" />
+		<Unit filename="sources/Tamagotchi.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
