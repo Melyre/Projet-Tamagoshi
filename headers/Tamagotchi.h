@@ -17,6 +17,7 @@ class Tamagotchi
 	int business;
 	int mood;
 	int affection;
+	int life;
 	Disease *disease;
 	bool sleep;
 
@@ -50,4 +51,6 @@ class Tamagotchi
         void setDisease (Disease *disease);
         bool getSleep ();
         void setSleep (bool sleep);
+        int getLife();
+        void setLife(int life);
 };
