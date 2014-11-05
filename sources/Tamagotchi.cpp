@@ -143,3 +143,13 @@ void Tamagotchi::setSleep(bool sleep)
 	this->sleep=sleep;
 }
 
+int Tamagotchi::getLife()
+{
+	return life;
+}
+
+void Tamagotchi::setLife(int life)
+{
+	this->life=life;
+}
+

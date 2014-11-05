@@ -83,6 +83,7 @@ bool System::newGame()
     pet->setMood(50);
     pet->setAffection(0);
     pet->setSleep(false);
+    pet->setLife(100);
 
     petSave->SetAttribute("thirst",pet->getThirst());
     petSave->SetAttribute("hunger",pet->getHunger());
@@ -93,6 +94,7 @@ bool System::newGame()
     petSave->SetAttribute("mood",pet->getMood());
     petSave->SetAttribute("affection",pet->getAffection());
     petSave->SetAttribute("sleep",pet->getSleep());
+    petSave->SetAttribute("life",pet->getLife());
 
     TiXmlElement *diseaseSave=new TiXmlElement("disease");
     diseaseSave->SetAttribute("progression","-1");
@@ -183,6 +185,8 @@ bool System::loadGame(string saveFile)
     pet->setMood(intAttribute);
     petSave->QueryIntAttribute("affection",&intAttribute);
     pet->setAffection(intAttribute);
+    petSave->QueryIntAttribute("life",&intAttribute);
+    pet->setLife(intAttribute);
 
     bool boolAttribute;
     petSave->QueryBoolAttribute("sleep",&boolAttribute);
@@ -280,6 +284,7 @@ bool System::saveGame()
     petSave->SetAttribute("mood",pet->getMood());
     petSave->SetAttribute("affection",pet->getAffection());
     petSave->SetAttribute("sleep",pet->getSleep());
+    petSave->SetAttribute("life",pet->getLife());
 
     petSave->FirstChildElement("disease");
     if(!petSave)
