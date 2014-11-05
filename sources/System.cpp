@@ -30,8 +30,12 @@ bool System::update(const time_t &lastTime)
     if(elapsedTime>0)//comme ça si elapsedTime==0 on ne fait rien (ne devrait pas arriver)
     {
         elapsedTime/=60;//conversion en minutes
-        //pet->setThirst( pet->getThirst() + thirstDecay*elapsedTime );
-        cout<<"La soif du Tamagotchi a augmente de "<<thirstDecay*elapsedTime<<endl;
+        pet->setThirst( pet->getThirst() + thirstDecay*elapsedTime );
+        pet->setHunger( pet->getHunger() + hungerDecay*elapsedTime );
+        pet->setTiredness( pet->getTiredness() + tirednessDecay*elapsedTime );
+        pet->setSocial( pet->getSocial() + socialDecay*elapsedTime );
+        pet->setHygiene( pet->getHygiene() + hygieneDecay*elapsedTime );
+        pet->setBusiness( pet->getBusiness() + businessDecay*elapsedTime );
     }
     return true;
 }
@@ -85,6 +89,8 @@ bool System::newGame()
     pet->setSleep(false);
     pet->setLife(100);
 
+    petSave->SetAttribute("name",pet->getName());
+    petSave->SetAttribute("race",pet->getRace());
     petSave->SetAttribute("thirst",pet->getThirst());
     petSave->SetAttribute("hunger",pet->getHunger());
     petSave->SetAttribute("tiredness",pet->getTiredness());
@@ -102,7 +108,6 @@ bool System::newGame()
 
     systemSave->LinkEndChild(petSave);
 
-    string saveName="";
     ostringstream convert;
     convert<<saveDate;
     //int saveDateInt=saveDate;
@@ -225,6 +230,7 @@ bool System::loadGame(string saveFile)
         cerr<<"Erreur lors du calcul de mise a jour de la partie."<<endl;
         return false;
     }
+    saveName=saveFile;
     return true;
 }
 
@@ -325,7 +331,7 @@ void System::mainMenu()
     cout<<"Tamagotchi !"<<endl;
     cout<<"1 - Nouvelle partie"<<endl;
     cout<<"2 - Charger partie"<<endl;
-    cout<<"3 - Test sauvegarde"<<endl;
+    cout<<"3 - Charger et sauvegarder"<<endl;
     cout<<"4 - Quitter"<<endl;
     cin>>choix;
     switch(choix)
@@ -350,7 +356,7 @@ void System::mainMenu()
             string saveFile;
             cout<<"Quelle sauvegarde voulez vous modifier ?"<<endl;
             cin>>saveFile;
-            saveName=saveFile;
+            loadGame(saveFile);
             saveGame();
         }
     }
