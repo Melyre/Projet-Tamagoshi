@@ -350,11 +350,3 @@ void System::mainMenu()
         }
     }
 }
-
-int main()
-{
-    System system;//on crée une instance du jeu
-    system.mainMenu();//démarre le jeu
-
-    return 0;
-}
