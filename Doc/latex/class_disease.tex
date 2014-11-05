@@ -1,0 +1,234 @@
+\hypertarget{class_disease}{\section{Disease Class Reference}
+\label{class_disease}\index{Disease@{Disease}}
+}
+
+
+Classe qui représente la maladie.  
+
+
+
+
+{\ttfamily \#include $<$Disease.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_disease_ad6e040633405552d8e4378a9c9fbabc9}{Disease} ()
+\begin{DoxyCompactList}\small\item\em Constructeur. \end{DoxyCompactList}\item 
+\hyperlink{class_disease_a2ee1a30596f0c221bcd4984b6e40dc9b}{Disease} (int progression)
+\begin{DoxyCompactList}\small\item\em Constructeur aavec arguments. \end{DoxyCompactList}\item 
+int \hyperlink{class_disease_a229209c8577331dc500fbae0fb86cd24}{get\+Progression} ()
+\begin{DoxyCompactList}\small\item\em Fonction get pour la progression. \end{DoxyCompactList}\item 
+void \hyperlink{class_disease_acf13ebe5e8801c249566211252fa3bc3}{set\+Progression} (int progression)
+\begin{DoxyCompactList}\small\item\em Fonction set pour la progression. \end{DoxyCompactList}\item 
+bool \hyperlink{class_disease_ad8cce9aac5c301bbc751de9c97022b1e}{get\+Vet} ()
+\begin{DoxyCompactList}\small\item\em Fonction get pour la visite vétérinaire. \end{DoxyCompactList}\item 
+void \hyperlink{class_disease_ab3172a26c512139e3953d88f7c0cf492}{set\+Vet} (bool vet)
+\begin{DoxyCompactList}\small\item\em Fonction set pour la visite vétérinaire. \end{DoxyCompactList}\item 
+void \hyperlink{class_disease_aa373f80e471a49ccee9820f9fc3efd1e}{define\+Disease\+Randomly} ()
+\begin{DoxyCompactList}\small\item\em Intervalle aléatoire. \end{DoxyCompactList}\item 
+int \hyperlink{class_disease_aabda1914662dcb4cd12188e4448eb690}{get\+Interval} ()
+\begin{DoxyCompactList}\small\item\em Fonction get pour l'intervalle. \end{DoxyCompactList}\item 
+void \hyperlink{class_disease_a9fca06529cf279baafe9a9ff5dfef631}{set\+Interval} (int interval)
+\begin{DoxyCompactList}\small\item\em Fonction set pour l'intervalle. \end{DoxyCompactList}\item 
+time\+\_\+t \hyperlink{class_disease_a21665bc6037cbff57e7ff277d741326c}{get\+Last\+Heal} ()
+\begin{DoxyCompactList}\small\item\em Fonction get pour le dernier soin. \end{DoxyCompactList}\item 
+void \hyperlink{class_disease_aa2fbecc3a6d6747d8191c95760f71796}{set\+Last\+Heal} (time\+\_\+t last\+Heal)
+\begin{DoxyCompactList}\small\item\em Fonction set pour le dernier soin. \end{DoxyCompactList}\item 
+void \hyperlink{class_disease_a41b447b0f21944b402c9e0406f406a51}{set\+Last\+Heal} (int last\+Heal)
+\begin{DoxyCompactList}\small\item\em Fonction set pour le dernier soin. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Classe qui représente la maladie. 
+
+Cette classe représente une maladie du \hyperlink{class_tamagotchi}{Tamagotchi} ayant une progression, et un rythme de progression. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_disease_ad6e040633405552d8e4378a9c9fbabc9}{\index{Disease@{Disease}!Disease@{Disease}}
+\index{Disease@{Disease}!Disease@{Disease}}
+\subsubsection[{Disease}]{\setlength{\rightskip}{0pt plus 5cm}Disease\+::\+Disease (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_disease_ad6e040633405552d8e4378a9c9fbabc9}
+
+
+Constructeur. 
+
+Date à laquelle le dernier soin a été effectué.
+
+Constructeur par défaut (sans arguments) de la classe \hyperlink{class_disease}{Disease}. Initialise la progression à 50 et la visite vétérinaire à false. \hypertarget{class_disease_a2ee1a30596f0c221bcd4984b6e40dc9b}{\index{Disease@{Disease}!Disease@{Disease}}
+\index{Disease@{Disease}!Disease@{Disease}}
+\subsubsection[{Disease}]{\setlength{\rightskip}{0pt plus 5cm}Disease\+::\+Disease (
+\begin{DoxyParamCaption}
+\item[{int}]{progression}
+\end{DoxyParamCaption}
+)}}\label{class_disease_a2ee1a30596f0c221bcd4984b6e40dc9b}
+
+
+Constructeur aavec arguments. 
+
+Constructeur avec arguments de la classe \hyperlink{class_disease}{Disease}. Permet d'initialiser la progression de la maladie à la valeur souhaitée.
+
+
+\begin{DoxyParams}{Parameters}
+{\em progression} & \+: La progression de la maladie (en int) à initialiser. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_disease_aa373f80e471a49ccee9820f9fc3efd1e}{\index{Disease@{Disease}!define\+Disease\+Randomly@{define\+Disease\+Randomly}}
+\index{define\+Disease\+Randomly@{define\+Disease\+Randomly}!Disease@{Disease}}
+\subsubsection[{define\+Disease\+Randomly}]{\setlength{\rightskip}{0pt plus 5cm}void Disease\+::define\+Disease\+Randomly (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_disease_aa373f80e471a49ccee9820f9fc3efd1e}
+
+
+Intervalle aléatoire. 
+
+On définit l'intervalle entre les soins aléatoirement. L'intervalle sera entre 6 et 24 heures. \hypertarget{class_disease_aabda1914662dcb4cd12188e4448eb690}{\index{Disease@{Disease}!get\+Interval@{get\+Interval}}
+\index{get\+Interval@{get\+Interval}!Disease@{Disease}}
+\subsubsection[{get\+Interval}]{\setlength{\rightskip}{0pt plus 5cm}int Disease\+::get\+Interval (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_disease_aabda1914662dcb4cd12188e4448eb690}
+
+
+Fonction get pour l'intervalle. 
+
+\begin{DoxyReturn}{Returns}
+L'intervalle entre les soins. 
+\end{DoxyReturn}
+\hypertarget{class_disease_a21665bc6037cbff57e7ff277d741326c}{\index{Disease@{Disease}!get\+Last\+Heal@{get\+Last\+Heal}}
+\index{get\+Last\+Heal@{get\+Last\+Heal}!Disease@{Disease}}
+\subsubsection[{get\+Last\+Heal}]{\setlength{\rightskip}{0pt plus 5cm}time\+\_\+t Disease\+::get\+Last\+Heal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_disease_a21665bc6037cbff57e7ff277d741326c}
+
+
+Fonction get pour le dernier soin. 
+
+\begin{DoxyReturn}{Returns}
+La date du dernier soin au format time\+\_\+t. 
+\end{DoxyReturn}
+\hypertarget{class_disease_a229209c8577331dc500fbae0fb86cd24}{\index{Disease@{Disease}!get\+Progression@{get\+Progression}}
+\index{get\+Progression@{get\+Progression}!Disease@{Disease}}
+\subsubsection[{get\+Progression}]{\setlength{\rightskip}{0pt plus 5cm}int Disease\+::get\+Progression (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_disease_a229209c8577331dc500fbae0fb86cd24}
+
+
+Fonction get pour la progression. 
+
+\begin{DoxyReturn}{Returns}
+La progression de la maladie. 
+\end{DoxyReturn}
+\hypertarget{class_disease_ad8cce9aac5c301bbc751de9c97022b1e}{\index{Disease@{Disease}!get\+Vet@{get\+Vet}}
+\index{get\+Vet@{get\+Vet}!Disease@{Disease}}
+\subsubsection[{get\+Vet}]{\setlength{\rightskip}{0pt plus 5cm}bool Disease\+::get\+Vet (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_disease_ad8cce9aac5c301bbc751de9c97022b1e}
+
+
+Fonction get pour la visite vétérinaire. 
+
+\begin{DoxyReturn}{Returns}
+Retourne true si visite vétérinaire effectuée et false sinon. 
+\end{DoxyReturn}
+\hypertarget{class_disease_a9fca06529cf279baafe9a9ff5dfef631}{\index{Disease@{Disease}!set\+Interval@{set\+Interval}}
+\index{set\+Interval@{set\+Interval}!Disease@{Disease}}
+\subsubsection[{set\+Interval}]{\setlength{\rightskip}{0pt plus 5cm}void Disease\+::set\+Interval (
+\begin{DoxyParamCaption}
+\item[{int}]{interval}
+\end{DoxyParamCaption}
+)}}\label{class_disease_a9fca06529cf279baafe9a9ff5dfef631}
+
+
+Fonction set pour l'intervalle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & \+: L'intervalle (en int) entre les soins à changer. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_disease_aa2fbecc3a6d6747d8191c95760f71796}{\index{Disease@{Disease}!set\+Last\+Heal@{set\+Last\+Heal}}
+\index{set\+Last\+Heal@{set\+Last\+Heal}!Disease@{Disease}}
+\subsubsection[{set\+Last\+Heal}]{\setlength{\rightskip}{0pt plus 5cm}void Disease\+::set\+Last\+Heal (
+\begin{DoxyParamCaption}
+\item[{time\+\_\+t}]{last\+Heal}
+\end{DoxyParamCaption}
+)}}\label{class_disease_aa2fbecc3a6d6747d8191c95760f71796}
+
+
+Fonction set pour le dernier soin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em last\+Heal} & \+: La date (en time\+\_\+t) du dernier soin à changer. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_disease_a41b447b0f21944b402c9e0406f406a51}{\index{Disease@{Disease}!set\+Last\+Heal@{set\+Last\+Heal}}
+\index{set\+Last\+Heal@{set\+Last\+Heal}!Disease@{Disease}}
+\subsubsection[{set\+Last\+Heal}]{\setlength{\rightskip}{0pt plus 5cm}void Disease\+::set\+Last\+Heal (
+\begin{DoxyParamCaption}
+\item[{int}]{last\+Heal}
+\end{DoxyParamCaption}
+)}}\label{class_disease_a41b447b0f21944b402c9e0406f406a51}
+
+
+Fonction set pour le dernier soin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em last\+Heal} & \+: La date (en int) du dernier soin à changer. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_disease_acf13ebe5e8801c249566211252fa3bc3}{\index{Disease@{Disease}!set\+Progression@{set\+Progression}}
+\index{set\+Progression@{set\+Progression}!Disease@{Disease}}
+\subsubsection[{set\+Progression}]{\setlength{\rightskip}{0pt plus 5cm}void Disease\+::set\+Progression (
+\begin{DoxyParamCaption}
+\item[{int}]{progression}
+\end{DoxyParamCaption}
+)}}\label{class_disease_acf13ebe5e8801c249566211252fa3bc3}
+
+
+Fonction set pour la progression. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em progression} & \+: La progression de la maladie (en int) à changer . \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_disease_ab3172a26c512139e3953d88f7c0cf492}{\index{Disease@{Disease}!set\+Vet@{set\+Vet}}
+\index{set\+Vet@{set\+Vet}!Disease@{Disease}}
+\subsubsection[{set\+Vet}]{\setlength{\rightskip}{0pt plus 5cm}void Disease\+::set\+Vet (
+\begin{DoxyParamCaption}
+\item[{bool}]{vet}
+\end{DoxyParamCaption}
+)}}\label{class_disease_ab3172a26c512139e3953d88f7c0cf492}
+
+
+Fonction set pour la visite vétérinaire. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vet} & \+: Le booléen qui définit si la visite vétérinaire a été effectuée. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Avenger/\+Documents/\+Git\+Hub/\+Projet-\/\+Tamagoshi/headers/\hyperlink{_disease_8h}{Disease.\+h}\item 
+C\+:/\+Users/\+Avenger/\+Documents/\+Git\+Hub/\+Projet-\/\+Tamagoshi/sources/Disease.\+cpp\end{DoxyCompactItemize}
