@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['removeattribute',['RemoveAttribute',['../class_ti_xml_element.html#a56979767deca794376b1dfa69a525b2a',1,'TiXmlElement::RemoveAttribute(const char *name)'],['../class_ti_xml_element.html#a1afa6aea716511326a608e4c05df4f3a',1,'TiXmlElement::RemoveAttribute(const std::string &amp;name)']]],
-  ['removechild',['RemoveChild',['../class_ti_xml_node.html#ae19d8510efc90596552f4feeac9a8fbf',1,'TiXmlNode']]],
-  ['replacechild',['ReplaceChild',['../class_ti_xml_node.html#a543208c2c801c84a213529541e904b9f',1,'TiXmlNode']]],
-  ['rootelement',['RootElement',['../class_ti_xml_document.html#ad09d17927f908f40efb406af2fb873be',1,'TiXmlDocument']]],
-  ['row',['Row',['../class_ti_xml_base.html#a024bceb070188df92c2a8d8852dd0853',1,'TiXmlBase']]]
+  ['name',['Name',['../class_ti_xml_attribute.html#a298a57287d305904ba6bd96ae6f78d3d',1,'TiXmlAttribute']]],
+  ['next',['Next',['../class_ti_xml_attribute.html#a776478980776a024f7c2846eec640f65',1,'TiXmlAttribute']]],
+  ['nextsibling',['NextSibling',['../class_ti_xml_node.html#a1b94d2f7fa7ab25a5a8e8d4340c449c9',1,'TiXmlNode::NextSibling(const std::string &amp;_value) const '],['../class_ti_xml_node.html#a1757c1f4d01e8c9596ffdbd561c76aea',1,'TiXmlNode::NextSibling(const std::string &amp;_value)'],['../class_ti_xml_node.html#af854baeba384f5fe9859f5aee03b548e',1,'TiXmlNode::NextSibling() const '],['../class_ti_xml_node.html#acaf9dc17531ac041f602f9ad579573ea',1,'TiXmlNode::NextSibling(const char *) const ']]],
+  ['nextsiblingelement',['NextSiblingElement',['../class_ti_xml_node.html#a7667217e269e0da01d1f82aee94d1a3d',1,'TiXmlNode::NextSiblingElement() const '],['../class_ti_xml_node.html#a3d7897999f99cf4870dd59df6331d7ff',1,'TiXmlNode::NextSiblingElement(const char *) const '],['../class_ti_xml_node.html#a7572d0af9d1e696ee3f05d8bb5ebb463',1,'TiXmlNode::NextSiblingElement(const std::string &amp;_value) const '],['../class_ti_xml_node.html#a506958e34406729a4e4c5326ea39d081',1,'TiXmlNode::NextSiblingElement(const std::string &amp;_value)']]],
+  ['nochildren',['NoChildren',['../class_ti_xml_node.html#aeed21ad30630ef6e7faf096127edc9f3',1,'TiXmlNode']]],
+  ['node',['Node',['../class_ti_xml_handle.html#ab44b723a8dc9af72838a303c079d0376',1,'TiXmlHandle']]]
 ];

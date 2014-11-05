@@ -13,33 +13,33 @@ using namespace std;
 
 /*!
 *	\class Disease
-*	\brief Classe qui représente la maladie.
+*	\brief Classe qui represente la maladie.
 *
-*	Cette classe représente une maladie du Tamagotchi ayant une progression, et un rythme de progression.
+*	Cette classe represente une maladie du Tamagotchi ayant une progression, et un rythme de progression.
 */
 
 class Disease
 {
-    int progression; /*! Etat de la maladie, à 0 la maladie est vaincue, à 100 le Tamagotchi meurt. */
-	bool vet; /*! Variable qui définie si le Tamagotchi est allé diagnostiquer sa maladie chez le vétérnaire. Initialisée à false. */
-	int interval; /*! Définie (en secondes) à quel rythme la maladie doit être traitée (toutes les 'interval' secondes). */
-	time_t lastHeal; /*! Date à laquelle le dernier soin a été effectué. */
+    int progression; /*! Etat de la maladie, a 0 la maladie est vaincue, a 100 le Tamagotchi meurt. */
+	bool vet; /*! Variable qui definie si le Tamagotchi est alle diagnostiquer sa maladie chez le veternaire. Initialisee a false. */
+	int interval; /*! Definie (en secondes) a quel rythme la maladie doit être traitee (toutes les 'interval' secondes). */
+	time_t lastHeal; /*! Date a laquelle le dernier soin a ete effectue. */
 
     public:
 	
 	/*!
 	*	\brief Constructeur.
 	*	
-	*	Constructeur par défaut (sans arguments) de la classe Disease. Initialise la progression à 50 et la visite vétérinaire à false.
+	*	Constructeur par defaut (sans arguments) de la classe Disease. Initialise la progression a 50 et la visite veterinaire a false.
 	*/
         Disease();
 		
 	/*!
 	*	\brief Constructeur aavec arguments.
 	*
-	*	Constructeur avec arguments de la classe Disease. Permet d'initialiser la progression de la maladie à la valeur souhaitée.
+	*	Constructeur avec arguments de la classe Disease. Permet d'initialiser la progression de la maladie a la valeur souhaitee.
 	*
-	*	\param progression : La progression de la maladie (en int) à initialiser. 
+	*	\param progression : La progression de la maladie (en int) a initialiser. 
 	*/
         Disease(int progression);
 		
@@ -53,28 +53,28 @@ class Disease
 	/*!
 	*	\brief Fonction set pour la progression.
 	*
-	*	\param progression : La progression de la maladie (en int) à changer .
+	*	\param progression : La progression de la maladie (en int) a changer .
 	*/
         void setProgression (int progression);
 		
 	/*!
-	*	\brief Fonction get pour la visite vétérinaire.
+	*	\brief Fonction get pour la visite veterinaire.
 	*
-	*	\return Retourne true si visite vétérinaire effectuée et false sinon.
+	*	\return Retourne true si visite veterinaire effectuee et false sinon.
 	*/
         bool getVet ();
 		
 	/*!
-	*	\brief Fonction set pour la visite vétérinaire.
+	*	\brief Fonction set pour la visite veterinaire.
 	*
-	*	\param vet : Le booléen qui définit si la visite vétérinaire a été effectuée.
+	*	\param vet : Le booleen qui definit si la visite veterinaire a ete effectuee.
 	*/
         void setVet (bool vet);
 		
 	/*!
-	*	\brief Intervalle aléatoire.
+	*	\brief Intervalle aleatoire.
 	*
-	*	On définit l'intervalle entre les soins aléatoirement. L'intervalle sera entre 6 et 24 heures.
+	*	On definit l'intervalle entre les soins aleatoirement. L'intervalle sera entre 6 et 24 heures.
 	*/
         void defineDiseaseRandomly();
         
@@ -88,7 +88,7 @@ class Disease
 	/*!
 	*	\brief Fonction set pour l'intervalle.
 	*
-	*	\param interval : L'intervalle (en int) entre les soins à changer.
+	*	\param interval : L'intervalle (en int) entre les soins a changer.
 	*/	
         void setInterval (int interval);
 		
@@ -102,14 +102,14 @@ class Disease
 	/*!
 	*	\brief Fonction set pour le dernier soin.
 	*
-	*	\param lastHeal : La date (en time_t) du dernier soin à changer.
+	*	\param lastHeal : La date (en time_t) du dernier soin a changer.
 	*/	
         void setLastHeal (time_t lastHeal);
 		
 	/*!
 	*	\brief Fonction set pour le dernier soin.
 	*
-	*	\param lastHeal : La date (en int) du dernier soin à changer.
+	*	\param lastHeal : La date (en int) du dernier soin a changer.
 	*/	
         void setLastHeal (int lastHeal);
 };

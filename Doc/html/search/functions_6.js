@@ -1,10 +1,15 @@
 var searchData=
 [
-  ['indent',['Indent',['../class_ti_xml_printer.html#abb33ec7d4bad6aaeb57f4304394b133d',1,'TiXmlPrinter']]],
-  ['insertafterchild',['InsertAfterChild',['../class_ti_xml_node.html#a274db3292218202805c093f66a964cb5',1,'TiXmlNode']]],
-  ['insertbeforechild',['InsertBeforeChild',['../class_ti_xml_node.html#a71e54e393336382bc9875f64aab5cb15',1,'TiXmlNode']]],
-  ['insertendchild',['InsertEndChild',['../class_ti_xml_node.html#af287a913ce46d8dbf7ef24fec69bbaf0',1,'TiXmlNode']]],
-  ['intvalue',['IntValue',['../class_ti_xml_attribute.html#aa1a20ad59dc7e89a0ab265396360d50f',1,'TiXmlAttribute']]],
-  ['iswhitespacecondensed',['IsWhiteSpaceCondensed',['../class_ti_xml_base.html#ad4b1472531c647a25b1840a87ae42438',1,'TiXmlBase']]],
-  ['iteratechildren',['IterateChildren',['../class_ti_xml_node.html#aaef7ac3978c4bb1cc8a24ffae7bced75',1,'TiXmlNode::IterateChildren(const TiXmlNode *previous) const '],['../class_ti_xml_node.html#af2b86dbe25d3d26fa48180edc5e2a9fc',1,'TiXmlNode::IterateChildren(const char *value, const TiXmlNode *previous) const '],['../class_ti_xml_node.html#a1cbaaf8e82c09ad763d52616d75724df',1,'TiXmlNode::IterateChildren(const std::string &amp;_value, const TiXmlNode *previous) const '],['../class_ti_xml_node.html#a16e9ad53e2f5445b14bf325c90aa862c',1,'TiXmlNode::IterateChildren(const std::string &amp;_value, const TiXmlNode *previous)']]]
+  ['getdocument',['GetDocument',['../class_ti_xml_node.html#aa66f4ebcd175204a168ed7c2d7b43071',1,'TiXmlNode']]],
+  ['getinterval',['getInterval',['../class_disease.html#aabda1914662dcb4cd12188e4448eb690',1,'Disease']]],
+  ['getlastheal',['getLastHeal',['../class_disease.html#a21665bc6037cbff57e7ff277d741326c',1,'Disease']]],
+  ['getlocation',['getLocation',['../class_system.html#a83bcc6fc828f3cb73a872f3eb4d30efe',1,'System']]],
+  ['getpet',['getPet',['../class_system.html#a19869ea2951861489584d524ddb807a8',1,'System']]],
+  ['getprogression',['getProgression',['../class_disease.html#a229209c8577331dc500fbae0fb86cd24',1,'Disease']]],
+  ['gettext',['GetText',['../class_ti_xml_element.html#aa6dedd8a146acf3b1bc0903deb2d411a',1,'TiXmlElement']]],
+  ['getuserdata',['GetUserData',['../class_ti_xml_base.html#a6559a530ca6763fc301a14d77ed28c17',1,'TiXmlBase::GetUserData()'],['../class_ti_xml_base.html#ad0120210e4680ef2088601753ce0ede4',1,'TiXmlBase::GetUserData() const ']]],
+  ['getvet',['getVet',['../class_disease.html#ad8cce9aac5c301bbc751de9c97022b1e',1,'Disease']]],
+  ['getweather',['getWeather',['../class_system.html#aeaacdfd4fd779dacca613fed2d611bd7',1,'System']]],
+  ['givedrink',['giveDrink',['../class_system.html#a65e806e4d0aa912840087303b14b5c98',1,'System']]],
+  ['goout',['goOut',['../class_system.html#a2d751068c954d445feeeb19b2199680d',1,'System']]]
 ];

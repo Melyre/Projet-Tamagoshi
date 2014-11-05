@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['element',['Element',['../class_ti_xml_handle.html#acb5fe8388a526289ea65e817a51e05e7',1,'TiXmlHandle']]],
-  ['encodestring',['EncodeString',['../class_ti_xml_base.html#a32ed202562b58de64c7d799ca3c9db98',1,'TiXmlBase']]],
-  ['encoding',['Encoding',['../class_ti_xml_declaration.html#a5d974231f9e9a2f0542f15f3a46cdb76',1,'TiXmlDeclaration']]],
-  ['error',['Error',['../class_ti_xml_document.html#a6dfc01a6e5d58e56acd537dfd3bdeb29',1,'TiXmlDocument']]],
-  ['errorcol',['ErrorCol',['../class_ti_xml_document.html#aa90bc630ee5203c6109ca5fad3323649',1,'TiXmlDocument']]],
-  ['errordesc',['ErrorDesc',['../class_ti_xml_document.html#a9d0f689f6e09ea494ea547be8d79c25e',1,'TiXmlDocument']]],
-  ['errorid',['ErrorId',['../class_ti_xml_document.html#af96fc2f3f9ec6422782bfe916c9e778f',1,'TiXmlDocument']]],
-  ['errorrow',['ErrorRow',['../class_ti_xml_document.html#af30efc75e804aa2e92fb8be3a8cb676e',1,'TiXmlDocument']]]
+  ['definediseaserandomly',['defineDiseaseRandomly',['../class_disease.html#aa373f80e471a49ccee9820f9fc3efd1e',1,'Disease']]],
+  ['disease',['Disease',['../class_disease.html#ad6e040633405552d8e4378a9c9fbabc9',1,'Disease::Disease()'],['../class_disease.html#a2ee1a30596f0c221bcd4984b6e40dc9b',1,'Disease::Disease(int progression)']]],
+  ['dobusiness',['doBusiness',['../class_system.html#a2c54dee71c478b1a0aeb05302f6374b3',1,'System']]],
+  ['doublevalue',['DoubleValue',['../class_ti_xml_attribute.html#a2880ddef53fc7522c99535273954d230',1,'TiXmlAttribute']]]
 ];

@@ -17,13 +17,13 @@ System::System()
 
 bool System::update(const time_t &lastTime)
 {
-    int elapsedTime=difftime(time(NULL),lastTime); //Calcul du temps écoulé depuis la dernière sauvegarde
+    int elapsedTime=difftime(time(NULL),lastTime); //Calcul du temps ecoule depuis la derniere sauvegarde
     cout<<"Temps ecoule : "<<elapsedTime<<" secondes."<<endl;
 
-    if(elapsedTime<0)//si la sauvegarde est postèrieure à la date actuelle (travel time!)
+    if(elapsedTime<0)//si la sauvegarde est posterieure a la date actuelle (travel time!)
     {
-        cerr<<"Impossible de mettre à jour les donnees de la partie !"<<endl;
-        cerr<<"Erreur: La date de derniere sauvegarde est plus recente que la date actuelle("<<elapsedTime<<"), la sauvegarde a peut-être été corrompue ou le systèmen n'est pas à l'heure."<<endl;
+        cerr<<"Impossible de mettre a jour les donnees de la partie !"<<endl;
+        cerr<<"Erreur: La date de derniere sauvegarde est plus recente que la date actuelle("<<elapsedTime<<"), la sauvegarde a peut-être ete corrompue ou le systemen n'est pas a l'heure."<<endl;
         return false;
     }
 
@@ -41,9 +41,9 @@ bool System::newGame()
     TiXmlDocument saveDoc;
 
     TiXmlDeclaration *declaration=new TiXmlDeclaration("1.0","UTF-8","yes");
-    saveDoc.LinkEndChild(declaration);//on ajoute la déclaration à la fin de saveDoc (cette fonction détruit declaration, on aurait pu utiliser InsertEndChild qui en aurait fait une copie)
+    saveDoc.LinkEndChild(declaration);//on ajoute la declaration a la fin de saveDoc (cette fonction detruit declaration, on aurait pu utiliser InsertEndChild qui en aurait fait une copie)
 
-    //Création de l'élément save
+    //Creation de l'element save
     TiXmlElement *saveInfo = new TiXmlElement("save");
     time_t saveDate;
     time(&saveDate);
@@ -52,7 +52,7 @@ bool System::newGame()
 
     saveDoc.LinkEndChild(saveInfo);
 
-    //Création de l'élément XML système et paramètrage
+    //Creation de l'element XML systeme et parametrage
     TiXmlElement *systemSave = new TiXmlElement("system");
 
     location="home";
@@ -66,7 +66,7 @@ bool System::newGame()
     saveDoc.LinkEndChild(systemSave);
 
 
-    //Création du tamagotchi
+    //Creation du tamagotchi
     string raceChoice, nameChoice;
     cout<<"Comment voulez-vous appeler votre Tamagotchi ?";
     cin>>nameChoice;
@@ -118,7 +118,7 @@ bool System::newGame()
 
 bool System::loadGame(string saveFile)
 {
-    TiXmlDocument saveDoc(saveFile.c_str());//récupération du fichier
+    TiXmlDocument saveDoc(saveFile.c_str());//recuperation du fichier
     if(!saveDoc.LoadFile())
     {
         cerr<<"Erreur lors du chargement du fichier de sauvegarde "<<saveFile<<endl;
@@ -126,18 +126,18 @@ bool System::loadGame(string saveFile)
         return false;
     }
 
-    //TiXmlElement saveInfo=saveDoc.FirstChild(); //méthode simple pour récupérer le premier elem du fichier
-    TiXmlHandle hdl(&saveDoc);//permet de sécuriser la  récupération des données, le handle teste la présence de noeud à chaque changement, on peut alors faire hdl.child.child sans risque de bug de pointeur null
+    //TiXmlElement saveInfo=saveDoc.FirstChild(); //methode simple pour recuperer le premier elem du fichier
+    TiXmlHandle hdl(&saveDoc);//permet de securiser la  recuperation des donnees, le handle teste la presence de noeud a chaque changement, on peut alors faire hdl.child.child sans risque de bug de pointeur null
 
 
-    //Récupération des informations sur la sauvegarde
+    //Recuperation des informations sur la sauvegarde
     TiXmlElement *saveInfo = hdl.FirstChildElement("save").ToElement();
     int dateConverter;
     saveInfo->QueryIntAttribute("lastSave", &dateConverter);
     time_t lastSave=dateConverter;
 
 
-    //Récupération des informations système
+    //Recuperation des informations systeme
     TiXmlElement *systemSave = hdl.FirstChildElement("system").ToElement();
     if(!systemSave)
     {
@@ -146,12 +146,12 @@ bool System::loadGame(string saveFile)
     }
     location=systemSave->Attribute("location");
     weather=systemSave->Attribute("weather");
-    float floatAttribute;//pour pouvoir récupérer directement un float au lieu d'une string
+    float floatAttribute;//pour pouvoir recuperer directement un float au lieu d'une string
     systemSave->QueryFloatAttribute("timeSpeed",&floatAttribute);//convertit l'attribut en float et le stocke dans floatAttribute
     timeSpeed=floatAttribute;
 
 
-    //Récupération de l'élément tamagotchi
+    //Recuperation de l'element tamagotchi
     TiXmlElement *petSave = hdl.FirstChildElement("system").FirstChildElement("tamagotchi").ToElement();
     if(!petSave)
     {
@@ -161,11 +161,11 @@ bool System::loadGame(string saveFile)
 
     pet=new Tamagotchi();//on instancie le Tamagotchi
 
-    //Récupération des attributs du Tamagotchi
+    //Recuperation des attributs du Tamagotchi
     pet->setRace(petSave->Attribute("race"));
     pet->setName(petSave->Attribute("name"));
 
-    int intAttribute;//pour pouvoir récupérer directement un int au lieu d'une string
+    int intAttribute;//pour pouvoir recuperer directement un int au lieu d'une string
 
     petSave->QueryIntAttribute("thirst",&intAttribute);
     pet->setThirst(intAttribute);
@@ -191,7 +191,7 @@ bool System::loadGame(string saveFile)
     petSave->FirstChildElement("disease");
     if(!petSave)
     {
-        cerr<<"Erreur lors de la recuperation des donnees du Tamagotchi (disease non trouvé)."<<endl;
+        cerr<<"Erreur lors de la recuperation des donnees du Tamagotchi (disease non trouve)."<<endl;
         return false;
     }
     petSave->QueryIntAttribute("progression", &intAttribute);
@@ -204,7 +204,7 @@ bool System::loadGame(string saveFile)
         Disease *petDisease=new Disease(intAttribute);
         petSave->QueryBoolAttribute("vet",&boolAttribute);
         petDisease->setVet(boolAttribute);
-        if(boolAttribute)//si le veto a été consulté on récupère les informations supplémentaires sur la maladie
+        if(boolAttribute)//si le veto a ete consulte on recupere les informations supplementaires sur la maladie
         {
             petSave->QueryIntAttribute("interval",&intAttribute);
             petDisease->setInterval(intAttribute);
@@ -216,9 +216,9 @@ bool System::loadGame(string saveFile)
     }
 
 
-    if(!update(lastSave))//on met à jour les données selon le temps écoulé depuis la dernière sauvegarde
+    if(!update(lastSave))//on met a jour les donnees selon le temps ecoule depuis la derniere sauvegarde
     {
-        cerr<<"Erreur lors du calcul de mise à jour de la partie."<<endl;
+        cerr<<"Erreur lors du calcul de mise a jour de la partie."<<endl;
         return false;
     }
     return true;
@@ -226,7 +226,7 @@ bool System::loadGame(string saveFile)
 
 bool System::saveGame()
 {
-    TiXmlDocument saveDoc(saveName);//récupération du fichier (copie les données en mémoire)
+    TiXmlDocument saveDoc(saveName);//recuperation du fichier (copie les donnees en memoire)
     if(!saveDoc.LoadFile())
     {
         cerr<<"Erreur lors du chargement du fichier de sauvegarde "<<saveName<<endl;
@@ -234,7 +234,7 @@ bool System::saveGame()
         return false;
     }
 
-    TiXmlHandle hdl(&saveDoc);//permet de sécuriser la  récupération des données, le handle teste la présence de noeud à chaque changement, on peut alors faire hdl.child.child sans risque de bug de pointeur null
+    TiXmlHandle hdl(&saveDoc);//permet de securiser la  recuperation des donnees, le handle teste la presence de noeud a chaque changement, on peut alors faire hdl.child.child sans risque de bug de pointeur null
 
     //On modifie la date de sauvegarde
     TiXmlElement *saveInfo = hdl.FirstChildElement("save").ToElement();
@@ -249,7 +249,7 @@ bool System::saveGame()
     cout<<"Date de sauvegarde modifiee : "<<saveInfo->Attribute("lastSave")<<endl;
 
 
-    //Modification des informations système
+    //Modification des informations systeme
     TiXmlElement *systemSave = hdl.FirstChildElement("system").ToElement();
     if(!systemSave)
     {
@@ -262,7 +262,7 @@ bool System::saveGame()
     systemSave->SetAttribute("timeSpeed",timeSpeed);
 
 
-    //Récupération de l'élément tamagotchi
+    //Recuperation de l'element tamagotchi
     TiXmlElement *petSave = hdl.FirstChildElement("system").FirstChildElement("tamagotchi").ToElement();
     if(!petSave)
     {
@@ -284,7 +284,7 @@ bool System::saveGame()
     petSave->FirstChildElement("disease");
     if(!petSave)
     {
-        cerr<<"Erreur lors de la recuperation des donnees du Tamagotchi (disease non trouvé)."<<endl;
+        cerr<<"Erreur lors de la recuperation des donnees du Tamagotchi (disease non trouve)."<<endl;
         return false;
     }
 
@@ -296,7 +296,7 @@ bool System::saveGame()
     {
         petSave->SetAttribute( "progression", pet->getDisease()->getProgression() );
         petSave->SetAttribute( "vet", pet->getDisease()->getVet() );
-        if( pet->getDisease()->getVet() )//si le veto a été consulté on récupère les informations supplémentaires sur la maladie
+        if( pet->getDisease()->getVet() )//si le veto a ete consulte on recupere les informations supplementaires sur la maladie
         {
             petSave->SetAttribute( "interval", pet->getDisease()->getInterval() );
             petSave->SetAttribute( "lastHeal", pet->getDisease()->getLastHeal() );
@@ -353,8 +353,8 @@ void System::mainMenu()
 
 int main()
 {
-    System system;//on crée une instance du jeu
-    system.mainMenu();//démarre le jeu
+    System system;//on cree une instance du jeu
+    system.mainMenu();//demarre le jeu
 
     return 0;
 }
