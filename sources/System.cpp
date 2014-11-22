@@ -327,37 +327,40 @@ bool System::saveGame()
 
 void System::mainMenu()
 {
-    int choix;
-    cout<<"Tamagotchi !"<<endl;
+	cout<<"Tamagotchi !"<<endl;
     cout<<"1 - Nouvelle partie"<<endl;
     cout<<"2 - Charger partie"<<endl;
     cout<<"3 - Charger et sauvegarder"<<endl;
     cout<<"4 - Quitter"<<endl;
-    cin>>choix;
-    switch(choix)
+    
+    GUI interface;
+    string choix=interface.waitEvent(); // Mise en pause du programme
+    
+	if(choix == "quit")
     {
-        case 1:
-        {
-            newGame();
-            break;
-        }
-
-        case 2:
-        {
-            string saveFile;
-            cout<<"Quelle partie voulez vous charger ?"<<endl;
-            cin>>saveFile;
-            loadGame(saveFile);
-            break;
-        }
-
-        case 3:
-        {
-            string saveFile;
-            cout<<"Quelle sauvegarde voulez vous modifier ?"<<endl;
-            cin>>saveFile;
-            loadGame(saveFile);
-            saveGame();
-        }
+    	cout<<"Event quit"<<endl;
+    	return;
     }
+    	
+	else if(choix == "newGame")
+	{
+    	newGame();
+	}
+
+	else if(choix == "loadGame")
+	{
+		string saveFile;
+		cout<<"Quelle partie voulez vous charger ?"<<endl;
+		cin>>saveFile;
+		loadGame(saveFile);
+	}
+
+	else if(choix == "load+save")
+	{
+		string saveFile;
+		cout<<"Quelle sauvegarde voulez vous modifier ?"<<endl;
+		cin>>saveFile;
+		loadGame(saveFile);
+		saveGame();
+	}
 }
