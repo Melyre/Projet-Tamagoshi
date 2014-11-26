@@ -1,5 +1,5 @@
 all: GUI.o Tamagotchi.o System.o Disease.o tinyxml.o tinyxmlerror.o tinyxmlparser.o tinystr.o ../sources/main.cpp
-	g++ GUI.o Tamagotchi.o System.o Disease.o tinyxml.o tinyxmlerror.o tinyxmlparser.o tinystr.o ../sources/main.cpp -o Tamagotchi.exe -lSDLmain -lSDL -lSDL_ttf `sdl-config --cflags --libs`
+	g++ GUI.o Tamagotchi.o System.o Disease.o tinyxml.o tinyxmlerror.o tinyxmlparser.o tinystr.o ../sources/main.cpp -o Tamagotchi.exe -lSDL2-2.0 -lSDL2main -lSDL2_ttf `sdl2-config --libs`
 	
 GUI.o:	../headers/GUI.h ../sources/GUI.cpp
 	g++ -c ../sources/GUI.cpp -o GUI.o
