@@ -346,7 +346,7 @@ void System::mainMenu()
 		{
 			//newGame();
 			cout<<"Nouvelle partie"<<endl;
-			interface.displayNewGame();
+			interface.displayNewGame("(tapez ici)");
 		}
 
 		else if(choix == "loadGame")

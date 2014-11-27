@@ -30,6 +30,7 @@ class GUI
     SDL_Window *window;
     SDL_Surface *screen;
 	vector<Button> buttons;
+	SDL_Surface *input;
 
     //Fonctions
     public:
@@ -44,9 +45,10 @@ class GUI
         void addButton(SDL_Rect button, string buttonName);
         string getButtonName(int x, int y);
         void switchCursor(SDL_Cursor *cursor);
+        void updateInput(char *);
         
         void displayMainMenu();
-        void displayNewGame();
+        void displayNewGame(char *textInput);
         
         void updateAll();
         void updateLocation();

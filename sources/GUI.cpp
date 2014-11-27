@@ -35,6 +35,7 @@ string GUI::waitEvent()
     int stop = false;
     SDL_Event event;
  	string pressedButton(""), hoverButton("");
+ 	char textInput[32];
     while (!stop)
     {
         SDL_WaitEvent(&event);
@@ -46,12 +47,25 @@ string GUI::waitEvent()
                 
             case SDL_MOUSEBUTTONUP:
             	pressedButton=getButtonName(event.button.x,event.button.y);
-            	if(!pressedButton.empty()) return pressedButton;
+            	if(pressedButton=="clearInput")
+            	{ 
+            		textInput[0]='\0';
+            		displayNewGame("");
+            	}
+            	else if(!pressedButton.empty()) return pressedButton;
+            	break;
             	
             case SDL_MOUSEMOTION:
             	hoverButton=getButtonName(event.button.x,event.button.y);
             	if(!hoverButton.empty()) switchCursor(POINTER);
             	else switchCursor(ARROW);
+            	break;
+            	
+            case SDL_TEXTINPUT:
+            	strcat(textInput, event.text.text);
+            	cout<<"input = "<<textInput<<endl;
+            	displayNewGame(textInput);
+            	break;
         }
     }
 }
@@ -97,6 +111,7 @@ string GUI::getButtonName(int x, int y)
 
 void GUI::clearScreen()
 {
+	SDL_StopTextInput();
 	clearButtons();
 	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format,0,0,0));
 }
@@ -106,6 +121,35 @@ void GUI::switchCursor(SDL_Cursor *cursor)
 {
 	//ne fonctionne pas si les curseurs sont en static ?!
 	if(SDL_GetCursor()!=cursor) SDL_SetCursor(cursor); //si le curseur actuel est différent du nouveau curseur on change
+}
+
+void GUI::updateInput(char * textInput)
+{
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	
+	SDL_Surface *text = TTF_RenderText_Blended(font, textInput, WHITE);
+	SDL_Rect position;
+	position.x=input->w/2 - text->w/2;
+	position.y=input->h/2 - text->h/2;
+    SDL_BlitSurface(text, NULL, input, &position);
+    
+    position.x = screen->w/2 - text->w/2;
+    position.y = 225;
+    SDL_BlitSurface(input, NULL, screen, &position);
+    SDL_UpdateWindowSurface(window); //SDL2
+
+	TTF_Quit();
 }
 
 
@@ -162,7 +206,7 @@ void GUI::displayMainMenu()
 	TTF_Quit();	
 }
 
-void GUI::displayNewGame()
+void GUI::displayNewGame(char *textInput)
 {
 	clearScreen();
 
@@ -192,12 +236,30 @@ void GUI::displayNewGame()
     position.y = 100;
     SDL_BlitSurface(text, NULL, screen, &position);
     
-    SDL_Surface *input = SDL_CreateRGBSurface(0, 500, 30, 32, 0, 0, 0, 0);
+    //on crée l'input
+    input = SDL_CreateRGBSurface(0, 500, 30, 32, 0, 0, 0, 0);
     SDL_FillRect(input, NULL, SDL_MapRGB(screen->format,0,0,255));
+    
+    //on crée et positionne le texte saisi dans l'input
+    if(textInput[0]!='\0')
+    {
+		text = TTF_RenderText_Blended(font, textInput, WHITE);
+		position.x=input->w/2 - text->w/2;
+		position.y=input->h/2 - text->h/2;
+		SDL_BlitSurface(text, NULL, input, &position);
+	}
+    
+    //positionnement de l'input
     position.x = screen->w/2 - input->w/2;
 	position.y = 200;
-    SDL_BlitSurface(input, NULL, screen, &position);
     SDL_SetTextInputRect(&position);
+    SDL_BlitSurface(input, NULL, screen, &position);
+    
+    text = TTF_RenderText_Blended(font, "Effacer", WHITE);
+    position.x = screen->w/2 - text->w/2;
+    position.y = 200+input->h+10;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"clearInput");
     
     text = TTF_RenderText_Blended(font, "Retour", WHITE);
     position.x = screen->w/2 - text->w/2;
@@ -207,7 +269,8 @@ void GUI::displayNewGame()
     
     //SDL_Flip(screen); //SDL 1
     SDL_UpdateWindowSurface(window); //SDL2
-	
+    SDL_StartTextInput();
+
 	TTF_Quit();	
 }
 
