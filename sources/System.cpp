@@ -4,13 +4,14 @@ using namespace std;
 
 System::System()
 {
-    //pet=new Tamagotchi(); l'intanciation se fait au chargement de partie
-    pet=NULL;
-    //interface=new GUI();
-    interface=NULL;
+	interface=new GUI();
+	
+	//informations sur la partie définies au chargement
+    pet=NULL; //l'instanciation se fait au chargement de partie
     location="undefined";
     weather="undefined";
     timeSpeed=1.0;
+    
     endGame=false;
     endProgram=false;
 }
@@ -18,7 +19,7 @@ System::System()
 bool System::update(const time_t &lastTime)
 {
     int elapsedTime=difftime(time(NULL),lastTime); //Calcul du temps ecoule depuis la derniere sauvegarde
-    cout<<"Temps ecoule : "<<elapsedTime<<" secondes."<<endl;
+    cout<<"System (update) > Temps ecoule : "<<elapsedTime<<" secondes."<<endl;
 
     if(elapsedTime<0)//si la sauvegarde est posterieure a la date actuelle (travel time!)
     {
@@ -39,6 +40,11 @@ bool System::update(const time_t &lastTime)
     }
     return true;
 }
+
+
+/***************************************
+********* GESTION SAUVEGARDES **********
+****************************************/
 
 bool System::newGame(string petName)
 {
@@ -115,6 +121,13 @@ bool System::newGame(string petName)
         cerr<<"error #"<<saveDoc.ErrorId()<<" : "<<saveDoc.ErrorDesc()<<endl;
         return false;
     }
+    
+    //on édite le fichier répertoriant les sauvegardes
+    string Info="info";
+	ofstream fileInfo(Info.c_str(), ios::in);
+	fileInfo.seekp(0,ios::end);
+	fileInfo << saveName << "\n";
+	fileInfo.close();
 
     return true;
 }
@@ -321,65 +334,139 @@ bool System::saveGame()
     return true;
 }
 
-void System::mainMenu()
+
+/***************************************
+*********** ECRANS DE JEU **************
+****************************************/
+
+void System::newGameMenu()
 {
-	cout<<"Tamagotchi !"<<endl;
+    interface->displayNewGame();
+    string event;
+    bool loop=false;
     
-    GUI interface;
-    string choix;
-    bool stop=false;
-    interface.displayMainMenu();
-    while(!stop)
+    do
     {
-		choix=interface.waitEvent(); // Mise en pause du programme en attente d'un évènement
-		if(choix == "quit")
+		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
+		if(event == "quit")
 		{
 			cout<<"Event quit"<<endl;
-			stop=true;
-		}
-			
-		else if(choix == "newGame")
-		{
-			cout<<"Nouvelle partie"<<endl;
-			interface.displayNewGame();
 		}
 		
-		else if(choix == "startNewGame")
+		else if(event == "startNewGame")
 		{
 			string petName;
-			interface.getTextInput(petName); //on récupère le texte saisi par l'utilisateur
+			interface->getTextInput(petName); //on récupère le texte saisi par l'utilisateur
 			cout<<"Nom Tamagotchi = "<<petName<<endl;
 			if(petName.size()<2) cout<<"Nom trop court !"<<endl;
 			else
 			{
 				cout<<"Création du ficher de sauvegarde en cours...";
-				if(newGame(petName))
+				if(!newGame(petName)) //on crée la sauvegarde
 				{
-					cout<<"réussi !"<<endl;
+					cerr<<"System (newGameMenu) > Erreur, impossible de créer une nouvelle partie."<<endl;
+					loop=true;
+				}
+				else //si la création de partie a fonctionné
+				{
+					mainMenu(); //on retourne au menu principal (on pourrait lancer directement la partie mais c'est mieux comme ça pour tester)
 				}
 			}
 		}
-
-		else if(choix == "loadGame")
+		
+		else if(event == "mainMenu")
 		{
-			string saveFile;
-			cout<<"Quelle partie voulez vous charger ?"<<endl;
-			cin>>saveFile;
-			loadGame(saveFile);
-		}
-
-		else if(choix == "load+save")
-		{
-			string saveFile;
-			cout<<"Quelle sauvegarde voulez vous modifier ?"<<endl;
-			cin>>saveFile;
-			loadGame(saveFile);
-			saveGame();
+			mainMenu();
 		}
 		
-		else if(choix == "mainMenu")
+		else
 		{
-			interface.displayMainMenu();
+			cerr<<"System (newGameMenu) > Evenement inconnu ignore: "<<event<<endl;
+			loop=true;
 		}
-	}
+		
+	} while(loop==true);//on boucle tant qu'un evenement connu (dont on a prévu les effets) ne survient pas
+	
 }
+
+void System::loadGameMenu()
+{
+    interface->displayLoadGame();
+    string event;
+    bool loop;
+    
+    do
+    {
+    	loop=false;
+		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
+		if(event == "quit")
+		{
+			cout<<"Event quit"<<endl;
+		}
+
+		else if(event == "mainMenu")
+		{
+			mainMenu();
+		}
+		
+		else //si l'event n'est pas un bouton prédéfini (ci-dessus) c'est que le joueur à cliqué sur une partie à charger ou qu'un évènement inconnu s'est produit
+		{
+			if(!loadGame(event))
+			{
+				cerr<<"System (loadGameMenu) > Sauvegarde introuvable ou evenement inconnu: "<<event<<endl;
+				loop=true;
+			}
+			else //si le chargement s'est bien passé
+			{
+				runGame();
+			}
+		}
+		
+	}while(loop==true);
+
+}
+
+void System::runGame()
+{
+	cout<<"Braaa le jeu roule ma poule #"<<pet->getName()<<endl;
+}
+
+void System::mainMenu()
+{
+	cout<<"Tamagotchi !"<<endl;
+    
+    interface->displayMainMenu();
+    string event;
+    bool loop;
+    
+    do
+    {
+    	loop=false;
+		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
+		if(event == "quit")
+		{
+			cout<<"Event quit"<<endl;
+		}
+			
+		else if(event == "newGame")
+		{
+			cout<<"Nouvelle partie"<<endl;
+			newGameMenu();
+		}
+
+		else if(event == "loadGame")
+		{
+			cout<<"Charger partie"<<endl;
+			loadGameMenu();
+		}
+		
+		else
+		{
+			cerr<<"System (mainMenu) > Evenement inconnu ignore: "<<event<<endl;
+			loop=true;
+		}
+		
+	} while(loop==true);
+
+}
+

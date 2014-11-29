@@ -9,3 +9,14 @@ Changements classe Disease :
 		=> l'accesseur change donc en time_t getLastHeal()
 		=> ajout d'un modificateur setLastHeal(time_t lastHeal)
 	-ajout d'une fonction "defineDiseaseRandomly" qui définit l'intervalle aléatoirement après être aller voir le véto
+	
+	
+	
+29/11/14
+
+System:
+	-ajout de fonctions pour chaque écran/menu (newGameMenu, loadGameMenu)
+	-passage de la plupart des fonctions en private, seuls les constructeurs, accesseurs (temporaire surement au cas où on en ai besoin) et mainMenu (pour lancer le jeu).
+	
+GUI:
+	-trop de changements

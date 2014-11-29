@@ -62,27 +62,9 @@ class System
 	*/
         System(string configFile);
 		
-	/*!
-	*	\brief Menu principal
-	*
-	*	Cette fonction appelle l'affichage du menu principal (voir classe GUI) et gere les fonctionalites de ce menu.
-	*/
-        void mainMenu ();
-		
-	/*!
-	*	\brief Menu d'options
-	*
-	*	Cette fonction appelle l'affichage du menu options (voir classe GUI) et gere les fonctionalites de ce menu.
-	*/
-        void optionMenu ();
-		
-	/*!
-	*	\brief Retour au menu principal.
-	*
-	*	Cette fonction est appelee par l'interface losque l'utilisateur souhaite revenir au menu principal.
-	*/
-        void backToMenu ();
-		
+
+	//Accesseurs	
+	
 	/*!
 	*	\brief Fonction get pour la meteo.
 	*
@@ -117,6 +99,98 @@ class System
 	*	\param end : booleen true pour finir la partie false sinon.
 	*/
         void setEndGame (bool end);
+        
+	/*!
+	*	\brief Menu principal
+	*
+	*	Cette fonction appelle l'affichage du menu principal (voir classe GUI) et gere les fonctionalites de ce menu. Le jeu doit être lancé avec cette fonction.
+	*/
+        void mainMenu ();
+        
+        
+    private:
+    
+    //Gestion des sauvegardes
+    
+	/*!
+	*	\brief Fonction qui sauvegarde les donnees de la partie en XML.
+	*/
+        bool saveGame ();
+		
+	/*!
+	*	\brief Fonction qui lance une nouvelle partie (nouveau Tamagotchi).
+	*
+	*	\return False si il y a une erreur, true sinon.
+	*/
+        bool newGame (string petName);
+		
+	/*!
+	*	\brief Fonction qui supprime une sauvegarde XML.
+	*
+	*	\param petName : chaîne de caractère contenant le nom du Tamagotchi (et pas le nom de la sauvegarde).
+	*	\return False si il y a une erreur, true sinon.
+	*/
+        bool deleteSave ();
+	
+	/*!
+	*	\brief Fonction chargement d'un jeu.
+	*/
+        void loadGame ();
+		
+	/*!
+	*	\brief Fonction chargement d'un jeu a partir d'une sauvegarde XML.
+	*
+	*	\return False si impossible de charger la sauvegarde, true sinon.
+	*/
+        bool loadGame(string saveFile);
+        
+        
+    //Ecrans, menus
+		
+	/*!
+	*	\brief Menu d'options
+	*
+	*	Cette fonction appelle l'affichage du menu options (voir classe GUI) et gere les fonctionalites de ce menu.
+	*/
+        void optionMenu ();
+        
+   	/*!
+	*	\brief Menu de création d'une nouvelle partie
+	*
+	*	Cette fonction appelle l'affichage du menu Nouvelle partie (voir classe GUI) et gere les fonctionalites de ce menu.
+	*/
+        void newGameMenu ();
+        
+   	/*!
+	*	\brief Menu de création d'une nouvelle partie
+	*
+	*	Cette fonction appelle l'affichage du menu Charger partie (voir classe GUI) et gere les fonctionalites de ce menu.
+	*/
+        void loadGameMenu ();
+        
+	/*!
+	*	\brief Fonction qui fait tourner la partie.
+	*/
+        void runGame ();
+		
+	/*!
+	*	\brief Fonction qui actualise tout le Tamagotchi au chargement.
+	*
+	*	\param lastTime : Correspond a la derniere fois que le programme a ete execute.
+	*	\return False si lastTime est incorrect, true sinon.
+	*/
+	
+	
+	//Fonctions de mise à jour
+        bool update (const time_t &lastTime);
+		
+	/*!
+	*	\brief Fonction qui update tres regulierement les donnees du Tamagotchi (changement des jauges et etats) en fonction du temps ecoule.
+	*/
+        void update ();
+        
+     
+	//Actions du joueur	
 		
 	/*!
 	*	\brief Fonction pour nourir le Tamagotchi.
@@ -171,55 +245,4 @@ class System
 	*	\param n : definit de combien on baisse la jauge de petits besoins.
 	*/
         void doBusiness (int n);
-    private:
-	
-	/*!
-	*	\brief Fonction chargement d'un jeu.
-	*/
-        void loadGame ();
-		
-	/*!
-	*	\brief Fonction chargement d'un jeu a partir d'une sauvegarde XML.
-	*
-	*	\return False si impossible de charger la sauvegarde, true sinon.
-	*/
-        bool loadGame(string saveFile);
-		
-	/*!
-	*	\brief Fonction qui fait tourner la partie.
-	*/
-        void runGame ();
-		
-	/*!
-	*	\brief Fonction qui actualise tout le Tamagotchi au chargement.
-	*
-	*	\param lastTime : Correspond a la derniere fois que le programme a ete execute.
-	*	\return False si lastTime est incorrect, true sinon.
-	*/
-        bool update (const time_t &lastTime);
-		
-	/*!
-	*	\brief Fonction qui sauvegarde les donnees de la partie en XML.
-	*/
-        bool saveGame ();
-		
-	/*!
-	*	\brief Fonction qui lance une nouvelle partie (nouveau Tamagotchi).
-	*
-	*	\return False si il y a une erreur, true sinon.
-	*/
-        bool newGame (string petName);
-		
-	/*!
-	*	\brief Fonction qui supprime une sauvegarde XML.
-	*
-	*	\param petName : chaîne de caractère contenant le nom du Tamagotchi (et pas le nom de la sauvegarde).
-	*	\return False si il y a une erreur, true sinon.
-	*/
-        bool deleteSave ();
-		
-	/*!
-	*	\brief Fonction qui update tres regulierement les donnees du Tamagotchi (changement des jauges et etats) en fonction du temmps ecoule.
-	*/
-        void update ();
     };

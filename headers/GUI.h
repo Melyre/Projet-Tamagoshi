@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
@@ -52,6 +53,8 @@ class GUI
         
         void displayMainMenu();
         void displayNewGame();
+        void displayLoadGame();
+        void displayGame(string saveFile);
         
         void updateAll();
         void updateLocation();
