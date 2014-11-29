@@ -16,6 +16,8 @@ GUI::GUI()
 	
 	window = SDL_CreateWindow("Tamagotchi SDL 2.0", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0); //SDL2
 	screen = SDL_GetWindowSurface(window);//on crée la SDL_Window et on la convertit en SDL_Surface dans screen (SDL2)
+	
+	textInput[0]='\0';
 }
 
 GUI::~GUI()
@@ -30,41 +32,51 @@ GUI::~GUI()
 }
 
 
+//Accesseurs
+
+void GUI::getTextInput(string &dest)
+{
+	dest=textInput;
+}
+
+//Fonctions
+
 string GUI::waitEvent()
 {
     int stop = false;
     SDL_Event event;
  	string pressedButton(""), hoverButton("");
- 	char textInput[32];
     while (!stop)
     {
         SDL_WaitEvent(&event);
         switch(event.type)
         {
-            case SDL_QUIT:
+            case SDL_QUIT: //croix /alt+f4...
                 stop = true;
                 return "quit";
                 
-            case SDL_MOUSEBUTTONUP:
-            	pressedButton=getButtonName(event.button.x,event.button.y);
-            	if(pressedButton=="clearInput")
+            case SDL_MOUSEBUTTONUP: //clic
+            	pressedButton=getButtonName(event.button.x,event.button.y); //on récupère le nom du bouton activé
+            	
+            	if(pressedButton=="clearInput") //pour effacer les champs texte (newGame...)
             	{ 
             		textInput[0]='\0';
-            		displayNewGame("");
+            		displayNewGame();
             	}
-            	else if(!pressedButton.empty()) return pressedButton;
+            	else if(!pressedButton.empty()) return pressedButton; //si on a cliqué sur un bouton on renvoie son nom
+            	
             	break;
             	
-            case SDL_MOUSEMOTION:
+            case SDL_MOUSEMOTION: //déplacement souris
             	hoverButton=getButtonName(event.button.x,event.button.y);
-            	if(!hoverButton.empty()) switchCursor(POINTER);
-            	else switchCursor(ARROW);
+            	if(!hoverButton.empty()) switchCursor(POINTER); //si le curseur passe sur un élément cliquable il devient un pointeur
+            	else switchCursor(ARROW); //sinon on le remet en curseur par défaut
             	break;
             	
-            case SDL_TEXTINPUT:
+            case SDL_TEXTINPUT: //saisie de texte (uniquement lorsque textInput a été activé)
             	strcat(textInput, event.text.text);
             	cout<<"input = "<<textInput<<endl;
-            	displayNewGame(textInput);
+            	displayNewGame();
             	break;
         }
     }
@@ -111,9 +123,12 @@ string GUI::getButtonName(int x, int y)
 
 void GUI::clearScreen()
 {
+	//on stoppe et efface la saisie de texte
 	SDL_StopTextInput();
-	clearButtons();
-	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format,0,0,0));
+	
+	clearButtons(); //buttons.clear(), vide le vecteur
+	
+	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format,0,0,0)); //on remplit la fenêtre de noir
 }
 	
 
@@ -123,6 +138,7 @@ void GUI::switchCursor(SDL_Cursor *cursor)
 	if(SDL_GetCursor()!=cursor) SDL_SetCursor(cursor); //si le curseur actuel est différent du nouveau curseur on change
 }
 
+/* A supprimer ?
 void GUI::updateInput(char * textInput)
 {
 	if(TTF_Init() == -1)
@@ -151,7 +167,7 @@ void GUI::updateInput(char * textInput)
 
 	TTF_Quit();
 }
-
+*/
 
 /***************************************
 *********** ECRANS DE JEU **************
@@ -164,23 +180,23 @@ void GUI::displayMainMenu()
 	SDL_Surface *text=NULL, *background=NULL;
     SDL_Rect position;
 	
-	if(TTF_Init() == -1)
+	if(TTF_Init() == -1)//initialisation de TTF, nécessaire pour écrire du texte
 	{
 		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	TTF_Font *font=NULL;
-	font = TTF_OpenFont("../arial.ttf", 22);
+	font = TTF_OpenFont("../arial.ttf", 22); //on règle la police que l'on souhaite utiliser
 	if(font == NULL)
 	{
 		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	
-	text = TTF_RenderText_Blended(font, "Tamagotchi", WHITE);
-	position.x = screen->w/2 - text->w/2;
-	position.y = 0;
-    SDL_BlitSurface(text, NULL, screen, &position);
+	text = TTF_RenderText_Blended(font, "Tamagotchi", WHITE); //création d'une surface contenant un texte
+	position.x = screen->w/2 - text->w/2; //positionnement horizontal (ici au centre de la fenetre)
+	position.y = 0; //positionnement vertical (ici tout en haut de la fenetre)
+    SDL_BlitSurface(text, NULL, screen, &position); //on applique la surface text entière sur notre fenetre (modification faites seulement en mémoire pour le moment)
     
     text = TTF_RenderText_Blended(font, "Nouvelle partie", WHITE);
     position.x = screen->w/2 - text->w/2;
@@ -201,12 +217,12 @@ void GUI::displayMainMenu()
     addButton(position,"quit");
     
     //SDL_Flip(screen); //SDL 1
-    SDL_UpdateWindowSurface(window); //SDL2
+    SDL_UpdateWindowSurface(window); //on met à jour l'affichage (selon les BlitSurface précedents) (SDL2)
 	
-	TTF_Quit();	
+	TTF_Quit();	//on libère TTF
 }
 
-void GUI::displayNewGame(char *textInput)
+void GUI::displayNewGame()
 {
 	clearScreen();
 
@@ -257,19 +273,25 @@ void GUI::displayNewGame(char *textInput)
     
     text = TTF_RenderText_Blended(font, "Effacer", WHITE);
     position.x = screen->w/2 - text->w/2;
-    position.y = 200+input->h+10;
+    position.y = position.y + input->h + 10; // /!\ position relative
     SDL_BlitSurface(text, NULL, screen, &position);
     addButton(position,"clearInput");
     
+    text = TTF_RenderText_Blended(font, "Valider", WHITE);
+    position.x = screen->w/2 - text->w/2;
+    position.y = position.y + text->h + 10; // /!\ position relative
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"startNewGame");
+    
     text = TTF_RenderText_Blended(font, "Retour", WHITE);
     position.x = screen->w/2 - text->w/2;
-    position.y = 350;
+    position.y = screen->h - text->h - 10;
     SDL_BlitSurface(text, NULL, screen, &position);
     addButton(position,"mainMenu");
     
     //SDL_Flip(screen); //SDL 1
     SDL_UpdateWindowSurface(window); //SDL2
-    SDL_StartTextInput();
+    SDL_StartTextInput(); //active les évènements de saisie de texte et doit être stoppé avec SDL_StopTextInput(), on le stoppe donc au changement d'écran (clearScreen())
 
 	TTF_Quit();	
 }

@@ -208,11 +208,12 @@ class System
 	*
 	*	\return False si il y a une erreur, true sinon.
 	*/
-        bool newGame ();
+        bool newGame (string petName);
 		
 	/*!
 	*	\brief Fonction qui supprime une sauvegarde XML.
 	*
+	*	\param petName : chaîne de caractère contenant le nom du Tamagotchi (et pas le nom de la sauvegarde).
 	*	\return False si il y a une erreur, true sinon.
 	*/
         bool deleteSave ();

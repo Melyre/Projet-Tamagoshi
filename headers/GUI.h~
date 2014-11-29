@@ -31,24 +31,27 @@ class GUI
     SDL_Surface *screen;
 	vector<Button> buttons;
 	SDL_Surface *input;
+	char textInput[32]; //on stocke les saisies en mémoire 
 
     //Fonctions
     public:
         GUI();
         ~GUI();
         
+        void getTextInput(string &dest);
+        
         string waitEvent(); //retourne l'id de l'event reçu
         
         SDL_Rect centerPos(SDL_Surface *surface);
-        void clearScreen();
+        void clearScreen(); //efface l'écran (en mémoire), à utiliser à chaque modification de l'affichage
         void clearButtons();
         void addButton(SDL_Rect button, string buttonName);
         string getButtonName(int x, int y);
         void switchCursor(SDL_Cursor *cursor);
-        void updateInput(char *);
+        void updateInput(char *); //inutilisé, inutile ? on rappelle display avec un arguments char* à la place
         
         void displayMainMenu();
-        void displayNewGame();
+        void displayNewGame(char *textInput);
         
         void updateAll();
         void updateLocation();

@@ -40,7 +40,7 @@ bool System::update(const time_t &lastTime)
     return true;
 }
 
-bool System::newGame()
+bool System::newGame(string petName)
 {
     TiXmlDocument saveDoc;
 
@@ -71,10 +71,8 @@ bool System::newGame()
 
 
     //Creation du tamagotchi
-    string raceChoice, nameChoice;
-    cout<<"Comment voulez-vous appeler votre Tamagotchi ?";
-    cin>>nameChoice;
-    pet=new Tamagotchi("chat",nameChoice);
+    string raceChoice;
+    pet=new Tamagotchi("chat",petName);
     TiXmlElement *petSave = new TiXmlElement("tamagotchi");
 
     //Modification des attributs du Tamagotchi
@@ -110,9 +108,7 @@ bool System::newGame()
 
     ostringstream convert;
     convert<<saveDate;
-    //int saveDateInt=saveDate;
-    //string saveDateString(saveDateInt);
-    saveName=pet->getName()+"_"+convert.str()+".xml";
+    saveName=pet->getName()+"_"+convert.str()+".xml";//nom du fichier = petName_date.xml
     if(!saveDoc.SaveFile(saveName)) //on sauvegarde les modifications sur le fichier
     {
         cerr<<"Erreur lors de la creation du fichier de sauvegarde "<<saveName<<endl;
@@ -344,9 +340,24 @@ void System::mainMenu()
 			
 		else if(choix == "newGame")
 		{
-			//newGame();
 			cout<<"Nouvelle partie"<<endl;
-			interface.displayNewGame("(tapez ici)");
+			interface.displayNewGame();
+		}
+		
+		else if(choix == "startNewGame")
+		{
+			string petName;
+			interface.getTextInput(petName); //on récupère le texte saisi par l'utilisateur
+			cout<<"Nom Tamagotchi = "<<petName<<endl;
+			if(petName.size()<2) cout<<"Nom trop court !"<<endl;
+			else
+			{
+				cout<<"Création du ficher de sauvegarde en cours...";
+				if(newGame(petName))
+				{
+					cout<<"réussi !"<<endl;
+				}
+			}
 		}
 
 		else if(choix == "loadGame")

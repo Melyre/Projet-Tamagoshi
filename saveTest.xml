@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<save lastSave="1414595595" />
-<system location="home" timeSpeed="1" weather="sunny">
-    <tamagotchi race="chat" name="Gribouille" thirst="50" hunger="0" tiredness="10" social="20" hygiene="25" business="80" mood="50" affection="100" sleep="false">
-        <disease progression="-1" />
-    </tamagotchi>
-</system>
