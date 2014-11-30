@@ -429,6 +429,116 @@ void System::loadGameMenu()
 void System::runGame()
 {
 	cout<<"Braaa le jeu roule ma poule #"<<pet->getName()<<endl;
+	
+	string event;
+    bool loop;
+    
+    do
+    {
+    	loop=false;
+		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
+		if(event == "quit")
+		{
+			cout<<"Event quit"<<endl;
+			saveGame();
+			loop=true;
+		}
+			
+		else if(event == "feed")
+		{
+			cout<<"feed"<<endl;
+			feed(1);
+		}
+
+		else if(event == "giveDrink")
+		{
+			cout<<"giveDrink"<<endl;
+			giveDrink(1);
+		}
+		
+		else if(event == "wakeUp")
+		{
+			cout<<"wakeUp"<<endl;
+			wakeUp();
+		}
+		
+		else if(event == "heal")
+		{
+			cout<<"heal"<<endl;
+			heal(1);
+		}
+		
+		else if(event == "wash")
+		{
+			cout<<"wash"<<endl;
+			wash(1);
+		}
+		
+		else if(event == "playMini")
+		{
+			cout<<"playMini"<<endl;
+			playMini();
+		}
+		
+		else if(event == "goOut")
+		{
+			cout<<"goOut"<<endl;
+			goOut();
+		}
+		
+		else if(event == "doBusiness")
+		{
+			cout<<"doBusiness"<<endl;
+			doBusiness(1);
+		}
+		
+		else
+		{
+			cerr<<"System (runGame) > Evenement inconnu ignore: "<<event<<endl;
+			loop=true;
+		}
+		
+	} while(loop==true);
+}
+
+void System::feed(int n)
+{
+	pet->setHunger(pet->getHunger()-n);
+}
+
+void System::giveDrink(int n)
+{
+	pet->setThirst(pet->getThirst()-n);
+}
+
+void System::wakeUp()
+{
+	pet->setSleep(false);
+}
+
+void System::heal(int n)
+{
+	pet->setLife(pet->getLife()+n);
+}
+
+void System::wash(int n)
+{
+	pet->setHygiene(pet->getHygiene()-n);
+}
+
+void System::playMini()
+{
+	
+}
+
+void System::goOut()
+{
+	
+}
+
+void System::doBusiness(int n)
+{
+	pet->setBusiness(pet->getBusiness()-n);
 }
 
 void System::mainMenu()
