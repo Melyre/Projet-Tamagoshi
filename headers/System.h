@@ -8,7 +8,6 @@
 #include <string>
 #include <ctime>
 #include <sstream>
-#include "Tamagotchi.h"
 #include "GUI.h"
 #include "../includes/tinyxml/tinystr.h"
 #include "../includes/tinyxml/tinyxml.h"

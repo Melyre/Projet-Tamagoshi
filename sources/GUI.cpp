@@ -57,13 +57,17 @@ string GUI::waitEvent()
                 
             case SDL_MOUSEBUTTONUP: //clic
             	pressedButton=getButtonName(event.button.x,event.button.y); //on récupère le nom du bouton activé
-            	
+            	cout << "SPOTTED ! buttonclick" << endl;
             	if(pressedButton=="clearInput") //pour effacer les champs texte (newGame...)
             	{ 
             		textInput[0]='\0';
             		displayNewGame();
             	}
-            	else if(!pressedButton.empty()) return pressedButton; //si on a cliqué sur un bouton on renvoie son nom
+            	else if(!pressedButton.empty())
+            	{
+            		cout << "SPOTTED ! " << pressedButton << endl;
+            		return pressedButton; //si on a cliqué sur un bouton on renvoie son nom
+            	}
             	
             	break;
             	
@@ -96,6 +100,7 @@ void GUI::addButton(SDL_Rect button, string buttonName)
 	if(buttonName.empty())
 	{
 		cerr<<"Can't create a Button without a name or with an empty string name"<<endl;
+		return;
 	}
 	
 	Button newButton;
@@ -360,6 +365,193 @@ void GUI::displayLoadGame()
     SDL_StartTextInput();
 
 	TTF_Quit();	
+}
+
+void GUI::displayGame(Tamagotchi * pet)
+{	
+	clearScreen();
+	
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+
+	int gaugeWidth(0), gaugeBgWidth(100);
+	SDL_Surface *text = NULL, * gaugeBackground = NULL, * fillGauge = NULL; 	
+	SDL_Rect position, textPosition;
+
+	gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 20, 32, 0, 0, 0, 0); // Le fond des jauges.
+    SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,128,128,128));
+    
+    pet->setMood(30);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    gaugeWidth = (gaugeBgWidth * pet->getMood()) / 100; // Definit le remplissage des jauges (en % de la taille du fond).
+    fillGauge = SDL_CreateRGBSurface(0, gaugeWidth, 20, 32, 0, 0, 0, 0);
+    SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,0,204,0));
+    
+    position.x = 2;
+    position.y = 10;
+    text = TTF_RenderText_Blended(font, "Humeur", WHITE);
+    textPosition.x = position.x + gaugeBackground->w / 2 - text->w / 2;
+    textPosition.y = position.y-2;
+    SDL_BlitSurface(gaugeBackground, NULL, screen, &position);
+    SDL_BlitSurface(fillGauge, NULL, screen, &position);
+    SDL_BlitSurface(text, NULL, screen, &textPosition);
+    
+    text = TTF_RenderText_Blended(font, "Jauges", WHITE);
+	position.x = screen->w / 2 - text->w / 2;
+	position.y = 15;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"displayGauges");
+    
+    SDL_UpdateWindowSurface(window); 
+
+	TTF_Quit();
+}
+
+void GUI::displayGauges(Tamagotchi * pet)
+{
+	clearScreen();
+	SDL_Surface * text;
+	SDL_Rect position;
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+
+	int yPosition(5);
+	yPosition = displayGauge(pet, 1, yPosition);
+	yPosition = displayGauge(pet, 2, yPosition);
+	yPosition = displayGauge(pet, 3, yPosition);
+	yPosition = displayGauge(pet, 4, yPosition);
+	yPosition = displayGauge(pet, 5, yPosition);
+	yPosition = displayGauge(pet, 6, yPosition);
+	yPosition = displayGauge(pet, 7, yPosition);
+	yPosition = displayGauge(pet, 8, yPosition);
+	yPosition = displayGauge(pet, 9, yPosition);
+	
+	text = TTF_RenderText_Blended(font, "Retour", WHITE);
+	position.x = screen->w / 2 - text->w / 2;
+	position.y = yPosition + 15;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"displayGame");
+        
+    SDL_UpdateWindowSurface(window);
+    TTF_Quit();
+}
+
+int GUI::displayGauge (Tamagotchi *pet, int type, int topMarge)
+{
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return 0;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return 0;
+	}	
+	
+	
+	int gaugeWidth(0), gaugeBgWidth(400);
+	SDL_Surface *text = NULL, * gaugeBackground = NULL, * fillGauge = NULL; 	
+	SDL_Rect position, textPosition;
+
+	gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 25, 32, 0, 0, 0, 0); // Le fond des jauges.
+    SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,128,128,128));
+    
+	switch(type)
+	{
+		case 1: 
+			pet->setHunger(30);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getHunger()) / 100;
+    		text = TTF_RenderText_Blended(font, "Faim", WHITE);
+			break;
+			
+		case 2:
+			pet->setThirst(60);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getThirst()) / 100;
+    		text = TTF_RenderText_Blended(font, "Soif", WHITE);
+			break;
+			
+		case 3:
+			pet->setTiredness(0);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getTiredness()) / 100;
+    		text = TTF_RenderText_Blended(font, "Fatigue", WHITE);
+			break;
+			
+		case 4:
+			pet->setSocial(80);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getSocial()) / 100;
+    		text = TTF_RenderText_Blended(font, "Social", WHITE);
+			break;
+			
+		case 5:
+			pet->setHygiene(20);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getHygiene()) / 100;
+    		text = TTF_RenderText_Blended(font, "Hygiene", WHITE);
+			break;
+			
+		case 6:
+			pet->setBusiness(0);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getBusiness()) / 100;
+    		text = TTF_RenderText_Blended(font, "Petits besoins", WHITE);
+			break;
+			
+		case 7:
+			pet->setMood(50);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getMood()) / 100;
+    		text = TTF_RenderText_Blended(font, "Humeur", WHITE);
+			break;
+			
+		case 8:
+			pet->setAffection(0);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getAffection()) / 100;
+    		text = TTF_RenderText_Blended(font, "Affection", WHITE);
+			break;
+			
+		case 9:
+			pet->setSleep(0);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
+    		gaugeWidth = (gaugeBgWidth * pet->getSleep()) / 100;
+    		text = TTF_RenderText_Blended(font, "Fatigue", WHITE);
+			break;
+	}
+	
+    fillGauge = SDL_CreateRGBSurface(0, gaugeWidth, 25, 32, 0, 0, 0, 0);
+    SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,0,204,0));
+    
+    position.x = screen->w / 2 - gaugeBackground->w / 2;
+    position.y = topMarge + 20;
+
+    textPosition.x = position.x + gaugeBackground->w / 2 - text->w / 2;
+    textPosition.y = position.y-2;
+    SDL_BlitSurface(gaugeBackground, NULL, screen, &position);
+    SDL_BlitSurface(fillGauge, NULL, screen, &position);
+    SDL_BlitSurface(text, NULL, screen, &textPosition);
+    
+    position.y += gaugeBackground->h;
+    
+    TTF_Quit();
+    return position.y;
+    
 }
 
 void updateAll()

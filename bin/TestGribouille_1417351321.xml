@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<save firstSave="1417351321" lastSave="1417351321" />
+<system location="home" weather="sunny" timeSpeed="1">
+    <tamagotchi name="TestGribouille" race="chat" thirst="60" hunger="30" tiredness="0" social="80" hygiene="20" business="0" mood="50" affection="0" sleep="0" life="100">
+        <disease progression="-1" />
+    </tamagotchi>
+</system>

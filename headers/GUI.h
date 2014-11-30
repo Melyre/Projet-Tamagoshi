@@ -6,6 +6,8 @@
 #include <vector>
 #include <fstream>
 
+#include "Tamagotchi.h"
+
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 
@@ -54,7 +56,9 @@ class GUI
         void displayMainMenu();
         void displayNewGame();
         void displayLoadGame();
-        void displayGame(string saveFile);
+        void displayGame(Tamagotchi *pet);
+        void displayGauges(Tamagotchi *pet);
+        int displayGauge(Tamagotchi *pet, int type, int topMarge);
         
         void updateAll();
         void updateLocation();
