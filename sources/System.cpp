@@ -433,6 +433,8 @@ void System::runGame()
 	string event;
     bool loop;
     
+    interface->displayGame(pet);
+    
     do
     {
     	loop=false;
@@ -441,7 +443,18 @@ void System::runGame()
 		{
 			cout<<"Event quit"<<endl;
 			saveGame();
-			loop=true;
+		}
+		
+		else if(event == "displayGame") //Relié au bouton "retour" dans GUI::displayGauges
+		{
+			interface->displayGame(pet);	
+			loop = true;
+		}
+		
+		else if(event == "displayGauges") //Relié au bouton "displayGauges" dans GUI::displayGame
+		{
+			interface->displayGauges(pet);	
+			loop = true;
 		}
 			
 		else if(event == "feed")

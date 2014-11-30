@@ -20,3 +20,11 @@ System:
 	
 GUI:
 	-trop de changements
+	
+30/11/14
+
+System:
+	-Fonction runGame qui affiche l'interface de jeu quand la sauvegarde est chargée + récupere les actions (nourir, dormir etc...).
+	
+GUI:
+	-debut de fonction qui affiche les jauges du Tamagotchi (displayGame, displayGauges, displayGauge).
