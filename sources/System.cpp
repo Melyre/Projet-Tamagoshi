@@ -54,7 +54,8 @@ bool System::update(const time_t &lastTime)
         if (pet->getTiredness() >= 70) { m++; }
         if (pet->getHygiene() >= 70) { m++; }
         if (pet->getBusiness() >= 70) { m++; }
-        pet->setLife(pet->getLife()-(elapsedTime*(m*(5/(60*60)))));
+        if (m != 0) { pet->setLife(pet->getLife()-(elapsedTime*(m*(5/(60*60))))); }
+        else { pet->setLife(pet->getLife()+(elapsedTime*(5/(60*60)))); }
     }
     return true;
 }
