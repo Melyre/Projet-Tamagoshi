@@ -50,7 +50,9 @@ int Tamagotchi::getThirst()
 
 void Tamagotchi::setThirst(int thirst)
 {
-	this->thirst=thirst;
+    if(thirst<=0) this->thirst=0;
+    else if(thirst>MAX_GAUGE_VALUE) this->thirst=MAX_GAUGE_VALUE;
+	else this->thirst=thirst;
 }
 
 int Tamagotchi::getHunger()
@@ -60,7 +62,9 @@ int Tamagotchi::getHunger()
 
 void Tamagotchi::setHunger(int hunger)
 {
-	this->hunger=hunger;
+    if(hunger<=0) this->hunger=0;
+    else if(hunger>MAX_GAUGE_VALUE) this->hunger=MAX_GAUGE_VALUE;
+	else this->hunger=hunger;
 }
 
 int Tamagotchi::getTiredness()
@@ -70,7 +74,9 @@ int Tamagotchi::getTiredness()
 
 void Tamagotchi::setTiredness(int tiredness)
 {
-	this->tiredness=tiredness;
+    if(tiredness<=0) this->tiredness=0;
+    else if(tiredness>MAX_GAUGE_VALUE) this->tiredness=MAX_GAUGE_VALUE;
+	else this->tiredness=tiredness;
 }
 
 int Tamagotchi::getSocial()
@@ -80,7 +86,9 @@ int Tamagotchi::getSocial()
 
 void Tamagotchi::setSocial(int social)
 {
-	this->social=social;
+    if(social<=0) this->social=0;
+    else if(social>MAX_GAUGE_VALUE) this->social=MAX_GAUGE_VALUE;
+	else this->social=social;
 }
 
 int Tamagotchi::getHygiene()
@@ -90,7 +98,9 @@ int Tamagotchi::getHygiene()
 
 void Tamagotchi::setHygiene(int hygiene)
 {
-	this->hygiene=hygiene;
+    if(hygiene<=0) this->hygiene=0;
+    else if(hygiene>MAX_GAUGE_VALUE) this->hygiene=MAX_GAUGE_VALUE;
+	else this->hygiene=hygiene;
 }
 
 int Tamagotchi::getBusiness()
@@ -100,7 +110,9 @@ int Tamagotchi::getBusiness()
 
 void Tamagotchi::setBusiness(int business)
 {
-	this->business=business;
+    if(business<=0) this->business=0;
+    else if(business>MAX_GAUGE_VALUE) this->business=MAX_GAUGE_VALUE;
+	else this->business=business;
 }
 
 int Tamagotchi::getMood()
@@ -110,7 +122,9 @@ int Tamagotchi::getMood()
 
 void Tamagotchi::setMood(int mood)
 {
-	this->mood=mood;
+    if(mood<=0) this->mood=0;
+    else if(mood>MAX_GAUGE_VALUE) this->mood=MAX_GAUGE_VALUE;
+	else this->mood=mood;
 }
 
 int Tamagotchi::getAffection()
@@ -150,6 +164,8 @@ int Tamagotchi::getLife()
 
 void Tamagotchi::setLife(int life)
 {
-	this->life=life;
+    if(life<=0) this->life=0; //si la vie est à 0 le Tamagotchi meurt
+    if(life>MAX_GAUGE_VALUE) this->life=MAX_GAUGE_VALUE;
+	else this->life=life;
 }
 

@@ -6,6 +6,9 @@ using namespace std;
 
 class Tamagotchi
 {
+    //Membres statiques
+    static const int MAX_GAUGE_VALUE=100;
+
     //Membres
     string race;
 	string name;

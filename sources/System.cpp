@@ -5,13 +5,13 @@ using namespace std;
 System::System()
 {
 	interface=new GUI();
-	
+
 	//informations sur la partie définies au chargement
     pet=NULL; //l'instanciation se fait au chargement de partie
     location="undefined";
     weather="undefined";
     timeSpeed=1.0;
-    
+
     endGame=false;
     endProgram=false;
 }
@@ -23,8 +23,8 @@ bool System::update(const time_t &lastTime)
 
     if(elapsedTime<0)//si la sauvegarde est posterieure a la date actuelle (travel time!)
     {
-        cerr<<"Impossible de mettre a jour les donnees de la partie !"<<endl;
-        cerr<<"Erreur: La date de derniere sauvegarde est plus recente que la date actuelle("<<elapsedTime<<"), la sauvegarde a peut-être ete corrompue ou le systemen n'est pas a l'heure."<<endl;
+        cerr<<"System (update) > Erreur: La date de derniere sauvegarde est plus recente que la date actuelle("<<elapsedTime<<"), la sauvegarde a peut-être ete corrompue ou le systeme n'est pas a l'heure."<<endl;
+        cerr<<"System (update) > Impossible de mettre a jour les donnees de la partie !"<<endl;
         return false;
     }
 
@@ -121,7 +121,7 @@ bool System::newGame(string petName)
         cerr<<"error #"<<saveDoc.ErrorId()<<" : "<<saveDoc.ErrorDesc()<<endl;
         return false;
     }
-    
+
     //on édite le fichier répertoriant les sauvegardes
     string Info="info";
 	ofstream fileInfo(Info.c_str(), ios::in);
@@ -344,7 +344,7 @@ void System::newGameMenu()
     interface->displayNewGame();
     string event;
     bool loop=false;
-    
+
     do
     {
 		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
@@ -352,7 +352,7 @@ void System::newGameMenu()
 		{
 			cout<<"Event quit"<<endl;
 		}
-		
+
 		else if(event == "startNewGame")
 		{
 			string petName;
@@ -373,20 +373,20 @@ void System::newGameMenu()
 				}
 			}
 		}
-		
+
 		else if(event == "mainMenu")
 		{
 			mainMenu();
 		}
-		
+
 		else
 		{
 			cerr<<"System (newGameMenu) > Evenement inconnu ignore: "<<event<<endl;
 			loop=true;
 		}
-		
+
 	} while(loop==true);//on boucle tant qu'un evenement connu (dont on a prévu les effets) ne survient pas
-	
+
 }
 
 void System::loadGameMenu()
@@ -394,7 +394,7 @@ void System::loadGameMenu()
     interface->displayLoadGame();
     string event;
     bool loop;
-    
+
     do
     {
     	loop=false;
@@ -408,7 +408,7 @@ void System::loadGameMenu()
 		{
 			mainMenu();
 		}
-		
+
 		else //si l'event n'est pas un bouton prédéfini (ci-dessus) c'est que le joueur à cliqué sur une partie à charger ou qu'un évènement inconnu s'est produit
 		{
 			if(!loadGame(event))
@@ -421,7 +421,7 @@ void System::loadGameMenu()
 				runGame();
 			}
 		}
-		
+
 	}while(loop==true);
 
 }
@@ -429,12 +429,12 @@ void System::loadGameMenu()
 void System::runGame()
 {
 	cout<<"Braaa le jeu roule ma poule #"<<pet->getName()<<endl;
-	
+
 	string event;
     bool loop;
-    
+
     interface->displayGame(pet);
-    
+
     do
     {
     	loop=false;
@@ -444,19 +444,19 @@ void System::runGame()
 			cout<<"Event quit"<<endl;
 			saveGame();
 		}
-		
+
 		else if(event == "displayGame") //Relié au bouton "retour" dans GUI::displayGauges
 		{
-			interface->displayGame(pet);	
+			interface->displayGame(pet);
 			loop = true;
 		}
-		
+
 		else if(event == "displayGauges") //Relié au bouton "displayGauges" dans GUI::displayGame
 		{
-			interface->displayGauges(pet);	
+			interface->displayGauges(pet);
 			loop = true;
 		}
-			
+
 		else if(event == "feed")
 		{
 			cout<<"feed"<<endl;
@@ -468,100 +468,159 @@ void System::runGame()
 			cout<<"giveDrink"<<endl;
 			giveDrink(1);
 		}
-		
+
 		else if(event == "wakeUp")
 		{
 			cout<<"wakeUp"<<endl;
 			wakeUp();
 		}
-		
+
 		else if(event == "heal")
 		{
 			cout<<"heal"<<endl;
 			heal(1);
 		}
-		
+
 		else if(event == "wash")
 		{
 			cout<<"wash"<<endl;
 			wash(1);
 		}
-		
+
 		else if(event == "playMini")
 		{
 			cout<<"playMini"<<endl;
 			playMini();
 		}
-		
+
 		else if(event == "goOut")
 		{
 			cout<<"goOut"<<endl;
 			goOut();
 		}
-		
+
 		else if(event == "doBusiness")
 		{
 			cout<<"doBusiness"<<endl;
 			doBusiness(1);
 		}
-		
+
 		else
 		{
 			cerr<<"System (runGame) > Evenement inconnu ignore: "<<event<<endl;
 			loop=true;
 		}
-		
+
 	} while(loop==true);
 }
 
 void System::feed(int n)
 {
-	pet->setHunger(pet->getHunger()-n);
+    if(pet->getHunger()<25) //si le Tamagotchi n'avait pas faim
+    {
+        pet->setMood(pet->getMood()-10); //son humeur diminue
+        pet->setAffection(pet->getAffection()-2);
+        //possibilité de tomber malade
+    }
+    else pet->setAffection(pet->getAffection()+2); //si le Tamagotchi avait faim son affection augmente
+
+	pet->setHunger(pet->getHunger()-n); //on le nourrit
+	pet->setBusiness(pet->getBusiness()+n/2); //augmentation des petits besoins
 }
 
 void System::giveDrink(int n)
 {
+    if(pet->getThirst()<25) //si le Tamagotchi n'avait pas soif
+    {
+        pet->setMood(pet->getMood()-5); //son humeur diminue
+        pet->setAffection(pet->getAffection()-1);
+        //faible possibilité de tomber malade
+    }
+    else pet->setAffection(pet->getAffection()+1); //si le Tamagotchi avait soif son affection augmente
+
 	pet->setThirst(pet->getThirst()-n);
+	pet->setBusiness(pet->getBusiness()+n/2); //augmentation des petits besoins
+}
+
+void System::doBusiness()
+{
+    //si le Tamagotchi n'avait pas envie il ne fait pas ses petits besoins, sinon ils tombent à 0
+    if(pet->getBusiness()<25)
+    {
+        pet->setMood(pet->getMood()-5);
+    }
+
+	else
+    {
+        pet->setAffection(pet->getAffection()+1);
+        pet->setBusiness(0);
+    }
 }
 
 void System::wakeUp()
 {
-	pet->setSleep(false);
+    if(pet->getSleep()==true)//si le Tamagotchi dort
+    {
+        if(pet->getTiredness()>25) //si le Tamagotchi est toujours fatigué
+        {
+            pet->setMood(pet->getMood()- 5*pet->getTiredness()/25); //son humeur diminue (de -5 à -20)
+        }
+
+        pet->setSleep(false);
+    }
 }
 
 void System::heal(int n)
 {
-	pet->setLife(pet->getLife()+n);
+	//interragis avec disease pas avec life
 }
 
 void System::wash(int n)
 {
+    if(pet->getHygiene()<50 || (pet->getMood()<25 && pet->getTiredness()>75) )
+    {
+        pet->setMood(pet->getMood()-10);
+    }
+    else pet->setAffection(pet->getAffection()+1);
+
 	pet->setHygiene(pet->getHygiene()-n);
+	pet->setBusiness(pet->getBusiness()+n/4);
+}
+
+void System::play(int n)
+{
+    if(pet->getSocial()<25 && (pet->getMood()<25 || pet->getTiredness()>75) ) //si le Tamagotchi n'a pas envie de jouer et qu'il est de mauvaise humeur ou fatigué il refuse de jouer
+    {
+        pet->setMood(pet->getMood()-5);
+        pet->setAffection(pet->getAffection()-1);
+    }
+    else
+    {
+        pet->setSocial(pet->getSocial()-n);
+        pet->setAffection(pet->getAffection()+3);
+        pet->setTiredness(pet->getTiredness()+n/4);
+    }
 }
 
 void System::playMini()
 {
-	
+
 }
 
 void System::goOut()
 {
-	
+
 }
 
-void System::doBusiness(int n)
-{
-	pet->setBusiness(pet->getBusiness()-n);
-}
 
 void System::mainMenu()
 {
 	cout<<"Tamagotchi !"<<endl;
-    
+
     interface->displayMainMenu();
     string event;
     bool loop;
-    
+
     do
     {
     	loop=false;
@@ -570,7 +629,7 @@ void System::mainMenu()
 		{
 			cout<<"Event quit"<<endl;
 		}
-			
+
 		else if(event == "newGame")
 		{
 			cout<<"Nouvelle partie"<<endl;
@@ -582,13 +641,13 @@ void System::mainMenu()
 			cout<<"Charger partie"<<endl;
 			loadGameMenu();
 		}
-		
+
 		else
 		{
 			cerr<<"System (mainMenu) > Evenement inconnu ignore: "<<event<<endl;
 			loop=true;
 		}
-		
+
 	} while(loop==true);
 
 }
