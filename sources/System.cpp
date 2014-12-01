@@ -124,8 +124,7 @@ bool System::newGame(string petName)
 
     //on édite le fichier répertoriant les sauvegardes
     string Info="info";
-	ofstream fileInfo(Info.c_str(), ios::in);
-	fileInfo.seekp(0,ios::end);
+	ofstream fileInfo(Info.c_str(), ios::app);
 	fileInfo << saveName << "\n";
 	fileInfo.close();
 
@@ -502,7 +501,7 @@ void System::runGame()
 		else if(event == "doBusiness")
 		{
 			cout<<"doBusiness"<<endl;
-			doBusiness(1);
+			doBusiness();
 		}
 
 		else
