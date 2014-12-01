@@ -37,6 +37,24 @@ bool System::update(const time_t &lastTime)
         pet->setSocial( pet->getSocial() + socialDecay*elapsedTime );
         pet->setHygiene( pet->getHygiene() + hygieneDecay*elapsedTime );
         pet->setBusiness( pet->getBusiness() + businessDecay*elapsedTime );
+        
+        int m=0;
+        if (pet->getThirst() >= 90) { m++; }
+        if (pet->getHunger() >= 90) { m++; }
+        if (pet->getTiredness() >= 90) { m++; }
+        if (pet->getHygiene() >= 90) { m++; }
+        if (pet->getBusiness() >= 90) { m++; }
+        if (pet->getThirst() >= 80) { m++; }
+        if (pet->getHunger() >= 80) { m++; }
+        if (pet->getTiredness() >= 80) { m++; }
+        if (pet->getHygiene() >= 80) { m++; }
+        if (pet->getBusiness() >= 80) { m++; }
+        if (pet->getThirst() >= 70) { m++; }
+        if (pet->getHunger() >= 70) { m++; }
+        if (pet->getTiredness() >= 70) { m++; }
+        if (pet->getHygiene() >= 70) { m++; }
+        if (pet->getBusiness() >= 70) { m++; }
+        pet->setLife(pet->getLife()-(elapsedTime*(m*(5/(60*60)))));
     }
     return true;
 }
