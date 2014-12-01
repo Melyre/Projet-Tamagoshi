@@ -333,6 +333,38 @@ bool System::saveGame()
     return true;
 }
 
+bool System::deleteGame(string saveFile)
+{
+	int i=0;
+	string line="";
+	string contents="";
+	ifstream file("info", ios::in);
+	ofstream fileInfo;
+	if (file)
+	{
+		file.seekg(0,ios::beg);
+		while ((getline(file, line)) && (line != saveFile)) { contents+=line+'\n'; }
+		if (line != saveFile) { return false; }
+		else
+		{
+			while (getline(file, line)) { contents+=line+'\n'; }
+			string Info="info";
+			fileInfo.open(Info.c_str(), ios::trunc);
+			if (fileInfo)
+			{
+				fileInfo << contents;
+				fileInfo.close();
+				char f[100];
+				for (i = 0; i < saveFile.length() ; i++) { f[i]=saveFile[i]; }
+				remove(saveFile.c_str());
+				return true;
+			}
+			else { return false; }
+		}
+	}
+	else { return false; }
+}
+
 
 /***************************************
 *********** ECRANS DE JEU **************
@@ -418,6 +450,44 @@ void System::loadGameMenu()
 			else //si le chargement s'est bien passé
 			{
 				runGame();
+			}
+		}
+
+	}while(loop==true);
+
+}
+
+void System::deleteGameMenu()
+{
+    interface->displayDeleteGame();
+    string event;
+    bool loop;
+
+    do
+    {
+    	loop=false;
+		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
+		if(event == "quit")
+		{
+			cout<<"Event quit"<<endl;
+		}
+
+		else if(event == "mainMenu")
+		{
+			mainMenu();
+		}
+
+		else //si l'event n'est pas un bouton prédéfini (ci-dessus) c'est que le joueur à cliqué sur une partie à supprimer ou qu'un évènement inconnu s'est produit
+		{
+			if(!deleteGame(event))
+			{
+				cerr<<"System (deleteGameMenu) > Sauvegarde introuvable ou evenement inconnu: "<<event<<endl;
+				loop=true;
+			}
+			else //si le chargement s'est bien passé
+			{
+				cout << "Partie supprimer" << endl;
+				mainMenu();
 			}
 		}
 
@@ -639,6 +709,12 @@ void System::mainMenu()
 		{
 			cout<<"Charger partie"<<endl;
 			loadGameMenu();
+		}
+		
+		else if(event == "deleteGame")
+		{
+			cout<<"Delete partie"<<endl;
+			deleteGameMenu();
 		}
 
 		else

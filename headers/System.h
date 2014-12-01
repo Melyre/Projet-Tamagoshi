@@ -8,6 +8,7 @@
 #include <string>
 #include <ctime>
 #include <sstream>
+#include <stdio.h>
 #include "GUI.h"
 #include "../includes/tinyxml/tinystr.h"
 #include "../includes/tinyxml/tinyxml.h"
@@ -142,6 +143,13 @@ class System
 	*	\return False si impossible de charger la sauvegarde, true sinon.
 	*/
         bool loadGame(string saveFile);
+        
+	/*!
+	*	\brief Fonction supprimant une partie.
+	*
+	* 	\return False si impossible de supprimer la sauvegarde, true sinon.
+	*/
+        bool deleteGame(string saveFile);
 
 
     //Ecrans, menus
@@ -161,11 +169,18 @@ class System
         void newGameMenu ();
 
    	/*!
-	*	\brief Menu de création d'une nouvelle partie
+	*	\brief Menu de chargement d'une partie
 	*
 	*	Cette fonction appelle l'affichage du menu Charger partie (voir classe GUI) et gere les fonctionalites de ce menu.
 	*/
         void loadGameMenu ();
+        
+    /*!
+	*	\brief Menu de Suppression d'une partie
+	*
+	*	Cette fonction appelle l'affichage du menu Supprimer partie (voir classe GUI) et gere les fonctionalites de ce menu.
+	*/
+        void deleteGameMenu ();
 
 	/*!
 	*	\brief Fonction qui fait tourner la partie.

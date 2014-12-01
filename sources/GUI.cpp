@@ -215,9 +215,15 @@ void GUI::displayMainMenu()
     SDL_BlitSurface(text, NULL, screen, &position);
     addButton(position,"loadGame");
     
-    text = TTF_RenderText_Blended(font, "Quitter", WHITE);
+    text = TTF_RenderText_Blended(font, "Supprimer partie", WHITE);
     position.x = screen->w/2 - text->w/2;
     position.y = 225;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"deleteGame");
+    
+    text = TTF_RenderText_Blended(font, "Quitter", WHITE);
+    position.x = screen->w/2 - text->w/2;
+    position.y = 300;
     SDL_BlitSurface(text, NULL, screen, &position);
     addButton(position,"quit");
     
@@ -322,6 +328,72 @@ void GUI::displayLoadGame()
 	}
 	
 	text = TTF_RenderText_Blended(font, "Charger partie", WHITE);
+	position.x = screen->w/2 - text->w/2;
+    position.y = 0;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    
+    //on cherche dans le fichier les sauvegardes existantes
+    string line;
+    ifstream file("info", ios::in);
+	file.seekg(0,ios::beg);
+	while (getline(file, line)) { }
+	file.clear();
+	int currentHeight=100;
+	if (file.tellg() == 0)
+	{
+		text = TTF_RenderText_Blended(font, "Vous n'avez aucune sauvegarde", WHITE);
+		position.x = screen->w/2 - text->w/2;
+		position.y = currentHeight;
+		SDL_BlitSurface(text, NULL, screen, &position);
+	}
+	else
+	{
+		file.seekg(0,ios::beg);
+		while (getline(file, line))
+		{
+			text = TTF_RenderText_Blended(font, line.c_str(), WHITE);
+			position.x = screen->w/2 - text->w/2;
+			position.y = currentHeight;
+			SDL_BlitSurface(text, NULL, screen, &position);
+			addButton(position,line);
+			currentHeight += text->h + 20;
+		}
+	}
+    
+    text = TTF_RenderText_Blended(font, "Retour", WHITE);
+    position.x = screen->w/2 - text->w/2;
+    position.y = screen->h - text->h - 10;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"mainMenu");
+    
+    //SDL_Flip(screen); //SDL 1
+    SDL_UpdateWindowSurface(window); //SDL2
+    SDL_StartTextInput();
+
+	TTF_Quit();	
+}
+
+void GUI::displayDeleteGame()
+{
+	clearScreen();
+
+	SDL_Surface *text=NULL, *background=NULL;
+    SDL_Rect position;
+	
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	
+	text = TTF_RenderText_Blended(font, "Supprimer partie", WHITE);
 	position.x = screen->w/2 - text->w/2;
     position.y = 0;
     SDL_BlitSurface(text, NULL, screen, &position);

@@ -59,6 +59,7 @@ class GUI
         void displayGame(Tamagotchi *pet);
         void displayGauges(Tamagotchi *pet);
         int displayGauge(Tamagotchi *pet, int type, int topMarge);
+        void displayDeleteGame();
         
         void updateAll();
         void updateLocation();
