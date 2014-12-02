@@ -19,7 +19,7 @@ System::System()
 bool System::update(const time_t &lastTime)
 {
 	time_t currentTime=time(NULL);
-    int elapsedTime=difftime(currentTime,lastTime); //Calcul du temps ecoule depuis la derniere sauvegarde
+    float elapsedTime=difftime(currentTime,lastTime); //Calcul du temps ecoule depuis la derniere sauvegarde
     cout<<"System (update) > Temps ecoule : "<<elapsedTime<<" secondes."<<endl;
 
     if(elapsedTime<0)//si la sauvegarde est posterieure a la date actuelle (travel time!)
@@ -41,13 +41,8 @@ bool System::update(const time_t &lastTime)
         //Fatigue, sommeil
         if(!pet->getSleep()) //si le Tamagotchi ne dormait pas avant la sauvegarde
         {
-<<<<<<< HEAD
         	float missingTiredness = 100 - pet->getTiredness();
         	float tirednessIncrease = tirednessDecay * elapsedTime;
-=======
-        	int missingTiredness = 100 - pet->getTiredness();
-        	int tirednessIncrease = tirednessDecay * elapsedTime;
->>>>>>> origin/master
         	if(tirednessIncrease < missingTiredness)
         	{
         		pet->setTiredness( pet->getTiredness() + tirednessIncrease );
@@ -62,11 +57,7 @@ bool System::update(const time_t &lastTime)
         
         else //si le Tamagotchi dormait pas avant la sauvegarde
         {
-<<<<<<< HEAD
         	float tirednessDecrease = tirednessDecay * elapsedTime;
-=======
-        	int tirednessDecrease = tirednessDecay * elapsedTime;
->>>>>>> origin/master
         	if(tirednessDecrease < pet->getTiredness())
         	{
         		pet->setTiredness( pet->getTiredness() - tirednessDecrease );
@@ -79,8 +70,6 @@ bool System::update(const time_t &lastTime)
         	}
         }
         
-        
-<<<<<<< HEAD
         int m=0;
         if (pet->getThirst() >= 90) { m++; }
         if (pet->getHunger() >= 90) { m++; }
@@ -97,8 +86,8 @@ bool System::update(const time_t &lastTime)
         if (pet->getTiredness() >= 70) { m++; }
         if (pet->getHygiene() >= 70) { m++; }
         if (pet->getBusiness() >= 70) { m++; }
-        if (m != 0) { pet->setLife(pet->getLife()-(elapsedTime*(m*(5/(60*60))))); }
-        else { pet->setLife(pet->getLife()+(elapsedTime*(5/(60*60)))); }
+        if (m != 0) { pet->setLife(pet->getLife()-((elapsedTime*60.0)*(m*(5.0/(60.0*60.0))))); }
+        else { pet->setLife(pet->getLife()+((elapsedTime*60.0)*(5.0/(60.0*60.0)))); }
     }
     
     lastUpdate=currentTime;
@@ -108,7 +97,7 @@ bool System::update(const time_t &lastTime)
 bool System::update()
 {
 	time_t currentTime=time(NULL);
-    int elapsedTime=difftime(currentTime,lastUpdate); //Calcul du temps ecoule depuis la derniere sauvegarde
+    float elapsedTime=difftime(currentTime,lastUpdate); //Calcul du temps ecoule depuis la derniere sauvegarde
     cout<<"System (update) > Temps ecoule : "<<elapsedTime<<" secondes."<<endl;
 
     if(elapsedTime<0)//si la date est posterieure à la date actuelle (travel time!)
@@ -161,8 +150,6 @@ bool System::update()
         	}
         }
         
-=======
->>>>>>> origin/master
         int m=0;
         if (pet->getThirst() >= 90) { m++; }
         if (pet->getHunger() >= 90) { m++; }
@@ -179,94 +166,23 @@ bool System::update()
         if (pet->getTiredness() >= 70) { m++; }
         if (pet->getHygiene() >= 70) { m++; }
         if (pet->getBusiness() >= 70) { m++; }
-        if (m != 0) { pet->setLife(pet->getLife()-(elapsedTime*(m*(5/(60*60))))); }
-        else { pet->setLife(pet->getLife()+(elapsedTime*(5/(60*60)))); }
+        
+        cout << "life = " << pet->getLife() << endl;
+        
+        if (m != 0) { pet->setLife(pet->getLife()-((elapsedTime*60.0)*(m*(5.0/(60.0*60.0))))); }
+        else { pet->setLife(pet->getLife()+((elapsedTime*60.0)*(5.0/(60.0*60.0)))); }
+        
+        cout << "variation = " << ((elapsedTime*60.0)*(m*(5.0/(60.0*60.0)))) << endl;
+        cout << "life = " << pet->getLife() << endl;
+        cout << "pet->getBusiness() = " << pet->getBusiness() << endl;
+        cout << "m = " << m << endl;
+        cout << "elapsedTime = "  << elapsedTime << endl;
+        long double test=(5.0/(60.0*60.0));
+        cout << "(5/(60*60)) = " << test << endl;
+        
     }
     
     lastUpdate=currentTime;
-<<<<<<< HEAD
-=======
-    return true;
-}
-
-bool System::update()
-{
-	time_t currentTime=time(NULL);
-    int elapsedTime=difftime(currentTime,lastUpdate); //Calcul du temps ecoule depuis la derniere sauvegarde
-    cout<<"System (update) > Temps ecoule : "<<elapsedTime<<" secondes."<<endl;
-
-    if(elapsedTime<0)//si la date est posterieure à la date actuelle (travel time!)
-    {
-        cerr<<"System (update) > Erreur: La date de derniere mise a jour est plus recente que la date actuelle("<<elapsedTime<<"), le systeme n'est peut-etre pas a l'heure."<<endl;
-        cerr<<"System (update) > Impossible de mettre a jour les donnees de la partie !"<<endl;
-        return false;
-    }
-
-    if(elapsedTime>0)//comme ça si elapsedTime==0 on ne fait rien (ne devrait pas arriver)
-    {
-        elapsedTime/=60;//conversion en minutes
-        
-        //Mise à jour des stats du Tamagotchi
-        pet->setThirst( pet->getThirst() + thirstDecay*elapsedTime );
-        pet->setHunger( pet->getHunger() + hungerDecay*elapsedTime );
-        pet->setSocial( pet->getSocial() + socialDecay*elapsedTime );
-        pet->setHygiene( pet->getHygiene() + hygieneDecay*elapsedTime );
-        pet->setBusiness( pet->getBusiness() + businessDecay*elapsedTime );
-        
-         //Fatigue, sommeil
-        if(!pet->getSleep()) //si le Tamagotchi ne dormait pas avant le dernier update
-        {
-        	int missingTiredness = 100 - pet->getTiredness();
-        	int tirednessIncrease = tirednessDecay * elapsedTime;
-        	if(tirednessIncrease < missingTiredness)
-        	{
-        		pet->setTiredness( pet->getTiredness() + tirednessIncrease );
-        	}
-        	else
-        	{
-        		tirednessIncrease -= missingTiredness;
-        		pet->setTiredness(100 - tirednessIncrease);
-        		if(pet->getTiredness()>0) pet->setSleep(true);
-        	}
-        }
-        
-        else //si il dormait
-        {
-        	int tirednessDecrease = tirednessDecay * elapsedTime;
-        	if(tirednessDecrease < pet->getTiredness())
-        	{
-        		pet->setTiredness( pet->getTiredness() - tirednessDecrease );
-        	}
-        	else
-        	{
-        		tirednessDecrease -= pet->getTiredness();
-        		pet->setTiredness(0 + tirednessDecrease);
-        		if(pet->getTiredness()<100) pet->setSleep(false);
-        	}
-        }
-        
-        int m=0;
-        if (pet->getThirst() >= 90) { m++; }
-        if (pet->getHunger() >= 90) { m++; }
-        if (pet->getTiredness() >= 90) { m++; }
-        if (pet->getHygiene() >= 90) { m++; }
-        if (pet->getBusiness() >= 90) { m++; }
-        if (pet->getThirst() >= 80) { m++; }
-        if (pet->getHunger() >= 80) { m++; }
-        if (pet->getTiredness() >= 80) { m++; }
-        if (pet->getHygiene() >= 80) { m++; }
-        if (pet->getBusiness() >= 80) { m++; }
-        if (pet->getThirst() >= 70) { m++; }
-        if (pet->getHunger() >= 70) { m++; }
-        if (pet->getTiredness() >= 70) { m++; }
-        if (pet->getHygiene() >= 70) { m++; }
-        if (pet->getBusiness() >= 70) { m++; }
-        if (m != 0) { pet->setLife(pet->getLife()-(elapsedTime*(m*(5/(60*60))))); }
-        else { pet->setLife(pet->getLife()+(elapsedTime*(5/(60*60)))); }
-    }
-    
-    lastUpdate=currentTime;
->>>>>>> origin/master
     return true;
 }
 
@@ -784,10 +700,7 @@ void System::runGame()
 		{
 			cout<<"doBusiness"<<endl;
 			doBusiness();
-<<<<<<< HEAD
 			interface->displayGame(pet);
-=======
->>>>>>> origin/master
 		}
 
 		else if(event == "wakeUp")
