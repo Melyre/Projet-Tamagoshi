@@ -24,6 +24,7 @@ class GUI
 {
 	//Constantes couleurs
 	static SDL_Color BLACK;
+	static SDL_Color BLUE;
 	static SDL_Color WHITE;
 	static SDL_Color LIGHTGREY;
 	

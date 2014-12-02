@@ -4,6 +4,7 @@
 SDL_Color GUI::BLACK = {0, 0, 0};
 SDL_Color GUI::WHITE = {255, 255, 255};
 SDL_Color GUI::LIGHTGREY = {204,200,186};
+SDL_Color GUI::BLUE = {0,0,255};
 /*SDL_Cursor * GUI::ARROW = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
 SDL_Cursor * GUI::POINTER = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);*/
 
@@ -200,7 +201,7 @@ void GUI::displayMainMenu()
 		return;
 	}
 	
-	text = TTF_RenderText_Blended(font, "Tamagotchi", WHITE); //création d'une surface contenant un texte
+	text = TTF_RenderText_Blended(font, "Tamagotchi", BLUE); //création d'une surface contenant un texte
 	position.x = screen->w/2 - text->w/2; //positionnement horizontal (ici au centre de la fenetre)
 	position.y = 0; //positionnement vertical (ici tout en haut de la fenetre)
     SDL_BlitSurface(text, NULL, screen, &position); //on applique la surface text entière sur notre fenetre (modification faites seulement en mémoire pour le moment)
@@ -972,7 +973,7 @@ void GUI::displayDead()
     position.x = screen->w/2 - text->w/2;
     position.y = 100;
     SDL_BlitSurface(text, NULL, screen, &position);
-    addButton(position,"mainMenu");
+    addButton(position,"menu");
     
     //SDL_Flip(screen); //SDL 1
     SDL_UpdateWindowSurface(window); //SDL2
