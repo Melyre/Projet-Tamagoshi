@@ -169,6 +169,18 @@ bool System::update()
         if (m != 0) { pet->setLife(pet->getLife()-((elapsedTime*60.0)*(m*(5.0/(60.0*60.0))))); }
         else { pet->setLife(pet->getLife()+((elapsedTime*60.0)*(5.0/(60.0*60.0)))); }
         
+		if (pet->getDisease() == NULL)
+		{
+			srand( time (NULL) );
+			int dis=rand()%1000000;
+			if (dis == 577025)
+			{
+				int progression=rand()%51;
+				Disease *D=new Disease(progression);
+				pet->setDisease(D);
+			}
+		}
+        
     }
     
     lastUpdate=currentTime;
