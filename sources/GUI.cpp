@@ -244,14 +244,14 @@ void GUI::displayNewGame()
 	
 	if(TTF_Init() == -1)
 	{
-		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		cout<<"error in GUI::displayNewGame, TTF_Init failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	TTF_Font *font=NULL;
 	font = TTF_OpenFont("../arial.ttf", 22);
 	if(font == NULL)
 	{
-		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		cout<<"error in GUI::displayNewGame, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	
@@ -318,14 +318,14 @@ void GUI::displayLoadGame()
 	
 	if(TTF_Init() == -1)
 	{
-		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		cout<<"error in GUI::displayLoadGame, TTF_Init failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	TTF_Font *font=NULL;
 	font = TTF_OpenFont("../arial.ttf", 22);
 	if(font == NULL)
 	{
-		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		cout<<"error in GUI::displayLoadGame, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	
@@ -384,14 +384,14 @@ void GUI::displayDeleteGame()
 	
 	if(TTF_Init() == -1)
 	{
-		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		cout<<"error in GUI::displayDeleteGame, TTF_Init failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	TTF_Font *font=NULL;
 	font = TTF_OpenFont("../arial.ttf", 22);
 	if(font == NULL)
 	{
-		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		cout<<"error in GUI::displayDeleteGame, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	
@@ -456,14 +456,14 @@ void GUI::displayGame(Tamagotchi * pet)
 	
 	if(TTF_Init() == -1)
 	{
-		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		cout<<"error in GUI::displayGame, TTF_Init failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 	TTF_Font *font=NULL;
 	font = TTF_OpenFont("../arial.ttf", 22);
 	if(font == NULL)
 	{
-		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		cout<<"error in GUI::displayGame, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
 		return;
 	}
 
@@ -518,7 +518,7 @@ void GUI::displayGame(Tamagotchi * pet)
 		iPosition.x = screen->w - 2 * image->w - 10;
 		iPosition.y = 6 + 2 * image->h;
 		SDL_BlitSurface(image, NULL, screen, &iPosition);
-		addButton(iPosition,"playMini");
+		addButton(iPosition,"play");
 	
 		image = IMG_Load("../images/sortirR.png"); //Sortir
 		iPosition.x = screen->w - image->w - 5;

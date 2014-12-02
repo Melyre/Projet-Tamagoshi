@@ -42,6 +42,7 @@ class System
 	string saveName;	/*! Nom de la sauvegarde chargee dans le systeme. */
 	float timeSpeed;	/*! Vitesse a laquelle s'ecoule le temps dans le jeu. */
 	string weather;		/*! Temps qu'il fait dans le jeu. */
+	time_t lastUpdate;
 	bool endGame;		/*! Variable qui previent la fonction rungame que le jeu doit s'interrompre (retour menu). */
 	bool endProgram;	/*! Variable qui previent la fonction principale que le programme doit s'interrompre. */
 
@@ -200,8 +201,10 @@ class System
 
 	/*!
 	*	\brief Fonction qui update tres regulierement les donnees du Tamagotchi (changement des jauges et etats) en fonction du temps ecoule.
+	*
+	*	\return False en cas d'erreur, true sinon.
 	*/
-        void update ();
+        bool update ();
 
 
 	//Actions du joueur
