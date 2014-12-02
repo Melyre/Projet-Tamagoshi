@@ -514,6 +514,7 @@ void System::newGameMenu()
 
     do
     {
+		if (pet->getLife() <= 0.0) { interface->displayDead(); }
 		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
 		if(event == "quit")
 		{
