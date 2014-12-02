@@ -514,7 +514,6 @@ void System::newGameMenu()
 
     do
     {
-		if (pet->getLife() <= 0.0) { interface->displayDead(); }
 		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
 		if(event == "quit")
 		{
@@ -646,6 +645,7 @@ void System::runGame()
     do
     {
     	loop=true;
+    	if (pet->getLife() <= 0.0) { interface->displayDead(); }
 		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
 		update(); //dès que l'on sort de l'attente d'un evenement on met a jour les stats du pet
 		if(event == "quit")
