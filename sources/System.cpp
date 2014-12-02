@@ -175,9 +175,26 @@ bool System::update()
 			int dis=rand()%1000000;
 			if (dis == 577025)
 			{
-				int progression=rand()%51;
+				float progression=rand()%51;
 				Disease *D=new Disease(progression);
 				pet->setDisease(D);
+			}
+		}
+		else
+		{
+			if (pet->getDisease()->getVet() == false) {  pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0)))); }
+			else
+			{
+				float healTime=difftime(pet->getDisease()->getLastHeal(),lastUpdate);
+				if (healTime < pet->getDisease()->getInterval())
+				{
+					pet->getDisease()->setProgression(pet->getDisease()->getProgression()-(healTime*(20.0/(60.0*60.0))));
+				}
+				else
+				{
+					pet->getDisease()->setProgression(pet->getDisease()->getProgression()-(pet->getDisease()->getInterval()*(20.0/(60.0*60.0))));
+					pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0))));
+				}
 			}
 		}
         
