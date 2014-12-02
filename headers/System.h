@@ -123,7 +123,7 @@ class System
 	*
 	*	\return False si il y a une erreur, true sinon.
 	*/
-        bool newGame (string petName);
+        bool newGame (string petName, string petRace);
 
 	/*!
 	*	\brief Fonction qui supprime une sauvegarde XML.

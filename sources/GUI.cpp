@@ -309,6 +309,47 @@ void GUI::displayNewGame()
 	TTF_Quit();	
 }
 
+
+void GUI::displayNewGameRace()
+{
+	clearScreen();
+
+	SDL_Surface *text=NULL, *background=NULL;
+    SDL_Rect position;
+	
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayLoadGame, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayLoadGame, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	
+	text = TTF_RenderText_Blended(font, "Choisissez une race", WHITE);
+	position.x = screen->w/2 - text->w/2;
+    position.y = 0;
+    SDL_BlitSurface(text, NULL, screen, &position);   
+    
+    text = TTF_RenderText_Blended(font, "chat", WHITE);
+    position.x = screen->w/2 - text->w/2;
+    position.y = 100;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"chat");
+    
+    //SDL_Flip(screen); //SDL 1
+    SDL_UpdateWindowSurface(window); //SDL2
+    SDL_StartTextInput();
+
+	TTF_Quit();	
+}
+
+
+
 void GUI::displayLoadGame()
 {
 	clearScreen();

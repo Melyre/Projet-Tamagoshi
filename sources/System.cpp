@@ -180,7 +180,7 @@ bool System::update()
 ********* GESTION SAUVEGARDES **********
 ****************************************/
 
-bool System::newGame(string petName)
+bool System::newGame(string petName, string petRace)
 {
     TiXmlDocument saveDoc;
 
@@ -212,7 +212,7 @@ bool System::newGame(string petName)
 
     //Creation du tamagotchi
     string raceChoice;
-    pet=new Tamagotchi("chat",petName);
+    pet=new Tamagotchi(petRace,petName);
     TiXmlElement *petSave = new TiXmlElement("tamagotchi");
 
     //Modification des attributs du Tamagotchi
@@ -528,8 +528,10 @@ void System::newGameMenu()
 			if(petName.size()<2) cout<<"Nom trop court !"<<endl;
 			else
 			{
+				interface->displayNewGameRace();
+				event=interface->waitEvent();
 				cout<<"Création du ficher de sauvegarde en cours...";
-				if(!newGame(petName)) //on crée la sauvegarde
+				if(!newGame(petName, event)) //on crée la sauvegarde
 				{
 					cerr<<"System (newGameMenu) > Erreur, impossible de créer une nouvelle partie."<<endl;
 					loop=true;

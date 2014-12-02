@@ -57,6 +57,7 @@ class GUI
         
         void displayMainMenu();
         void displayNewGame();
+        void displayNewGameRace();
         void displayLoadGame();
         void displayGame(Tamagotchi *pet);
         void displayGauges(Tamagotchi *pet);
