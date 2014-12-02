@@ -45,7 +45,7 @@ void GUI::getTextInput(string &dest)
 
 string GUI::waitEvent()
 {
-    int stop = false;
+    bool stop = false;
     SDL_Event event;
  	string pressedButton(""), hoverButton("");
     while (!stop)
@@ -467,7 +467,7 @@ void GUI::displayGame(Tamagotchi * pet)
 		return;
 	}
 
-	int gaugeWidth(0), gaugeBgWidth(200);
+	float gaugeWidth(0), gaugeBgWidth(200);
 	SDL_Surface *image = NULL, *tama = NULL, *text = NULL, * gaugeBackground = NULL, * fillGauge = NULL, *bubble = NULL; 	
 	SDL_Rect position, textPosition, iPosition, tPosition, bPosition;
 	
@@ -485,7 +485,7 @@ void GUI::displayGame(Tamagotchi * pet)
 	tPosition.x = screen->w / 2 - tama->w / 2;
 	tPosition.y = screen->h - tama->h;
 	SDL_BlitSurface(tama, NULL, screen, &tPosition);
-	addButton(tPosition,"displayGauges");
+	if(!pet->getSleep())addButton(tPosition,"displayGauges");
 	
 	if(!pet->getSleep())
 	{
@@ -540,7 +540,7 @@ void GUI::displayGame(Tamagotchi * pet)
 		}
 
 		//Jauge Humeur
-		int res = pet->getMood();
+		float res = pet->getMood();
 		gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 30, 32, 0, 0, 0, 0); // Le fond de la jauge.
 		if(res == 0)SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,255,0,0));
 		else SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,0,0));
@@ -574,7 +574,7 @@ void GUI::displayGame(Tamagotchi * pet)
     else 
     {
     	//Jauge Humeur
-		int res2 = pet->getTiredness();
+		float res2 = pet->getTiredness();
 		gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 30, 32, 0, 0, 0, 0); // Le fond de la jauge.
 		if(res2 == 0)SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,204,0));
 		else SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,0,0));
@@ -647,12 +647,18 @@ void GUI::displayGame(Tamagotchi * pet)
 		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
 	}
 	
-    if(pet->getTiredness() > 90) //Soif
+    if(pet->getTiredness() > 90) //Fatigue
     {
 		bubble = IMG_Load("../images/thought2R.png"); //Bulle 2
 		bPosition.x = screen->w / 2 - tama->w / 2 - bubble->w;
 		bPosition.y = screen->h - tama->h / 2 - bubble->h;
 		
+		font = TTF_OpenFont("../arial.ttf", 22);
+		if(font == NULL)
+		{
+			cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+			return;
+		}
 		text = TTF_RenderText_Blended(font, "zzZZzzZZz", BLACK);
     	textPosition.x = bubble->w / 2 - text->w / 2;
    		textPosition.y = bubble->h / 2 - 24;
@@ -761,7 +767,8 @@ int GUI::displayGauge (Tamagotchi *pet, int type, int topMarge)
 	}	
 	
 	
-	int gaugeWidth(0), gaugeBgWidth(400), res(0);
+	float gaugeWidth(0), gaugeBgWidth(400), res(0);
+	int resI(0);
 	SDL_Surface *text = NULL, * gaugeBackground = NULL, * fillGauge = NULL; 	
 	SDL_Rect position, textPosition;
 	Uint32 color;
@@ -820,8 +827,8 @@ int GUI::displayGauge (Tamagotchi *pet, int type, int topMarge)
 			break;
 			
 		case 9:
-			res = pet->getLife();
-    		gaugeWidth = (gaugeBgWidth * res) / 100;
+			resI = pet->getLife();
+    		gaugeWidth = (gaugeBgWidth * resI) / 100;
     		text = TTF_RenderText_Blended(font, "Vie", BLACK);
 			break;
 	}
@@ -842,7 +849,7 @@ int GUI::displayGauge (Tamagotchi *pet, int type, int topMarge)
 		}
 		else color = SDL_MapRGB(screen->format,255,0,0);
 	}
-	else if(type >= 7)
+	else if((type == 7) || (type == 8))
 	{
 		if(res <= 30)
 		{
@@ -853,6 +860,22 @@ int GUI::displayGauge (Tamagotchi *pet, int type, int topMarge)
 			color = SDL_MapRGB(screen->format,247,132,0);
 		}
 		else if(res <= 90)
+		{
+			color = SDL_MapRGB(screen->format,242,255,0);
+		}
+		else color = SDL_MapRGB(screen->format,0,204,0);
+	}
+	else if(type == 9)
+	{
+		if(resI <= 30)
+		{
+			color = SDL_MapRGB(screen->format,255,0,0);
+		}
+		else if(resI <= 60)
+		{
+			color = SDL_MapRGB(screen->format,247,132,0);
+		}
+		else if(resI <= 90)
 		{
 			color = SDL_MapRGB(screen->format,242,255,0);
 		}

@@ -214,14 +214,14 @@ class System
 	*
 	*	\param n : definit de combien on nourrit le Tamagotchi.
 	*/
-        void feed (int n);
+        void feed (float n);
 
 	/*!
 	*	\brief Fonction pour donner a boire au Tamagotchi.
 	*
 	*	\param n : definit de combien on hydrate le Tamagotchi.
 	*/
-        void giveDrink (int n);
+        void giveDrink (float n);
 
     /*!
 	*	\brief Fonction pour laisser faire ses besoins au Tamagotchi.
@@ -247,14 +247,14 @@ class System
 	*
 	*	\param n : definit de combien on baisse la jauge d'hygiene.
 	*/
-        void wash (int n);
+        void wash (float n);
 
 	/*!
 	*	\brief Fonction pour jouer avec le Tamagotchi.
 	*
 	*	\param n : definit de combien on baisse la jauge sociale.
 	*/
-        void play (int n);
+        void play (float n);
 
 	/*!
 	*	\brief Fonction pour lancer un mini-jeu.

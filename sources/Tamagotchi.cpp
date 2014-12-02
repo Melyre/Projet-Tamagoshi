@@ -43,96 +43,96 @@ void Tamagotchi::setName(string name)
 	this->name=name;
 }
 
-int Tamagotchi::getThirst()
+float Tamagotchi::getThirst()
 {
 	return thirst;
 }
 
-void Tamagotchi::setThirst(int thirst)
+void Tamagotchi::setThirst(float thirst)
 {
     if(thirst<=0) this->thirst=0;
     else if(thirst>MAX_GAUGE_VALUE) this->thirst=MAX_GAUGE_VALUE;
 	else this->thirst=thirst;
 }
 
-int Tamagotchi::getHunger()
+float Tamagotchi::getHunger()
 {
 	return hunger;
 }
 
-void Tamagotchi::setHunger(int hunger)
+void Tamagotchi::setHunger(float hunger)
 {
     if(hunger<=0) this->hunger=0;
     else if(hunger>MAX_GAUGE_VALUE) this->hunger=MAX_GAUGE_VALUE;
 	else this->hunger=hunger;
 }
 
-int Tamagotchi::getTiredness()
+float Tamagotchi::getTiredness()
 {
 	return tiredness;
 }
 
-void Tamagotchi::setTiredness(int tiredness)
+void Tamagotchi::setTiredness(float tiredness)
 {
     if(tiredness<=0) this->tiredness=0;
     else if(tiredness>MAX_GAUGE_VALUE) this->tiredness=MAX_GAUGE_VALUE;
 	else this->tiredness=tiredness;
 }
 
-int Tamagotchi::getSocial()
+float Tamagotchi::getSocial()
 {
 	return social;
 }
 
-void Tamagotchi::setSocial(int social)
+void Tamagotchi::setSocial(float social)
 {
     if(social<=0) this->social=0;
     else if(social>MAX_GAUGE_VALUE) this->social=MAX_GAUGE_VALUE;
 	else this->social=social;
 }
 
-int Tamagotchi::getHygiene()
+float Tamagotchi::getHygiene()
 {
 	return hygiene;
 }
 
-void Tamagotchi::setHygiene(int hygiene)
+void Tamagotchi::setHygiene(float hygiene)
 {
     if(hygiene<=0) this->hygiene=0;
     else if(hygiene>MAX_GAUGE_VALUE) this->hygiene=MAX_GAUGE_VALUE;
 	else this->hygiene=hygiene;
 }
 
-int Tamagotchi::getBusiness()
+float Tamagotchi::getBusiness()
 {
 	return business;
 }
 
-void Tamagotchi::setBusiness(int business)
+void Tamagotchi::setBusiness(float business)
 {
     if(business<=0) this->business=0;
     else if(business>MAX_GAUGE_VALUE) this->business=MAX_GAUGE_VALUE;
 	else this->business=business;
 }
 
-int Tamagotchi::getMood()
+float Tamagotchi::getMood()
 {
 	return mood;
 }
 
-void Tamagotchi::setMood(int mood)
+void Tamagotchi::setMood(float mood)
 {
     if(mood<=0) this->mood=0;
     else if(mood>MAX_GAUGE_VALUE) this->mood=MAX_GAUGE_VALUE;
 	else this->mood=mood;
 }
 
-int Tamagotchi::getAffection()
+float Tamagotchi::getAffection()
 {
 	return affection;
 }
 
-void Tamagotchi::setAffection(int affection)
+void Tamagotchi::setAffection(float affection)
 {
 	this->affection=affection;
 }

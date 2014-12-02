@@ -41,8 +41,13 @@ bool System::update(const time_t &lastTime)
         //Fatigue, sommeil
         if(!pet->getSleep()) //si le Tamagotchi ne dormait pas avant la sauvegarde
         {
+<<<<<<< HEAD
+        	float missingTiredness = 100 - pet->getTiredness();
+        	float tirednessIncrease = tirednessDecay * elapsedTime;
+=======
         	int missingTiredness = 100 - pet->getTiredness();
         	int tirednessIncrease = tirednessDecay * elapsedTime;
+>>>>>>> origin/master
         	if(tirednessIncrease < missingTiredness)
         	{
         		pet->setTiredness( pet->getTiredness() + tirednessIncrease );
@@ -57,7 +62,11 @@ bool System::update(const time_t &lastTime)
         
         else //si le Tamagotchi dormait pas avant la sauvegarde
         {
+<<<<<<< HEAD
+        	float tirednessDecrease = tirednessDecay * elapsedTime;
+=======
         	int tirednessDecrease = tirednessDecay * elapsedTime;
+>>>>>>> origin/master
         	if(tirednessDecrease < pet->getTiredness())
         	{
         		pet->setTiredness( pet->getTiredness() - tirednessDecrease );
@@ -71,6 +80,7 @@ bool System::update(const time_t &lastTime)
         }
         
         
+<<<<<<< HEAD
         int m=0;
         if (pet->getThirst() >= 90) { m++; }
         if (pet->getHunger() >= 90) { m++; }
@@ -92,6 +102,90 @@ bool System::update(const time_t &lastTime)
     }
     
     lastUpdate=currentTime;
+    return true;
+}
+
+bool System::update()
+{
+	time_t currentTime=time(NULL);
+    int elapsedTime=difftime(currentTime,lastUpdate); //Calcul du temps ecoule depuis la derniere sauvegarde
+    cout<<"System (update) > Temps ecoule : "<<elapsedTime<<" secondes."<<endl;
+
+    if(elapsedTime<0)//si la date est posterieure à la date actuelle (travel time!)
+    {
+        cerr<<"System (update) > Erreur: La date de derniere mise a jour est plus recente que la date actuelle("<<elapsedTime<<"), le systeme n'est peut-etre pas a l'heure."<<endl;
+        cerr<<"System (update) > Impossible de mettre a jour les donnees de la partie !"<<endl;
+        return false;
+    }
+
+    if(elapsedTime>0)//comme ça si elapsedTime==0 on ne fait rien (ne devrait pas arriver)
+    {
+        elapsedTime/=60;//conversion en minutes
+        
+        //Mise à jour des stats du Tamagotchi
+        pet->setThirst( pet->getThirst() + thirstDecay*elapsedTime );
+        pet->setHunger( pet->getHunger() + hungerDecay*elapsedTime );
+        pet->setSocial( pet->getSocial() + socialDecay*elapsedTime );
+        pet->setHygiene( pet->getHygiene() + hygieneDecay*elapsedTime );
+        pet->setBusiness( pet->getBusiness() + businessDecay*elapsedTime );
+        
+         //Fatigue, sommeil
+        if(!pet->getSleep()) //si le Tamagotchi ne dormait pas avant le dernier update
+        {
+        	float missingTiredness = 100 - pet->getTiredness();
+        	float tirednessIncrease = tirednessDecay * elapsedTime;
+        	if(tirednessIncrease < missingTiredness)
+        	{
+        		pet->setTiredness( pet->getTiredness() + tirednessIncrease );
+        	}
+        	else
+        	{
+        		tirednessIncrease -= missingTiredness;
+        		pet->setTiredness(100 - tirednessIncrease);
+        		if(pet->getTiredness()>0) pet->setSleep(true);
+        	}
+        }
+        
+        else //si il dormait
+        {
+        	float tirednessDecrease = tirednessDecay * elapsedTime;
+        	if(tirednessDecrease < pet->getTiredness())
+        	{
+        		pet->setTiredness( pet->getTiredness() - tirednessDecrease );
+        	}
+        	else
+        	{
+        		tirednessDecrease -= pet->getTiredness();
+        		pet->setTiredness(0 + tirednessDecrease);
+        		if(pet->getTiredness()<100) pet->setSleep(false);
+        	}
+        }
+        
+=======
+>>>>>>> origin/master
+        int m=0;
+        if (pet->getThirst() >= 90) { m++; }
+        if (pet->getHunger() >= 90) { m++; }
+        if (pet->getTiredness() >= 90) { m++; }
+        if (pet->getHygiene() >= 90) { m++; }
+        if (pet->getBusiness() >= 90) { m++; }
+        if (pet->getThirst() >= 80) { m++; }
+        if (pet->getHunger() >= 80) { m++; }
+        if (pet->getTiredness() >= 80) { m++; }
+        if (pet->getHygiene() >= 80) { m++; }
+        if (pet->getBusiness() >= 80) { m++; }
+        if (pet->getThirst() >= 70) { m++; }
+        if (pet->getHunger() >= 70) { m++; }
+        if (pet->getTiredness() >= 70) { m++; }
+        if (pet->getHygiene() >= 70) { m++; }
+        if (pet->getBusiness() >= 70) { m++; }
+        if (m != 0) { pet->setLife(pet->getLife()-(elapsedTime*(m*(5/(60*60))))); }
+        else { pet->setLife(pet->getLife()+(elapsedTime*(5/(60*60)))); }
+    }
+    
+    lastUpdate=currentTime;
+<<<<<<< HEAD
+=======
     return true;
 }
 
@@ -172,6 +266,7 @@ bool System::update()
     }
     
     lastUpdate=currentTime;
+>>>>>>> origin/master
     return true;
 }
 
@@ -313,25 +408,27 @@ bool System::loadGame(string saveFile)
     //Recuperation des attributs du Tamagotchi
     pet->setRace(petSave->Attribute("race"));
     pet->setName(petSave->Attribute("name"));
+    
+    petSave->QueryFloatAttribute("thirst",&floatAttribute);
+    pet->setThirst(floatAttribute);
+    petSave->QueryFloatAttribute("hunger",&floatAttribute);
+    pet->setHunger(floatAttribute);
+    petSave->QueryFloatAttribute("tiredness",&floatAttribute);
+    pet->setTiredness(floatAttribute);
+    petSave->QueryFloatAttribute("social",&floatAttribute);
+    pet->setSocial(floatAttribute);
+    petSave->QueryFloatAttribute("hygiene",&floatAttribute);
+    pet->setHygiene(floatAttribute);
+    petSave->QueryFloatAttribute("business",&floatAttribute);
+    pet->setBusiness(floatAttribute);
+    petSave->QueryFloatAttribute("mood",&floatAttribute);
+    pet->setMood(floatAttribute);
+    cout << "ICIIIIIII:    " << floatAttribute << endl; 
+    petSave->QueryFloatAttribute("affection",&floatAttribute);
+    pet->setAffection(floatAttribute);
 
     int intAttribute;//pour pouvoir recuperer directement un int au lieu d'une string
 
-    petSave->QueryIntAttribute("thirst",&intAttribute);
-    pet->setThirst(intAttribute);
-    petSave->QueryIntAttribute("hunger",&intAttribute);
-    pet->setHunger(intAttribute);
-    petSave->QueryIntAttribute("tiredness",&intAttribute);
-    pet->setTiredness(intAttribute);
-    petSave->QueryIntAttribute("social",&intAttribute);
-    pet->setSocial(intAttribute);
-    petSave->QueryIntAttribute("hygiene",&intAttribute);
-    pet->setHygiene(intAttribute);
-    petSave->QueryIntAttribute("business",&intAttribute);
-    pet->setBusiness(intAttribute);
-    petSave->QueryIntAttribute("mood",&intAttribute);
-    pet->setMood(intAttribute);
-    petSave->QueryIntAttribute("affection",&intAttribute);
-    pet->setAffection(intAttribute);
     petSave->QueryIntAttribute("life",&intAttribute);
     pet->setLife(intAttribute);
 
@@ -687,6 +784,10 @@ void System::runGame()
 		{
 			cout<<"doBusiness"<<endl;
 			doBusiness();
+<<<<<<< HEAD
+			interface->displayGame(pet);
+=======
+>>>>>>> origin/master
 		}
 
 		else if(event == "wakeUp")
@@ -737,7 +838,7 @@ void System::runGame()
 	} while(loop==true);
 }
 
-void System::feed(int n)
+void System::feed(float n)
 {
     if(pet->getHunger()<25) //si le Tamagotchi n'avait pas faim
     {
@@ -751,7 +852,7 @@ void System::feed(int n)
 	pet->setBusiness(pet->getBusiness()+n/2); //augmentation des petits besoins
 }
 
-void System::giveDrink(int n)
+void System::giveDrink(float n)
 {
     if(pet->getThirst()<25) //si le Tamagotchi n'avait pas soif
     {
@@ -798,7 +899,7 @@ void System::heal(int n)
 	//interragis avec disease pas avec life
 }
 
-void System::wash(int n)
+void System::wash(float n)
 {
     if(pet->getHygiene()<50 || (pet->getMood()<25 && pet->getTiredness()>75) )
     {
@@ -810,7 +911,7 @@ void System::wash(int n)
 	pet->setBusiness(pet->getBusiness()+n/4);
 }
 
-void System::play(int n)
+void System::play(float n)
 {
     if(pet->getSocial()<25 && (pet->getMood()<25 || pet->getTiredness()>75) ) //si le Tamagotchi n'a pas envie de jouer et qu'il est de mauvaise humeur ou fatigué il refuse de jouer
     {
