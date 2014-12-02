@@ -89,6 +89,55 @@ string GUI::waitEvent()
     }
 }
 
+string GUI::waitEvent(int timeout)
+{
+	int start = SDL_GetTicks();
+	int current = start;
+    bool stop = false;
+    SDL_Event event;
+ 	string pressedButton(""), hoverButton("");
+    while (!stop)
+    {
+        while(SDL_PollEvent(&event));
+        {
+		    switch(event.type)
+		    {
+		        case SDL_QUIT: //croix / alt+f4...
+		            stop = true;
+		            return "quit";
+		            
+		        case SDL_MOUSEBUTTONUP: //clic
+		        	pressedButton=getButtonName(event.button.x,event.button.y); //on récupère le nom du bouton activé
+		        	//cout << "SPOTTED ! buttonclick" << endl;
+		        	if(pressedButton=="clearInput") //pour effacer les champs texte (newGame...)
+		        	{ 
+		        		textInput[0]='\0';
+		        	}
+		        	else if(!pressedButton.empty())
+		        	{
+		        		cout << "SPOTTED ! " << pressedButton << endl;
+		        		return pressedButton; //si on a cliqué sur un bouton on renvoie son nom
+		        	}
+		        	
+		        	break;
+		        	
+		        case SDL_MOUSEMOTION: //déplacement souris
+		        	hoverButton=getButtonName(event.button.x,event.button.y);
+		        	if(!hoverButton.empty()) switchCursor(POINTER); //si le curseur passe sur un élément cliquable il devient un pointeur
+		        	else switchCursor(ARROW); //sinon on le remet en curseur par défaut
+		        	break;
+		    }
+		    
+		    //timeout
+		    if(SDL_GetTicks()-start >= timeout)
+		    {
+		    	return "timeout";
+		    }
+		    else SDL_Delay(30); //courte pause pour ne pas surcharger le CPU
+		}
+    }
+}
+
 
 SDL_Rect GUI::centerPos(SDL_Surface *surface)
 {
@@ -146,36 +195,7 @@ void GUI::switchCursor(SDL_Cursor *cursor)
 	if(SDL_GetCursor()!=cursor) SDL_SetCursor(cursor); //si le curseur actuel est différent du nouveau curseur on change
 }
 
-/* A supprimer ?
-void GUI::updateInput(char * textInput)
-{
-	if(TTF_Init() == -1)
-	{
-		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
-		return;
-	}
-	TTF_Font *font=NULL;
-	font = TTF_OpenFont("../arial.ttf", 22);
-	if(font == NULL)
-	{
-		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
-		return;
-	}
-	
-	SDL_Surface *text = TTF_RenderText_Blended(font, textInput, WHITE);
-	SDL_Rect position;
-	position.x=input->w/2 - text->w/2;
-	position.y=input->h/2 - text->h/2;
-    SDL_BlitSurface(text, NULL, input, &position);
-    
-    position.x = screen->w/2 - text->w/2;
-    position.y = 225;
-    SDL_BlitSurface(input, NULL, screen, &position);
-    SDL_UpdateWindowSurface(window); //SDL2
 
-	TTF_Quit();
-}
-*/
 
 /***************************************
 *********** ECRANS DE JEU **************

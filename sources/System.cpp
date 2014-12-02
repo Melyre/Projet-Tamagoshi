@@ -88,38 +88,6 @@ bool System::update(const time_t &lastTime)
         if (pet->getBusiness() >= 70) { m++; }
         if (m != 0) { pet->setLife(pet->getLife()-((elapsedTime*60.0)*(m*(5.0/(60.0*60.0))))); }
         else { pet->setLife(pet->getLife()+((elapsedTime*60.0)*(5.0/(60.0*60.0)))); }
-        
-        if (pet->getDisease() == NULL)
-		{
-			srand( time (NULL) );
-			int dis=rand()%1000000;
-			if (dis == 577025)
-			{
-				float progression=rand()%51;
-				Disease *D=new Disease(progression);
-				pet->setDisease(D);
-			}
-		}
-		else if (pet->getDisease()->getProgression() < 100.0)
-		{
-			if (pet->getDisease()->getVet() == false) {  pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0)))); }
-			else
-			{
-				float healTime=difftime(pet->getDisease()->getLastHeal(),lastUpdate);
-				if (healTime < pet->getDisease()->getInterval())
-				{
-					pet->getDisease()->setProgression(pet->getDisease()->getProgression()-(healTime*(20.0/(60.0*60.0))));
-				}
-				else
-				{
-					pet->getDisease()->setProgression(pet->getDisease()->getProgression()-(pet->getDisease()->getInterval()*(20.0/(60.0*60.0))));
-					pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0))));
-				}
-			}
-			if (pet->getDisease()->getProgression() >= 100.0) { pet->setLife(-500.0); }
-			if (pet->getDisease()->getProgression() <= 0.0) { delete  pet->getDisease(); pet->setDisease(NULL); }
-		}
-        
     }
     
     lastUpdate=currentTime;
@@ -200,40 +168,6 @@ bool System::update()
         if (pet->getBusiness() >= 70) { m++; }
         if (m != 0) { pet->setLife(pet->getLife()-((elapsedTime*60.0)*(m*(5.0/(60.0*60.0))))); }
         else { pet->setLife(pet->getLife()+((elapsedTime*60.0)*(5.0/(60.0*60.0)))); }
-        
-		if (pet->getDisease() == NULL)
-		{
-			cout << "TEST" << endl;
-			srand( time (NULL) );
-			int dis=rand()%1000000;
-			if (dis == 577025)
-			{
-				cout << "TEST3" << endl;
-				float progression=rand()%51;
-				Disease *D=new Disease(progression);
-				pet->setDisease(D);
-			}
-		}
-		else if (pet->getDisease()->getProgression() < 100.0)
-		{
-			cout << "TEST2" << endl;
-			if (pet->getDisease()->getVet() == false) {  pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0)))); }
-			else
-			{
-				float healTime=difftime(pet->getDisease()->getLastHeal(),lastUpdate);
-				if (healTime < pet->getDisease()->getInterval())
-				{
-					pet->getDisease()->setProgression(pet->getDisease()->getProgression()-(healTime*(20.0/(60.0*60.0))));
-				}
-				else
-				{
-					pet->getDisease()->setProgression(pet->getDisease()->getProgression()-(pet->getDisease()->getInterval()*(20.0/(60.0*60.0))));
-					pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0))));
-				}
-			}
-			if (pet->getDisease()->getProgression() >= 100.0) { pet->setLife(-500.0); }
-			if (pet->getDisease()->getProgression() <= 0.0) { delete  pet->getDisease(); pet->setDisease(NULL); }
-		}
         
     }
     
@@ -711,99 +645,109 @@ void System::runGame()
     do
     {
     	loop=true;
-    	if (pet->getLife() <= 0.0) { interface->displayDead(); }
-		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
-		update(); //dès que l'on sort de l'attente d'un evenement on met a jour les stats du pet
-		if(event == "quit")
-		{
-			cout<<"Event quit"<<endl;
-			saveGame();
-			loop=false;
-		}
+    	
+    	if (pet->getLife() <= 0.0) interface->displayDead(); //si le Tamagotchi a une vie null ou négative il meurt
+    	
+    	else //si le Tamagotchi est en vie
+    	{
+			event=interface->waitEvent(10000); // Mise en pause du programme en attente d'un évènement
+			update(); //dès que l'on sort de l'attente d'un evenement on met a jour les stats du pet
+			if(event == "quit")
+			{
+				cout<<"Event quit"<<endl;
+				saveGame();
+				loop=false;
+			}
 		
-		if(event == "menu")
-		{
-			cout<<"Event menu"<<endl;
-			saveGame();
-			loop=false;
+			if(event == "menu")
+			{
+				cout<<"Event menu"<<endl;
+				saveGame();
+				loop=false;
 			
-			mainMenu();
-		}
+				mainMenu();
+			}
 
-		else if(event == "displayGame") //Relié au bouton "retour" dans GUI::displayGauges
-		{
-			interface->displayGame(pet);
-		}
+			else if(event == "displayGame") //Relié au bouton "retour" dans GUI::displayGauges
+			{
+				interface->displayGame(pet);
+			}
 
-		else if(event == "displayGauges") //Relié au bouton "displayGauges" dans GUI::displayGame
-		{
-			interface->displayGauges(pet);
-		}
+			else if(event == "displayGauges") //Relié au bouton "displayGauges" dans GUI::displayGame
+			{
+				interface->displayGauges(pet);
+			}
 
-		else if(event == "feed")
-		{
-			cout<<"feed"<<endl;
-			feed(30);
-			interface->displayGame(pet);
-		}
+			else if(event == "feed")
+			{
+				cout<<"feed"<<endl;
+				feed(30);
+				interface->displayGame(pet);
+			}
 
-		else if(event == "giveDrink")
-		{
-			cout<<"giveDrink"<<endl;
-			giveDrink(20);
-			interface->displayGame(pet);
-		}
+			else if(event == "giveDrink")
+			{
+				cout<<"giveDrink"<<endl;
+				giveDrink(20);
+				interface->displayGame(pet);
+			}
 		
-		else if(event == "doBusiness")
-		{
-			cout<<"doBusiness"<<endl;
-			doBusiness();
-			interface->displayGame(pet);
-		}
+			else if(event == "doBusiness")
+			{
+				cout<<"doBusiness"<<endl;
+				doBusiness();
+				interface->displayGame(pet);
+			}
 
-		else if(event == "wakeUp")
-		{
-			cout<<"wakeUp"<<endl;
-			wakeUp();
-			interface->displayGame(pet);
-		}
+			else if(event == "wakeUp")
+			{
+				cout<<"wakeUp"<<endl;
+				wakeUp();
+				interface->displayGame(pet);
+			}
 
-		else if(event == "heal")
-		{
-			cout<<"heal"<<endl;
-			heal(1);//calculé selon la maladie
-			interface->displayGame(pet);
-		}
+			else if(event == "heal")
+			{
+				cout<<"heal"<<endl;
+				heal(1);//calculé selon la maladie
+				interface->displayGame(pet);
+			}
 
-		else if(event == "wash")
-		{
-			cout<<"wash"<<endl;
-			wash(50);
-			interface->displayGame(pet);
-		}
+			else if(event == "wash")
+			{
+				cout<<"wash"<<endl;
+				wash(50);
+				interface->displayGame(pet);
+			}
 		
-		else if(event == "play")
-		{
-			cout<<"play"<<endl;
-			play(20);
-			interface->displayGame(pet);
-		}
+			else if(event == "play")
+			{
+				cout<<"play"<<endl;
+				play(20);
+				interface->displayGame(pet);
+			}
 
-		else if(event == "playMini")
-		{
-			cout<<"playMini"<<endl;
-			playMini();
-		}
+			else if(event == "playMini")
+			{
+				cout<<"playMini"<<endl;
+				playMini();
+			}
 
-		else if(event == "goOut")
-		{
-			cout<<"goOut"<<endl;
-			goOut();
-		}
+			else if(event == "goOut")
+			{
+				cout<<"goOut"<<endl;
+				goOut();
+			}
+			
+			else if(event == "timeout")
+			{
+				cout<<"Mise à jour automatique."<<endl;
+			}
 
-		else
-		{
-			cerr<<"System (runGame) > Evenement inconnu ignore: "<<event<<endl;
+			else
+			{
+				cerr<<"System (runGame) > Evenement inconnu ignore: "<<event<<endl;
+			}
 		}
 
 	} while(loop==true);
@@ -817,7 +761,11 @@ void System::feed(float n)
         pet->setAffection(pet->getAffection()-2);
         //possibilité de tomber malade
     }
-    else pet->setAffection(pet->getAffection()+2); //si le Tamagotchi avait faim son affection augmente
+    else 
+    {
+    	pet->setMood(pet->getMood()+10);	
+    	pet->setAffection(pet->getAffection()+2); //si le Tamagotchi avait faim son affection augmente
+    }
 
 	pet->setHunger(pet->getHunger()-n); //on le nourrit
 	pet->setBusiness(pet->getBusiness()+n/2); //augmentation des petits besoins
@@ -831,7 +779,11 @@ void System::giveDrink(float n)
         pet->setAffection(pet->getAffection()-1);
         //faible possibilité de tomber malade
     }
-    else pet->setAffection(pet->getAffection()+1); //si le Tamagotchi avait soif son affection augmente
+    else 
+    {
+    	pet->setMood(pet->getMood()+5);
+    	pet->setAffection(pet->getAffection()+1); //si le Tamagotchi avait soif son affection augmente
+    }
 
 	pet->setThirst(pet->getThirst()-n);
 	pet->setBusiness(pet->getBusiness()+n/2); //augmentation des petits besoins
@@ -847,6 +799,7 @@ void System::doBusiness()
 
 	else
     {
+    	pet->setMood(pet->getMood()+5);
         pet->setAffection(pet->getAffection()+1);
         pet->setBusiness(0);
     }
@@ -892,6 +845,7 @@ void System::play(float n)
     else
     {
         pet->setSocial(pet->getSocial()-n);
+        pet->setMood(pet->getMood()+15);
         pet->setAffection(pet->getAffection()+3);
         pet->setTiredness(pet->getTiredness()+n/4);
     }
