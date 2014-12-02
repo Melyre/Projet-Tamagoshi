@@ -20,9 +20,9 @@ using namespace std;
 
 class Disease
 {
-    int progression; /*! Etat de la maladie, a 0 la maladie est vaincue, a 100 le Tamagotchi meurt. */
+    float progression; /*! Etat de la maladie, a 0 la maladie est vaincue, a 100 le Tamagotchi meurt. */
 	bool vet; /*! Variable qui definie si le Tamagotchi est alle diagnostiquer sa maladie chez le veternaire. Initialisee a false. */
-	int interval; /*! Definie (en secondes) a quel rythme la maladie doit être traitee (toutes les 'interval' secondes). */
+	float interval; /*! Definie (en secondes) a quel rythme la maladie doit être traitee (toutes les 'interval' secondes). */
 	time_t lastHeal; /*! Date a laquelle le dernier soin a ete effectue. */
 
     public:
@@ -41,21 +41,21 @@ class Disease
 	*
 	*	\param progression : La progression de la maladie (en int) a initialiser. 
 	*/
-        Disease(int progression);
+        Disease(float progression);
 		
 	/*!
 	*	\brief Fonction get pour la progression.
 	*
 	*	\return La progression de la maladie.
 	*/
-        int getProgression ();
+        float getProgression ();
 		
 	/*!
 	*	\brief Fonction set pour la progression.
 	*
 	*	\param progression : La progression de la maladie (en int) a changer .
 	*/
-        void setProgression (int progression);
+        void setProgression (float progression);
 		
 	/*!
 	*	\brief Fonction get pour la visite veterinaire.
@@ -83,14 +83,14 @@ class Disease
 	*
 	*	\return L'intervalle entre les soins.
 	*/	
-		int getInterval ();
+		float getInterval ();
 		
 	/*!
 	*	\brief Fonction set pour l'intervalle.
 	*
 	*	\param interval : L'intervalle (en int) entre les soins a changer.
 	*/	
-        void setInterval (int interval);
+        void setInterval (float interval);
 		
 	/*!
 	*	\brief Fonction get pour le dernier soin.

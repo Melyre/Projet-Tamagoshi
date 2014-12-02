@@ -2,25 +2,24 @@
 
 Disease::Disease ()
 {
-	progression = 50;
+	progression = 50.0;
 	vet = false;
 }
 
-Disease::Disease (int p)
+Disease::Disease (float p)
 {
 	progression = p;
 	vet = false;
 }
 
-int Disease::getProgression ()
+float Disease::getProgression ()
 {
 	return progression;
 }
 
-void Disease::setProgression (int p)
+void Disease::setProgression (float p)
 {
-	if(p > 0 && p < 100)progression = p;
-	else cerr << "Veuillez choisir une progression entre 0 et 100." << endl;
+	progression = p;
 }
 
 bool Disease::getVet ()
@@ -42,12 +41,12 @@ void Disease::defineDiseaseRandomly ()
 	interval = i * 3600;
 }
 
-int Disease::getInterval ()
+float Disease::getInterval ()
 {
 	return interval;
 }
 
-void Disease::setInterval(int i)
+void Disease::setInterval(float i)
 {
 	interval = i;
 }
