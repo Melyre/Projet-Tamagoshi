@@ -88,6 +88,38 @@ bool System::update(const time_t &lastTime)
         if (pet->getBusiness() >= 70) { m++; }
         if (m != 0) { pet->setLife(pet->getLife()-((elapsedTime*60.0)*(m*(5.0/(60.0*60.0))))); }
         else { pet->setLife(pet->getLife()+((elapsedTime*60.0)*(5.0/(60.0*60.0)))); }
+        
+        if (pet->getDisease() == NULL)
+		{
+			srand( time (NULL) );
+			int dis=rand()%1000000;
+			if (dis == 577025)
+			{
+				float progression=rand()%51;
+				Disease *D=new Disease(progression);
+				pet->setDisease(D);
+			}
+		}
+		else if (pet->getDisease()->getProgression() < 100.0)
+		{
+			if (pet->getDisease()->getVet() == false) {  pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0)))); }
+			else
+			{
+				float healTime=difftime(pet->getDisease()->getLastHeal(),lastUpdate);
+				if (healTime < pet->getDisease()->getInterval())
+				{
+					pet->getDisease()->setProgression(pet->getDisease()->getProgression()-(healTime*(20.0/(60.0*60.0))));
+				}
+				else
+				{
+					pet->getDisease()->setProgression(pet->getDisease()->getProgression()-(pet->getDisease()->getInterval()*(20.0/(60.0*60.0))));
+					pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0))));
+				}
+			}
+			if (pet->getDisease()->getProgression() >= 100.0) { pet->setLife(-500.0); }
+			if (pet->getDisease()->getProgression() <= 0.0) { delete  pet->getDisease(); pet->setDisease(NULL); }
+		}
+        
     }
     
     lastUpdate=currentTime;
@@ -171,17 +203,20 @@ bool System::update()
         
 		if (pet->getDisease() == NULL)
 		{
+			cout << "TEST" << endl;
 			srand( time (NULL) );
 			int dis=rand()%1000000;
 			if (dis == 577025)
 			{
+				cout << "TEST3" << endl;
 				float progression=rand()%51;
 				Disease *D=new Disease(progression);
 				pet->setDisease(D);
 			}
 		}
-		else
+		else if (pet->getDisease()->getProgression() < 100.0)
 		{
+			cout << "TEST2" << endl;
 			if (pet->getDisease()->getVet() == false) {  pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0)))); }
 			else
 			{
@@ -196,6 +231,8 @@ bool System::update()
 					pet->getDisease()->setProgression(pet->getDisease()->getProgression()+((elapsedTime*60.0)*(20.0/(60.0*60.0))));
 				}
 			}
+			if (pet->getDisease()->getProgression() >= 100.0) { pet->setLife(-500.0); }
+			if (pet->getDisease()->getProgression() <= 0.0) { delete  pet->getDisease(); pet->setDisease(NULL); }
 		}
         
     }
