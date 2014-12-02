@@ -10,6 +10,7 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
+#include "SDL2/SDL_image.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ class GUI
 	//Constantes couleurs
 	static SDL_Color BLACK;
 	static SDL_Color WHITE;
+	static SDL_Color LIGHTGREY;
 	
 	//Pointeurs
 	SDL_Cursor *ARROW;

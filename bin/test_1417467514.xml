@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<save firstSave="1417467514" lastSave="1417469104" />
-<system location="home" weather="sunny" timeSpeed="1">
-    <tamagotchi name="test" race="chat" thirst="51" hunger="51" tiredness="91" social="80" hygiene="51" business="51" mood="30" affection="0" sleep="0" life="100" progression="100" vet="0">
-        <disease progression="-1" />
-    </tamagotchi>
-</system>

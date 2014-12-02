@@ -1,7 +1,9 @@
 #include "../headers/GUI.h"
 
+
 SDL_Color GUI::BLACK = {0, 0, 0};
 SDL_Color GUI::WHITE = {255, 255, 255};
+SDL_Color GUI::LIGHTGREY = {204,200,186};
 /*SDL_Cursor * GUI::ARROW = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
 SDL_Cursor * GUI::POINTER = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);*/
 
@@ -443,6 +445,15 @@ void GUI::displayGame(Tamagotchi * pet)
 {	
 	clearScreen();
 	
+	// Init de SDL_image
+	int flags=IMG_INIT_JPG|IMG_INIT_PNG;
+	int initted=IMG_Init(flags);
+	if(initted&flags != flags) {
+    	cerr << "IMG_Init: Failed to init required jpg and png support!" << endl;
+    	cerr << "IMG_Init: %s\n" << IMG_GetError() << endl;
+   	 	// handle error
+	}
+	
 	if(TTF_Init() == -1)
 	{
 		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
@@ -460,135 +471,187 @@ void GUI::displayGame(Tamagotchi * pet)
 	SDL_Surface *image = NULL, *tama = NULL, *text = NULL, * gaugeBackground = NULL, * fillGauge = NULL, *bubble = NULL; 	
 	SDL_Rect position, textPosition, iPosition, tPosition, bPosition;
 	
+	
 	//Fond d'ecran.
-	image = SDL_LoadBMP("../images/interieurjapon.bmp");
+	if(!pet->getSleep())image = SDL_LoadBMP("../images/interieurjapon.bmp");
+	else image = SDL_LoadBMP("../images/interieurjaponNuit.bmp");
 	iPosition.x = 0;
 	iPosition.y = 0;
 	SDL_BlitSurface(image, NULL, screen, &iPosition);
 	
 	//Tamagotchi
-	tama = SDL_LoadBMP("../images/bengal_cat.bmp");
+	if(!pet->getSleep())tama = IMG_Load("../images/bengal_catR.png");
+	else tama = IMG_Load("../images/bengal_catRnuit.png");
 	tPosition.x = screen->w / 2 - tama->w / 2;
 	tPosition.y = screen->h - tama->h;
-	SDL_SetColorKey(tama, SDL_TRUE, SDL_MapRGB(tama->format, 0, 0, 0));
 	SDL_BlitSurface(tama, NULL, screen, &tPosition);
 	addButton(tPosition,"displayGauges");
 	
-	//Icones action
-	image = SDL_LoadBMP("../images/manger.bmp"); //Nourir
-	iPosition.x = screen->w - 2 * image->w - 10;
-	iPosition.y = 2;
-	SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 255));
-	SDL_BlitSurface(image, NULL, screen, &iPosition);
-	addButton(iPosition,"feed");
-	
-	image = SDL_LoadBMP("../images/boire.bmp"); //Donner à boire
-	iPosition.x = screen->w - image->w - 5;
-	iPosition.y = 2;
-	SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 255));
-	SDL_BlitSurface(image, NULL, screen, &iPosition);
-	addButton(iPosition,"giveDrink");
-	
-	image = SDL_LoadBMP("../images/laver.bmp"); //Laver
-	iPosition.x = screen->w - 2 * image->w - 10;
-	iPosition.y = 4 + image->h;
-	SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 255));
-	SDL_BlitSurface(image, NULL, screen, &iPosition);
-	addButton(iPosition,"wash");
-	
-	image = SDL_LoadBMP("../images/toilettes.bmp"); //Petits Besoins
-	iPosition.x = screen->w - image->w - 5;
-	iPosition.y = 4 + image->h;
-	SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 255));
-	SDL_BlitSurface(image, NULL, screen, &iPosition);
-	addButton(iPosition,"doBusiness");
-	
-	image = SDL_LoadBMP("../images/jouer.bmp"); //Jouer
-	iPosition.x = screen->w - 2 * image->w - 10;
-	iPosition.y = 6 + 2 * image->h;
-	SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 255));
-	SDL_BlitSurface(image, NULL, screen, &iPosition);
-	addButton(iPosition,"playMini");
-	
-	image = SDL_LoadBMP("../images/sortir.bmp"); //Sortir
-	iPosition.x = screen->w - image->w - 5;
-	iPosition.y = 6 + 2 * image->h;
-	SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 255));
-	SDL_BlitSurface(image, NULL, screen, &iPosition);
-	addButton(iPosition,"goOut");
-	
-	//Soigner (icone)
-	if(pet->getDisease() != NULL) //Si le pet est malade.
+	if(!pet->getSleep())
 	{
-		if((pet->getDisease())->getVet()) //Et qu'il est allé voir le véto.
+		//Icones action
+		image = IMG_Load("../images/mangerR.png"); //Nourir
+		iPosition.x = screen->w - 2 * image->w - 10;
+		iPosition.y = 2;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"feed");
+	
+		image = IMG_Load("../images/boireR.png"); //Donner à boire
+		iPosition.x = screen->w - image->w - 5;
+		iPosition.y = 2;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"giveDrink");
+	
+		image = IMG_Load("../images/laverR.png"); //Laver
+		iPosition.x = screen->w - 2 * image->w - 10;
+		iPosition.y = 4 + image->h;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"wash");
+	
+		image = IMG_Load("../images/toilettesR.png"); //Petits Besoins
+		iPosition.x = screen->w - image->w - 5;
+		iPosition.y = 4 + image->h;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"doBusiness");
+	
+		image = IMG_Load("../images/jouerR.png"); //Jouer
+		iPosition.x = screen->w - 2 * image->w - 10;
+		iPosition.y = 6 + 2 * image->h;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"playMini");
+	
+		image = IMG_Load("../images/sortirR.png"); //Sortir
+		iPosition.x = screen->w - image->w - 5;
+		iPosition.y = 6 + 2 * image->h;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"goOut");
+	
+		//Soigner (icone)
+		if(pet->getDisease() != NULL) //Si le pet est malade.
 		{
-			image = SDL_LoadBMP("../images/soigner.bmp");
-			iPosition.x = screen->w / 4 - image->w - 10;
-			iPosition.y = screen->h - image->h -60;
-			//SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 255)); 
-			SDL_BlitSurface(image, NULL, screen, &iPosition);
-			addButton(iPosition,"heal");
+			if((pet->getDisease())->getVet()) //Et qu'il est allé voir le véto.
+			{
+				image = IMG_Load("../images/soignerR.png");
+				iPosition.x = screen->w / 4 - image->w - 10;
+				iPosition.y = screen->h / 4 - image->h / 2;
+				SDL_BlitSurface(image, NULL, screen, &iPosition);
+				addButton(iPosition,"heal");
+			}
 		}
-	}
 
-	//Jauge Humeur
-	gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 30, 32, 0, 0, 0, 0); // Le fond de la jauge.
-    SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,128,128,128));
+		//Jauge Humeur
+		int res = pet->getMood();
+		gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 30, 32, 0, 0, 0, 0); // Le fond de la jauge.
+		if(res == 0)SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,255,0,0));
+		else SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,0,0));
+		
+		gaugeWidth = (gaugeBgWidth * res) / 100; // Definit le remplissage des jauges (en % de la taille du fond).
+		fillGauge = SDL_CreateRGBSurface(0, gaugeWidth, 30, 32, 0, 0, 0, 0);
+		
+		if(res <= 30)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,255,0,0));
+		}
+		else if(res <= 60)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,247,132,0));
+		}
+		else if(res <= 90)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,242,255,0));
+		}
+		else SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,0,204,0));
+		
+		position.x = 10;
+		position.y = 10;
+		text = TTF_RenderText_Blended(font, "Humeur", WHITE);
+		textPosition.x = position.x + gaugeBackground->w / 2 - text->w / 2;
+		textPosition.y = position.y + 3;
+		SDL_BlitSurface(gaugeBackground, NULL, screen, &position);
+		SDL_BlitSurface(fillGauge, NULL, screen, &position);
+		SDL_BlitSurface(text, NULL, screen, &textPosition);
+    }
+    else 
+    {
+    	//Jauge Humeur
+		int res2 = pet->getTiredness();
+		gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 30, 32, 0, 0, 0, 0); // Le fond de la jauge.
+		if(res2 == 0)SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,204,0));
+		else SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,0,0));
+		
+		gaugeWidth = (gaugeBgWidth * res2) / 100; // Definit le remplissage des jauges (en % de la taille du fond).
+		fillGauge = SDL_CreateRGBSurface(0, gaugeWidth, 30, 32, 0, 0, 0, 0);
+		
+		if(res2 <= 30)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,0,204,0));
+		}
+		else if(res2 <= 60)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,242,255,0));
+		}
+		else if(res2 <= 90)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,247,132,0));
+		}
+		else SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,255,0,0));
+		
+		position.x = 10;
+		position.y = 10;
+		text = TTF_RenderText_Blended(font, "Fatigue", WHITE);
+		textPosition.x = position.x + gaugeBackground->w / 2 - text->w / 2;
+		textPosition.y = position.y + 3;
+		SDL_BlitSurface(gaugeBackground, NULL, screen, &position);
+		SDL_BlitSurface(fillGauge, NULL, screen, &position);
+		SDL_BlitSurface(text, NULL, screen, &textPosition);
     
-    pet->setMood(30);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
-    gaugeWidth = (gaugeBgWidth * pet->getMood()) / 100; // Definit le remplissage des jauges (en % de la taille du fond).
-    fillGauge = SDL_CreateRGBSurface(0, gaugeWidth, 30, 32, 0, 0, 0, 0);
-    SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,0,204,0));
-    
-    position.x = 2;
-    position.y = 10;
-    text = TTF_RenderText_Blended(font, "Humeur", BLACK);
-    textPosition.x = position.x + gaugeBackground->w / 2 - text->w / 2;
-    textPosition.y = position.y + 3;
-    SDL_BlitSurface(gaugeBackground, NULL, screen, &position);
-    SDL_BlitSurface(fillGauge, NULL, screen, &position);
-    SDL_BlitSurface(text, NULL, screen, &textPosition);
-    
+    	//Bouton reveiller
+    	font = TTF_OpenFont("../arial.ttf", 55);
+		if(font == NULL)
+		{
+			cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+			return;
+		}
+    	text = TTF_RenderText_Blended(font, "Allumer la lumiere", LIGHTGREY);
+		textPosition.x = screen->w / 2 - text->w / 2;
+		textPosition.y = screen->h / 4;
+		SDL_BlitSurface(text, NULL, screen, &textPosition);
+		addButton(textPosition, "wakeUp");
+    }
+  
     //Bulles
-    pet->setHunger(51); //A ENLEVER QD EVOLUTION FIXEE
     if(pet->getHunger() > 50) //Faim
     {
-		bubble = SDL_LoadBMP("../images/thought1.bmp"); //Bulle 1
+		bubble = IMG_Load("../images/thought1R.png"); //Bulle 1
 		bPosition.x = screen->w / 2 + tama->w / 2;
 		bPosition.y = screen->h - tama->h / 2 - bubble->h;
-		SDL_SetColorKey(bubble, SDL_TRUE, SDL_MapRGB(bubble->format, 255, 255, 255));
 		
-		image = SDL_LoadBMP("../images/cuisse.bmp"); //Image miam
+		image = IMG_Load("../images/cuisseR.png"); //Image miam
 		iPosition.x = bubble->w / 2 - image->w / 2;
 		iPosition.y = bubble->h / 2 - image->h / 2;
-		SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 200));
 		SDL_BlitSurface(image, NULL, bubble, &iPosition);
 		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
 	}
 	
-	pet->setThirst(51); //A ENLEVER QD EVOLUTION FIXEE
+	
     if(pet->getThirst() > 50) //Soif
     {
-		bubble = SDL_LoadBMP("../images/thought1.bmp"); //Bulle 1
+		bubble = IMG_Load("../images/thought1R.png"); //Bulle 1
 		bPosition.x = screen->w / 2 + tama->w / 2;
 		bPosition.y = screen->h - bubble->h - 10;
-		SDL_SetColorKey(bubble, SDL_TRUE, SDL_MapRGB(bubble->format, 255, 255, 255));
 		
-		image = SDL_LoadBMP("../images/verre.bmp"); //Image verre
+		image = IMG_Load("../images/verreR.png"); //Image verre
 		iPosition.x = bubble->w / 2 - image->w / 2;
 		iPosition.y = bubble->h / 2 - image->h / 2 - 6;
-		SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 200));
 		SDL_BlitSurface(image, NULL, bubble, &iPosition);
 		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
 	}
 	
-	pet->setTiredness(91); //A ENLEVER QD EVOLUTION FIXEE
     if(pet->getTiredness() > 90) //Soif
     {
-		bubble = SDL_LoadBMP("../images/thought2.bmp"); //Bulle 2
+		bubble = IMG_Load("../images/thought2R.png"); //Bulle 2
 		bPosition.x = screen->w / 2 - tama->w / 2 - bubble->w;
 		bPosition.y = screen->h - tama->h / 2 - bubble->h;
-		SDL_SetColorKey(bubble, SDL_TRUE, SDL_MapRGB(bubble->format, 255, 255, 255));
 		
 		text = TTF_RenderText_Blended(font, "zzZZzzZZz", BLACK);
     	textPosition.x = bubble->w / 2 - text->w / 2;
@@ -598,42 +661,43 @@ void GUI::displayGame(Tamagotchi * pet)
 		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
 	}
 	
-	pet->setBusiness(51); //A ENLEVER QD EVOLUTION FIXEE
     if(pet->getBusiness() > 50) //Besoins
     {
-		bubble = SDL_LoadBMP("../images/thought2.bmp"); //Bulle 2
+		bubble = IMG_Load("../images/thought2R.png"); //Bulle 2
 		bPosition.x = screen->w / 2 - tama->w / 2 - bubble->w;
 		bPosition.y = screen->h - bubble->h - 10;
-		SDL_SetColorKey(bubble, SDL_TRUE, SDL_MapRGB(bubble->format, 255, 255, 255));
 		
-		image = SDL_LoadBMP("../images/besoins.bmp"); //Image ...
+		image = IMG_Load("../images/besoinsR.png"); //Image ...
 		iPosition.x = bubble->w / 2 - image->w / 2;
 		iPosition.y = bubble->h / 2 - image->h / 2 - 14;
-		SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 255));
 		SDL_BlitSurface(image, NULL, bubble, &iPosition);
 		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
 	}
 	
-	pet->setHygiene(51); //A ENLEVER QD EVOLUTION FIXEE
     if(pet->getHygiene() > 50) //Soif
     {
-		bubble = SDL_LoadBMP("../images/thought3.bmp"); //Bulle 3
+		bubble = IMG_Load("../images/thought3R.png"); //Bulle 3
 		bPosition.x = tPosition.x;
 		bPosition.y = tPosition.y - bubble->h;
-		SDL_SetColorKey(bubble, SDL_TRUE, SDL_MapRGB(bubble->format, 255, 255, 255));
 		
-		image = SDL_LoadBMP("../images/douche.bmp"); //Image douche
+		image = IMG_Load("../images/doucheR.png"); //Image douche
 		iPosition.x = bubble->w / 2 - image->w / 2;
 		iPosition.y = bubble->h / 2 - image->h / 2 - 10;
-		SDL_SetColorKey(image, SDL_TRUE, SDL_MapRGB(image->format, 255, 255, 228));
 		SDL_BlitSurface(image, NULL, bubble, &iPosition);
 		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
 	}
-		
+	
+	//Retour menu
+	image = IMG_Load("../images/menuR.png"); //Image Back to menu
+	iPosition.x = 2;
+	iPosition.y = screen->h - image->h - 2;
+	SDL_BlitSurface(image, NULL, screen, &iPosition);
+	addButton(iPosition, "menu");
 		
     SDL_UpdateWindowSurface(window); 
 
 	TTF_Quit();
+	IMG_Quit();
 }
 
 void GUI::displayGauges(Tamagotchi * pet)
@@ -708,82 +772,92 @@ int GUI::displayGauge (Tamagotchi *pet, int type, int topMarge)
 	switch(type)
 	{
 		case 1: 
-			pet->setHunger(30);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
 			res = pet->getHunger();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
     		text = TTF_RenderText_Blended(font, "Faim", BLACK);
 			break;
 			
 		case 2:
-			pet->setThirst(60);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
 			res = pet->getThirst();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
     		text = TTF_RenderText_Blended(font, "Soif", BLACK);
 			break;
 			
 		case 3:
-			pet->setTiredness(0);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
 			res = pet->getTiredness();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
     		text = TTF_RenderText_Blended(font, "Fatigue", BLACK);
 			break;
 			
 		case 4:
-			pet->setSocial(80);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
 			res =  pet->getSocial();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
     		text = TTF_RenderText_Blended(font, "Social", BLACK);
 			break;
 			
 		case 5:
-			pet->setHygiene(20);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
 			res = pet->getHygiene();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
     		text = TTF_RenderText_Blended(font, "Hygiene", BLACK);
 			break;
 			
 		case 6:
-			pet->setBusiness(0);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
 			res = pet->getBusiness();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
     		text = TTF_RenderText_Blended(font, "Petits besoins", BLACK);
 			break;
 			
 		case 7:
-			pet->setMood(50);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
 			res = pet->getMood();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
     		text = TTF_RenderText_Blended(font, "Humeur", BLACK);
 			break;
 			
 		case 8:
-			pet->setAffection(0);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
 			res = pet->getAffection();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
     		text = TTF_RenderText_Blended(font, "Affection", BLACK);
 			break;
 			
 		case 9:
-			pet->setSleep(0);  // A ENLEVER QUAND LEVOLUTION DES STATS SERA FIXEE.
-			res = pet->getSleep();
+			res = pet->getLife();
     		gaugeWidth = (gaugeBgWidth * res) / 100;
-    		text = TTF_RenderText_Blended(font, "Fatigue", BLACK);
+    		text = TTF_RenderText_Blended(font, "Vie", BLACK);
 			break;
 	}
 	
-	if(res <= 30)
+	if(type < 7)
 	{
-		color = SDL_MapRGB(screen->format,0,204,0);
+		if(res <= 30)
+		{
+			color = SDL_MapRGB(screen->format,0,204,0);
+		}
+		else if(res <= 60)
+		{
+			color = SDL_MapRGB(screen->format,242,255,0);
+		}
+		else if(res <= 90)
+		{
+			color = SDL_MapRGB(screen->format,247,132,0);
+		}
+		else color = SDL_MapRGB(screen->format,255,0,0);
 	}
-	else if(res <= 60)
+	else if(type >= 7)
 	{
-		color = SDL_MapRGB(screen->format,242,255,0);
+		if(res <= 30)
+		{
+			color = SDL_MapRGB(screen->format,255,0,0);
+		}
+		else if(res <= 60)
+		{
+			color = SDL_MapRGB(screen->format,247,132,0);
+		}
+		else if(res <= 90)
+		{
+			color = SDL_MapRGB(screen->format,242,255,0);
+		}
+		else color = SDL_MapRGB(screen->format,0,204,0);
 	}
-	else if(res <= 90)
-	{
-		color = SDL_MapRGB(screen->format,247,132,0);
-	}
-	else color = SDL_MapRGB(screen->format,255,0,0);
 	
     fillGauge = SDL_CreateRGBSurface(0, gaugeWidth, 25, 32, 0, 0, 0, 0);
     SDL_FillRect(fillGauge, NULL, color);

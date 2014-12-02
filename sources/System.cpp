@@ -525,42 +525,50 @@ void System::runGame()
 
     do
     {
-    	loop=false;
+    	loop=true;
 		event=interface->waitEvent(); // Mise en pause du programme en attente d'un évènement
 		if(event == "quit")
 		{
 			cout<<"Event quit"<<endl;
 			saveGame();
+			loop = false;
+		}
+		
+		if(event == "menu")
+		{
+			cout<<"Event menu"<<endl;
+			saveGame();
+			mainMenu();
+			loop = false;
 		}
 
 		else if(event == "displayGame") //Relié au bouton "retour" dans GUI::displayGauges
 		{
 			interface->displayGame(pet);
-			loop = true;
 		}
 
 		else if(event == "displayGauges") //Relié au bouton "displayGauges" dans GUI::displayGame
 		{
 			interface->displayGauges(pet);
-			loop = true;
 		}
 
 		else if(event == "feed")
 		{
 			cout<<"feed"<<endl;
-			feed(1);
+			feed(10);
 		}
 
 		else if(event == "giveDrink")
 		{
 			cout<<"giveDrink"<<endl;
-			giveDrink(1);
+			giveDrink(10);
 		}
 
 		else if(event == "wakeUp")
 		{
 			cout<<"wakeUp"<<endl;
 			wakeUp();
+			interface->displayGame(pet);
 		}
 
 		else if(event == "heal")
@@ -596,7 +604,6 @@ void System::runGame()
 		else
 		{
 			cerr<<"System (runGame) > Evenement inconnu ignore: "<<event<<endl;
-			loop=true;
 		}
 
 	} while(loop==true);
