@@ -157,12 +157,12 @@ void Tamagotchi::setSleep(bool sleep)
 	this->sleep=sleep;
 }
 
-int Tamagotchi::getLife()
+float Tamagotchi::getLife()
 {
 	return life;
 }
 
-void Tamagotchi::setLife(int life)
+void Tamagotchi::setLife(float life)
 {
     if(life<=0) this->life=0; //si la vie est à 0 le Tamagotchi meurt
     if(life>MAX_GAUGE_VALUE) this->life=MAX_GAUGE_VALUE;

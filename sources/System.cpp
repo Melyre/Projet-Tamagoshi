@@ -166,19 +166,8 @@ bool System::update()
         if (pet->getTiredness() >= 70) { m++; }
         if (pet->getHygiene() >= 70) { m++; }
         if (pet->getBusiness() >= 70) { m++; }
-        
-        cout << "life = " << pet->getLife() << endl;
-        
         if (m != 0) { pet->setLife(pet->getLife()-((elapsedTime*60.0)*(m*(5.0/(60.0*60.0))))); }
         else { pet->setLife(pet->getLife()+((elapsedTime*60.0)*(5.0/(60.0*60.0)))); }
-        
-        cout << "variation = " << ((elapsedTime*60.0)*(m*(5.0/(60.0*60.0)))) << endl;
-        cout << "life = " << pet->getLife() << endl;
-        cout << "pet->getBusiness() = " << pet->getBusiness() << endl;
-        cout << "m = " << m << endl;
-        cout << "elapsedTime = "  << elapsedTime << endl;
-        long double test=(5.0/(60.0*60.0));
-        cout << "(5/(60*60)) = " << test << endl;
         
     }
     
@@ -236,7 +225,7 @@ bool System::newGame(string petName)
     pet->setMood(50);
     pet->setAffection(0);
     pet->setSleep(false);
-    pet->setLife(100);
+    pet->setLife(100.0);
 
     petSave->SetAttribute("name",pet->getName());
     petSave->SetAttribute("race",pet->getRace());

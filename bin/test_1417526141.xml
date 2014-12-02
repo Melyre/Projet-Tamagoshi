@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<save firstSave="1417526141" lastSave="1417536275" />
+<save firstSave="1417526141" lastSave="1417537127" />
 <system location="home" weather="sunny" timeSpeed="1">
-    <tamagotchi name="test" race="chat" thirst="56" hunger="43" tiredness="6" social="100" hygiene="13" business="100" mood="0" affection="-20" sleep="0" life="62" progression="100" vet="0">
+    <tamagotchi name="test" race="chat" thirst="74" hunger="57" tiredness="6" social="100" hygiene="18" business="100" mood="0" affection="-20" sleep="0" life="57" progression="100" vet="0">
         <disease progression="-1" />
     </tamagotchi>
 </system>
