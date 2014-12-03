@@ -89,55 +89,6 @@ string GUI::waitEvent()
     }
 }
 
-string GUI::waitEvent(int timeout)
-{
-	int start = SDL_GetTicks();
-	int current = start;
-    bool stop = false;
-    SDL_Event event;
- 	string pressedButton(""), hoverButton("");
-    while (!stop)
-    {
-        while(SDL_PollEvent(&event));
-        {
-		    switch(event.type)
-		    {
-		        case SDL_QUIT: //croix / alt+f4...
-		            stop = true;
-		            return "quit";
-		            
-		        case SDL_MOUSEBUTTONUP: //clic
-		        	pressedButton=getButtonName(event.button.x,event.button.y); //on récupère le nom du bouton activé
-		        	//cout << "SPOTTED ! buttonclick" << endl;
-		        	if(pressedButton=="clearInput") //pour effacer les champs texte (newGame...)
-		        	{ 
-		        		textInput[0]='\0';
-		        	}
-		        	else if(!pressedButton.empty())
-		        	{
-		        		cout << "SPOTTED ! " << pressedButton << endl;
-		        		return pressedButton; //si on a cliqué sur un bouton on renvoie son nom
-		        	}
-		        	
-		        	break;
-		        	
-		        case SDL_MOUSEMOTION: //déplacement souris
-		        	hoverButton=getButtonName(event.button.x,event.button.y);
-		        	if(!hoverButton.empty()) switchCursor(POINTER); //si le curseur passe sur un élément cliquable il devient un pointeur
-		        	else switchCursor(ARROW); //sinon on le remet en curseur par défaut
-		        	break;
-		    }
-		    
-		    //timeout
-		    if(SDL_GetTicks()-start >= timeout)
-		    {
-		    	return "timeout";
-		    }
-		    else SDL_Delay(30); //courte pause pour ne pas surcharger le CPU
-		}
-    }
-}
-
 
 SDL_Rect GUI::centerPos(SDL_Surface *surface)
 {
@@ -195,7 +146,36 @@ void GUI::switchCursor(SDL_Cursor *cursor)
 	if(SDL_GetCursor()!=cursor) SDL_SetCursor(cursor); //si le curseur actuel est différent du nouveau curseur on change
 }
 
+/* A supprimer ?
+void GUI::updateInput(char * textInput)
+{
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	
+	SDL_Surface *text = TTF_RenderText_Blended(font, textInput, WHITE);
+	SDL_Rect position;
+	position.x=input->w/2 - text->w/2;
+	position.y=input->h/2 - text->h/2;
+    SDL_BlitSurface(text, NULL, input, &position);
+    
+    position.x = screen->w/2 - text->w/2;
+    position.y = 225;
+    SDL_BlitSurface(input, NULL, screen, &position);
+    SDL_UpdateWindowSurface(window); //SDL2
 
+	TTF_Quit();
+}
+*/
 
 /***************************************
 *********** ECRANS DE JEU **************
@@ -361,6 +341,18 @@ void GUI::displayNewGameRace()
     position.y = 100;
     SDL_BlitSurface(text, NULL, screen, &position);
     addButton(position,"chat");
+    
+    text = TTF_RenderText_Blended(font, "chien", WHITE);
+    position.x = screen->w/2 - text->w/2;
+    position.y = 150;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"chien");
+    
+    text = TTF_RenderText_Blended(font, "perruche", WHITE);
+    position.x = screen->w/2 - text->w/2;
+    position.y = 200;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"perruche");
     
     //SDL_Flip(screen); //SDL 1
     SDL_UpdateWindowSurface(window); //SDL2
@@ -542,8 +534,21 @@ void GUI::displayGame(Tamagotchi * pet)
 	SDL_BlitSurface(image, NULL, screen, &iPosition);
 	
 	//Tamagotchi
-	if(!pet->getSleep())tama = IMG_Load("../images/bengal_catR.png");
-	else tama = IMG_Load("../images/bengal_catRnuit.png");
+	if (pet->getRace() == "chat")
+	{
+		if(!pet->getSleep())tama = IMG_Load("../images/bengal_catR.png");
+		else tama = IMG_Load("../images/bengal_catRnuit.png");
+	}
+	else if (pet->getRace() == "chien")
+	{
+		if(!pet->getSleep())tama = IMG_Load("../images/chien.png");
+		else tama = IMG_Load("../images/chien_nuit.png");
+	}
+	else if (pet->getRace() == "perruche")
+	{
+		if(!pet->getSleep())tama = IMG_Load("../images/perruche.png");
+		else tama = IMG_Load("../images/perruche_nuit.png");
+	}
 	tPosition.x = screen->w / 2 - tama->w / 2;
 	tPosition.y = screen->h - tama->h;
 	SDL_BlitSurface(tama, NULL, screen, &tPosition);
@@ -599,6 +604,14 @@ void GUI::displayGame(Tamagotchi * pet)
 				SDL_BlitSurface(image, NULL, screen, &iPosition);
 				addButton(iPosition,"heal");
 			}
+			/*else
+			{
+				image = IMG_Load("../images/veterinaire.png");
+				iPosition.x = screen->w / 4 - image->w - 10;
+				iPosition.y = screen->h / 4 - image->h / 2;
+				SDL_BlitSurface(image, NULL, screen, &iPosition);
+				addButton(iPosition,"veterinary");
+			}*/
 		}
 
 		//Jauge Humeur
@@ -1055,4 +1068,353 @@ void updateAffection()
 void updateDisease()
 {
 	
+}
+
+void GUI::displayParc(Tamagotchi * pet)
+{	
+	clearScreen();
+	
+	// Init de SDL_image
+	int flags=IMG_INIT_JPG|IMG_INIT_PNG;
+	int initted=IMG_Init(flags);
+	if(initted&flags != flags) {
+    	cerr << "IMG_Init: Failed to init required jpg and png support!" << endl;
+    	cerr << "IMG_Init: %s\n" << IMG_GetError() << endl;
+   	 	// handle error
+	}
+	
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayParc, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayParc, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+
+	float gaugeWidth(0), gaugeBgWidth(200);
+	SDL_Surface *image = NULL, *tama = NULL, *text = NULL, * gaugeBackground = NULL, * fillGauge = NULL, *bubble = NULL; 	
+	SDL_Rect position, textPosition, iPosition, tPosition, bPosition;
+	
+	
+	//Fond d'ecran.
+	if(!pet->getSleep())image = SDL_LoadBMP("../images/parc.bmp");
+	else image = SDL_LoadBMP("../images/parcNuit.bmp");
+	iPosition.x = 0;
+	iPosition.y = 0;
+	SDL_BlitSurface(image, NULL, screen, &iPosition);
+	
+	//Tamagotchi
+	if (pet->getRace() == "chat")
+	{
+		if(!pet->getSleep())tama = IMG_Load("../images/bengal_catR.png");
+		else tama = IMG_Load("../images/bengal_catRnuit.png");
+	}
+	else if (pet->getRace() == "chien")
+	{
+		if(!pet->getSleep())tama = IMG_Load("../images/chien.png");
+		else tama = IMG_Load("../images/chien_nuit.png");
+	}
+	else if (pet->getRace() == "perruche")
+	{
+		if(!pet->getSleep())tama = IMG_Load("../images/perruche.png");
+		else tama = IMG_Load("../images/perruche_nuit.png");
+	}
+	tPosition.x = screen->w / 2 - tama->w / 2;
+	tPosition.y = screen->h - tama->h;
+	SDL_BlitSurface(tama, NULL, screen, &tPosition);
+	if(!pet->getSleep())addButton(tPosition,"displayGaugesParc");
+	
+	if(!pet->getSleep())
+	{
+		//Icones action
+		image = IMG_Load("../images/mangerR.png"); //Nourir
+		iPosition.x = screen->w - 2 * image->w - 10;
+		iPosition.y = 2;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"feedP");
+	
+		image = IMG_Load("../images/boireR.png"); //Donner à boire
+		iPosition.x = screen->w - image->w - 5;
+		iPosition.y = 2;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"giveDrinkp");
+	
+		image = IMG_Load("../images/jouerR.png"); //Jouer
+		iPosition.x = screen->w - 2 * image->w - 10;
+		iPosition.y = 4 + image->h;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"playP");
+	
+		image = IMG_Load("../images/sortirR.png"); //Sortir
+		iPosition.x = screen->w - image->w - 5;
+		iPosition.y = 4 + image->h;
+		SDL_BlitSurface(image, NULL, screen, &iPosition);
+		addButton(iPosition,"home");
+	
+
+		//Jauge Humeur
+		float res = pet->getMood();
+		gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 30, 32, 0, 0, 0, 0); // Le fond de la jauge.
+		if(res == 0)SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,255,0,0));
+		else SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,0,0));
+		
+		gaugeWidth = (gaugeBgWidth * res) / 100; // Definit le remplissage des jauges (en % de la taille du fond).
+		fillGauge = SDL_CreateRGBSurface(0, gaugeWidth, 30, 32, 0, 0, 0, 0);
+		
+		if(res <= 30)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,255,0,0));
+		}
+		else if(res <= 60)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,247,132,0));
+		}
+		else if(res <= 90)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,242,255,0));
+		}
+		else SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,0,204,0));
+		
+		position.x = 10;
+		position.y = 10;
+		text = TTF_RenderText_Blended(font, "Humeur", WHITE);
+		textPosition.x = position.x + gaugeBackground->w / 2 - text->w / 2;
+		textPosition.y = position.y + 3;
+		SDL_BlitSurface(gaugeBackground, NULL, screen, &position);
+		SDL_BlitSurface(fillGauge, NULL, screen, &position);
+		SDL_BlitSurface(text, NULL, screen, &textPosition);
+    }
+    else 
+    {
+    	//Jauge Humeur
+		float res2 = pet->getTiredness();
+		gaugeBackground = SDL_CreateRGBSurface(0, gaugeBgWidth, 30, 32, 0, 0, 0, 0); // Le fond de la jauge.
+		if(res2 == 0)SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,204,0));
+		else SDL_FillRect(gaugeBackground, NULL, SDL_MapRGB(screen->format,0,0,0));
+		
+		gaugeWidth = (gaugeBgWidth * res2) / 100; // Definit le remplissage des jauges (en % de la taille du fond).
+		fillGauge = SDL_CreateRGBSurface(0, gaugeWidth, 30, 32, 0, 0, 0, 0);
+		
+		if(res2 <= 30)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,0,204,0));
+		}
+		else if(res2 <= 60)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,242,255,0));
+		}
+		else if(res2 <= 90)
+		{
+			SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,247,132,0));
+		}
+		else SDL_FillRect(fillGauge, NULL, SDL_MapRGB(screen->format,255,0,0));
+		
+		position.x = 10;
+		position.y = 10;
+		text = TTF_RenderText_Blended(font, "Fatigue", WHITE);
+		textPosition.x = position.x + gaugeBackground->w / 2 - text->w / 2;
+		textPosition.y = position.y + 3;
+		SDL_BlitSurface(gaugeBackground, NULL, screen, &position);
+		SDL_BlitSurface(fillGauge, NULL, screen, &position);
+		SDL_BlitSurface(text, NULL, screen, &textPosition);
+		
+		//Bouton reveiller
+    	font = TTF_OpenFont("../arial.ttf", 55);
+		if(font == NULL)
+		{
+			cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+			return;
+		}
+    	text = TTF_RenderText_Blended(font, "Reveiller", LIGHTGREY);
+		textPosition.x = screen->w / 2 - text->w / 2;
+		textPosition.y = screen->h / 4;
+		SDL_BlitSurface(text, NULL, screen, &textPosition);
+		addButton(textPosition, "wakeUpP");
+    
+    }
+  
+    //Bulles
+    if(pet->getHunger() > 50) //Faim
+    {
+		bubble = IMG_Load("../images/thought1R.png"); //Bulle 1
+		bPosition.x = screen->w / 2 + tama->w / 2;
+		bPosition.y = screen->h - tama->h / 2 - bubble->h;
+		
+		image = IMG_Load("../images/cuisseR.png"); //Image miam
+		iPosition.x = bubble->w / 2 - image->w / 2;
+		iPosition.y = bubble->h / 2 - image->h / 2;
+		SDL_BlitSurface(image, NULL, bubble, &iPosition);
+		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
+	}
+	
+	
+    if(pet->getThirst() > 50) //Soif
+    {
+		bubble = IMG_Load("../images/thought1R.png"); //Bulle 1
+		bPosition.x = screen->w / 2 + tama->w / 2;
+		bPosition.y = screen->h - bubble->h - 10;
+		
+		image = IMG_Load("../images/verreR.png"); //Image verre
+		iPosition.x = bubble->w / 2 - image->w / 2;
+		iPosition.y = bubble->h / 2 - image->h / 2 - 6;
+		SDL_BlitSurface(image, NULL, bubble, &iPosition);
+		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
+	}
+	
+    if(pet->getTiredness() > 90) //Fatigue
+    {
+		bubble = IMG_Load("../images/thought2R.png"); //Bulle 2
+		bPosition.x = screen->w / 2 - tama->w / 2 - bubble->w;
+		bPosition.y = screen->h - tama->h / 2 - bubble->h;
+		
+		font = TTF_OpenFont("../arial.ttf", 22);
+		if(font == NULL)
+		{
+			cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+			return;
+		}
+		text = TTF_RenderText_Blended(font, "zzZZzzZZz", BLACK);
+    	textPosition.x = bubble->w / 2 - text->w / 2;
+   		textPosition.y = bubble->h / 2 - 24;
+		
+		SDL_BlitSurface(text, NULL, bubble, &textPosition);
+		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
+	}
+	
+    if(pet->getBusiness() > 50) //Besoins
+    {
+		bubble = IMG_Load("../images/thought2R.png"); //Bulle 2
+		bPosition.x = screen->w / 2 - tama->w / 2 - bubble->w;
+		bPosition.y = screen->h - bubble->h - 10;
+		
+		image = IMG_Load("../images/besoinsR.png"); //Image ...
+		iPosition.x = bubble->w / 2 - image->w / 2;
+		iPosition.y = bubble->h / 2 - image->h / 2 - 14;
+		SDL_BlitSurface(image, NULL, bubble, &iPosition);
+		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
+	}
+	
+    if(pet->getHygiene() > 50) //Soif
+    {
+		bubble = IMG_Load("../images/thought3R.png"); //Bulle 3
+		bPosition.x = tPosition.x;
+		bPosition.y = tPosition.y - bubble->h;
+		
+		image = IMG_Load("../images/doucheR.png"); //Image douche
+		iPosition.x = bubble->w / 2 - image->w / 2;
+		iPosition.y = bubble->h / 2 - image->h / 2 - 10;
+		SDL_BlitSurface(image, NULL, bubble, &iPosition);
+		SDL_BlitSurface(bubble, NULL, screen, &bPosition);
+	}
+	
+	//Retour menu
+	image = IMG_Load("../images/menuR.png"); //Image Back to menu
+	iPosition.x = 2;
+	iPosition.y = screen->h - image->h - 2;
+	SDL_BlitSurface(image, NULL, screen, &iPosition);
+	addButton(iPosition, "menu");
+		
+    SDL_UpdateWindowSurface(window); 
+
+	TTF_Quit();
+	IMG_Quit();
+}
+
+void GUI::displayGaugesParc(Tamagotchi * pet)
+{
+	clearScreen();
+	SDL_Surface * text = NULL, * fond = NULL;
+	SDL_Rect position;
+	if(TTF_Init() == -1)
+	{
+		cout<<"error in GUI::displayMenu, TTF_Init failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	TTF_Font *font=NULL;
+	font = TTF_OpenFont("../arial.ttf", 22);
+	if(font == NULL)
+	{
+		cout<<"error in GUI::displayMenu, TTF_OpendFont failed: "<<TTF_GetError()<<endl;
+		return;
+	}
+	
+	//Fond d'ecran.
+	fond = SDL_LoadBMP("../images/parc.bmp");
+	position.x = 0;
+	position.y = 0;
+	SDL_BlitSurface(fond, NULL, screen, &position);
+
+	int yPosition(5);
+	yPosition = displayGauge(pet, 1, yPosition);
+	yPosition = displayGauge(pet, 2, yPosition);
+	yPosition = displayGauge(pet, 3, yPosition);
+	yPosition = displayGauge(pet, 4, yPosition);
+	yPosition = displayGauge(pet, 5, yPosition);
+	yPosition = displayGauge(pet, 6, yPosition);
+	yPosition = displayGauge(pet, 7, yPosition);
+	yPosition = displayGauge(pet, 8, yPosition);
+	yPosition = displayGauge(pet, 9, yPosition);
+	
+	text = TTF_RenderText_Blended(font, "Retour", WHITE);
+	position.x = screen->w / 2 - text->w / 2;
+	position.y = yPosition + 15;
+    SDL_BlitSurface(text, NULL, screen, &position);
+    addButton(position,"goOut");
+        
+    SDL_UpdateWindowSurface(window);
+    TTF_Quit();
+}
+
+string GUI::waitEvent(int timeout)
+{
+	int start = SDL_GetTicks();
+	int current = start;
+    bool stop = false;
+    SDL_Event event;
+ 	string pressedButton(""), hoverButton("");
+    while (!stop)
+    {
+        while(SDL_PollEvent(&event));
+        {
+		    switch(event.type)
+		    {
+		        case SDL_QUIT: //croix / alt+f4...
+		            stop = true;
+		            return "quit";
+		            
+		        case SDL_MOUSEBUTTONUP: //clic
+		        	pressedButton=getButtonName(event.button.x,event.button.y); //on récupère le nom du bouton activé
+		        	//cout << "SPOTTED ! buttonclick" << endl;
+		        	if(pressedButton=="clearInput") //pour effacer les champs texte (newGame...)
+		        	{ 
+		        		textInput[0]='\0';
+		        	}
+		        	else if(!pressedButton.empty())
+		        	{
+		        		cout << "SPOTTED ! " << pressedButton << endl;
+		        		return pressedButton; //si on a cliqué sur un bouton on renvoie son nom
+		        	}
+		        	
+		        	break;
+		        	
+		        case SDL_MOUSEMOTION: //déplacement souris
+		        	hoverButton=getButtonName(event.button.x,event.button.y);
+		        	if(!hoverButton.empty()) switchCursor(POINTER); //si le curseur passe sur un élément cliquable il devient un pointeur
+		        	else switchCursor(ARROW); //sinon on le remet en curseur par défaut
+		        	break;
+		    }
+		    
+		    //timeout
+		    if(SDL_GetTicks()-start >= timeout)
+		    {
+		    	return "timeout";
+		    }
+		    else SDL_Delay(30); //courte pause pour ne pas surcharger le CPU
+		}
+    }
 }

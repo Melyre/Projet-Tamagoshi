@@ -1,9 +1,3 @@
-/*!
-* \file GUI.h
-* \brief Header de la classe GUI.
-* \author Dupuy.N Roman.A Cartoux.T
-*/
-
 #ifndef GUI_H
 #define GUI_H
 
@@ -25,13 +19,6 @@ struct Button
 	SDL_Rect rect;
 	string name;
 };
-
-/*!
-*	\class System
-*	\brief Classe qui gere l'interface graphique du jeu.
-*
-*	Affiche les différents écrans de jeu et permet de récupérer les entrées utilisateurs.
-*/
 
 class GUI
 {
@@ -59,14 +46,7 @@ class GUI
         
         void getTextInput(string &dest);
         
-        string waitEvent(); //pause en attente d'un évènement et retourne le nom de l'event reçu
-        
-        /*!
-		*	\brief Fonction d'attente d'événement avec limite de temps.
-		*
-		*	\param timeout : nombres de millisecondes durant lesquelles on attend un évènement
-		*	\return Retourne une string contenant le nom de l'évènement reçu ou "timeout" si aucun élément n'a été reçu avant le temps limite.
-		*/
+        string waitEvent(); //retourne l'id de l'event reçu
         string waitEvent(int timeout);
         
         SDL_Rect centerPos(SDL_Surface *surface);
@@ -83,9 +63,11 @@ class GUI
         void displayLoadGame();
         void displayGame(Tamagotchi *pet);
         void displayGauges(Tamagotchi *pet);
+        void displayGaugesParc(Tamagotchi *pet);
         int displayGauge(Tamagotchi *pet, int type, int topMarge);
         void displayDeleteGame();
         void displayDead();
+        void displayParc(Tamagotchi * pet);
         
         void updateAll();
         void updateLocation();
