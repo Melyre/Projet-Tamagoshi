@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="15cm" height="18cm" viewBox="315 58 291 357" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <text font-size="14.4949" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="328.5" y="72">
+    <tspan x="328.5" y="72">Actions possibles en extérieur</tspan>
+  </text>
+  <g>
+    <ellipse style="fill: #ffffff" cx="348" cy="234" rx="6" ry="6"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="348" cy="234" rx="6" ry="6"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="324" y1="246" x2="372" y2="246"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="348" y1="240" x2="348" y2="270"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="348" y1="270" x2="324" y2="296"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="348" y1="270" x2="372" y2="296"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="348" y="319.9">
+      <tspan x="348" y="319.9">Utilisateur</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="387" y="214" width="80" height="36" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="387" y="214" width="80" height="36" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="427" y="235.9">
+      <tspan x="427" y="235.9">Jouer</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="396" y="261" width="80" height="36" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="396" y="261" width="80" height="36" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="436" y="282.9">
+      <tspan x="436" y="282.9">Rentrer</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="380.878" y1="237.965" x2="387" y2="232"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="380.871" y1="276.163" x2="396" y2="279"/>
+  <g>
+    <rect style="fill: #ffffff" x="395" y="309" width="80" height="36" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="395" y="309" width="80" height="36" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="435" y="330.9">
+      <tspan x="435" y="330.9">Nourrir</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="395" y="362" width="80" height="52" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="395" y="362" width="80" height="52" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="435" y="383.9">
+      <tspan x="435" y="383.9">Donner à</tspan>
+      <tspan x="435" y="399.9">boire</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="380.875" y1="309.869" x2="395" y2="327"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="369.908" y1="325.003" x2="395" y2="388"/>
+  <g>
+    <rect style="fill: #ffffff" x="389" y="157" width="80" height="36" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="389" y="157" width="80" height="36" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="429" y="178.9">
+      <tspan x="429" y="178.9">Réveiller</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="525" y="156" width="80" height="36" rx="10" ry="10"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="525" y="156" width="80" height="36" rx="10" ry="10"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="565" y="177.9">
+      <tspan x="565" y="177.9">Dormir</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="371.723" y1="215.032" x2="389" y2="175"/>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="460" y="149">
+    <tspan x="460" y="149">&lt;&lt;include&gt;&gt;</tspan>
+  </text>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="469,175 493,175 493,174 518.295,174 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="505.647,179 521.647,174 505.647,169 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="524" y="270" width="80" height="52" rx="10" ry="10"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="524" y="270" width="80" height="52" rx="10" ry="10"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="564" y="291.9">
+      <tspan x="564" y="291.9">Être</tspan>
+      <tspan x="564" y="307.9">réveiller</tspan>
+    </text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="467,232 564,232 564,263.295 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="559,250.647 564,266.647 569,250.647 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="476,279 496,279 496,270 517.295,270 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="504.647,275 520.647,270 504.647,265 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="475,327 494,327 494,294 514.295,294 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="501.647,299 517.647,294 501.647,289 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="475,388 564,388 564,328.705 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="569,341.353 564,325.353 559,341.353 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="476.5" y="220">
+    <tspan x="476.5" y="220">&lt;&lt;include&gt;&gt;</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="480" y="409.1">
+    <tspan x="480" y="409.1">&lt;&lt;include&gt;&gt;</tspan>
+  </text>
+  <text font-size="7.15716" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="477.5" y="287.2">
+    <tspan x="477.5" y="287.2">&lt;&lt;include&gt;&gt;</tspan>
+  </text>
+</svg>

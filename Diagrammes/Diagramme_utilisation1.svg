@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="33cm" height="27cm" viewBox="42 127 655 536" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <ellipse style="fill: #ffffff" cx="75.9999" cy="439.256" rx="7.19022" ry="7.19022"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="75.9999" cy="439.256" rx="7.19022" ry="7.19022"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="47.239" y1="453.637" x2="104.761" y2="453.637"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="75.9999" y1="446.447" x2="75.9999" y2="482.398"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="75.9999" y1="482.398" x2="47.239" y2="514.746"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="75.9999" y1="482.398" x2="104.761" y2="514.746"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="75.9999" y="541.026">
+      <tspan x="75.9999" y="541.026">Utilisateur</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="528" y="330" width="83.1" height="52" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="528" y="330" width="83.1" height="52" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="569.55" y="351.9">
+      <tspan x="569.55" y="351.9">Créer une</tspan>
+      <tspan x="569.55" y="367.9">partie</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="196" y="418" width="86.95" height="52" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="196" y="418" width="86.95" height="52" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="239.475" y="439.9">
+      <tspan x="239.475" y="439.9">Supprimer</tspan>
+      <tspan x="239.475" y="455.9">une partie</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="192" y="493" width="99.4" height="52" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="192" y="493" width="99.4" height="52" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="241.7" y="514.9">
+      <tspan x="241.7" y="514.9">Charger une</tspan>
+      <tspan x="241.7" y="530.9">partie</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="199" y="569" width="80" height="36" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="199" y="569" width="80" height="36" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="239" y="590.9">
+      <tspan x="239" y="590.9">Option</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="109.585" y1="447.005" x2="195" y2="358"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="109.662" y1="471.341" x2="196" y2="444"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="109.673" y1="492.741" x2="192" y2="519"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="199" y1="587" x2="109.663" y2="510.737"/>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="291.374,519 696,519 696,287 569.56,287 569.56,323.295 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="564.56,310.647 569.56,326.647 574.56,310.647 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="325" y="435">
+    <tspan x="325" y="435"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="387" y="506">
+    <tspan x="387" y="506">&lt;&lt; include &gt;&gt;</tspan>
+  </text>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="282.95,444 640.1,444 640.1,356 617.805,356 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="630.453,351 614.453,356 630.453,361 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="391" y="433">
+    <tspan x="391" y="433">&lt;&lt; include &gt;&gt;</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="374" y="552" width="110.4" height="68" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="374" y="552" width="110.4" height="68" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="429.2" y="573.9">
+      <tspan x="429.2" y="573.9">Régler vitesse</tspan>
+      <tspan x="429.2" y="589.9">écoulement</tspan>
+      <tspan x="429.2" y="605.9">du temps</tspan>
+    </text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="297.236,587 374,587 374,586 374,586 "/>
+    <polygon style="fill: #ffffff" points="297.236,579 281.236,587 297.236,595 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="297.236,579 281.236,587 297.236,595 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="201" y="626" width="80" height="36" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="201" y="626" width="80" height="36" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="241" y="647.9">
+      <tspan x="241" y="647.9">Quitter</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="109.447" y1="525.348" x2="201" y2="644"/>
+  <text font-size="14.4949" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="265.5" y="141">
+    <tspan x="265.5" y="141">Actions possibles sur le menu</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="195" y="340" width="96" height="36" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="195" y="340" width="96" height="36" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="243" y="361.9">
+      <tspan x="243" y="361.9">Choisir race</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="256.5" y="326.4">
+    <tspan x="256.5" y="326.4">&lt;&lt; include &gt;&gt;</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="198" y="264" width="96.35" height="36" rx="20" ry="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="198" y="264" width="96.35" height="36" rx="20" ry="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="246.175" y="285.9">
+      <tspan x="246.175" y="285.9">Choisir nom</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="198" y1="282" x2="109.694" y2="426.764"/>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="294.35,282 486,282 486,330 521.295,330 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="508.647,335 524.647,330 508.647,325 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="350.94" y="274.62">
+    <tspan x="350.94" y="274.62">&lt;&lt; include &gt;&gt;</tspan>
+  </text>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="244.312,343.5 247.312,343.5 247.312,338.5 246.174,338.5 246.174,306.705 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="251.174,319.353 246.174,303.353 241.174,319.353 "/>
+  </g>
+</svg>
